@@ -1,0 +1,105 @@
+# compress text, HTML, JavaScript, CSS, and XML
+AddOutputFilterByType DEFLATE text/plain
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE text/xml
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE application/xml
+AddOutputFilterByType DEFLATE application/xhtml+xml
+AddOutputFilterByType DEFLATE application/rss+xml
+AddOutputFilterByType DEFLATE application/javascript
+AddOutputFilterByType DEFLATE application/x-javascript
+# remove browser bugs
+BrowserMatch ^Mozilla/4 gzip-only-text/html
+BrowserMatch ^Mozilla/4\.0[678] no-gzip
+BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+Header append Vary User-Agent 
+
+ExpiresActive On
+ExpiresDefault "access plus 2 days"
+ExpiresByType image/gif "access plus 4 weeks"
+ExpiresByType image/png "access plus 4 weeks"
+ExpiresByType image/jpg "access plus 4 weeks"
+ExpiresByType image/jpeg "access plus 4 weeks"
+ExpiresByType image/x-ico "access plus 1 year"
+ExpiresByType text/html "access plus 2 days"
+ExpiresByType text/css "access plus 2 weeks"
+ExpiresByType application/javascript "access plus 4 weeks"
+ExpiresByType application/x-font-woff "access plus 1 year"
+
+Options +FollowSymLinks
+
+RewriteEngine on
+rewritebase /
+
+RewriteCond %{HTTP_USER_AGENT} libwww-perl.* 
+RewriteRule .* - [F,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php
+RewriteRule ^index\.php$ / [L,R=301]
+
+#RewriteCond %{HTTP_HOST} !^www.skycomputer.rs$ [NC]
+#RewriteRule ^(.*)$ http://www.skycomputer.rs/$1 [L,R=301]
+
+RewriteRule ^issedit/$ issedit/index.php [L,QSA]
+RewriteRule ^/$ index.php [L,QSA]
+RewriteRule ^([^/\.]+).html/?$ /index.php [L,QSA]
+
+ErrorDocument 404 poruka/404
+RewriteRule ^poruka/404/?$ /error_page.php
+
+RewriteRule ^poruka/([^/\.]+)/?$ /index.php?poruka=$1 [L,QSA]
+
+RewriteRule ^odjava-sa-newsletter/([^/\.]+)/?$ /odjava-newsletter.php?md5_email=$1 [L,QSA]
+RewriteRule ^aktivacija-naloga/([^/\.]+)/?$ /aktivacija-naloga.php?md5_email=$1 [L,QSA]
+RewriteRule ^posalji-aktivaciju/([^/\.]+)/?$ /posalji-aktivaciju.php?md5_email=$1 [L,QSA]
+
+RewriteRule ^uporedi/?$ /compare.php [L,QSA]
+RewriteRule ^lista-zelja/?$ /account_wish_list.php [L,QSA]
+
+RewriteRule ^sve-kategorije/?$ /categories_master.php [L,QSA]
+
+RewriteRule ^nalog/?$ /account.php [L,QSA]
+RewriteRule ^nalog/porudzbine/?$ /account_orders.php [L,QSA]
+RewriteRule ^nalog/promena-adrese/?$ /account_change_address.php [L,QSA]
+RewriteRule ^moj-nalog/promena-lozinke/([^/\.]+)/?$ /account_change_pass.php?md5_email=$1 [L,QSA]
+RewriteRule ^nalog/promena-lozinke/?$ /account_change_pass.php [L,QSA]
+RewriteRule ^nalog/lista-zelja/?$ /account_wish_list.php [L,QSA]
+RewriteRule ^nalog/odjava/?$ /work.php?action=odjava [L,QSA]
+
+
+RewriteRule ^prijava/?$ /login.php [L,QSA]
+RewriteRule ^postojeci/prijava/?$ /login.php [L,QSA]
+RewriteRule ^promena-sifre/prijava/?$ /login.php [L,QSA]
+RewriteRule ^registracija/?$ /registration.php [L,QSA]
+
+RewriteRule ^pretraga/?$ /search.php?url=$1 [L,QSA]
+
+RewriteRule ^korpa/?$ /cart.php [L,QSA]
+RewriteRule ^korpa-prijava/?$ /cart-login.php [L,QSA]
+RewriteRule ^korpa-placanje/?$ /cart-pay.php [L,QSA]
+RewriteRule ^korpa-dostava/?$ /cart-delivery.php [L,QSA]
+
+RewriteRule ^kontakt/?$ /contact.php [L,QSA]
+RewriteRule ^strana/([^/\.]+)/?$ /page.php?url=$1 [L,QSA]
+
+RewriteRule ^robne-marke/?$ /brands.php [L,QSA]
+RewriteRule ^robne-marke/([^/\.]+)/?$ /brand-single.php?url=$1 [L,QSA]
+RewriteRule ^robne-marke/([^/\.]+)/page/([^/\.]+)/?$ /brand-single.php?url=$1&page=$2 [L,QSA]
+
+RewriteRule ^aktuelnosti/([^/\.]+)/?$ /vest_single.php?url=$1 [L,QSA]
+RewriteRule ^aktuelnosti/?$ /vesti.php [L,QSA]
+
+RewriteRule ^([^/\.]+)/([^/\.]+)/([^/\.]+)/([^/\.]+)/?$ /product_page.php?cat_master=$1&sub_cat=$2&url=$3&rid=$4 [L,QSA]
+RewriteRule ^([^/\.]+)/([^/\.]+)/([^/\.]+)/?$ /category-single.php?cat_master=$1&sub_cat=$2&last_cat=$3 [L,QSA]
+RewriteRule ^([^/\.]+)/([^/\.]+)/?$ /category-single.php?cat_master=$1&sub_cat=$2 [L,QSA]
+RewriteRule ^([^/\.]+)/?$ /categories.php?cat_master=$1 [L,QSA]
+
+#tinymce antihack
+RewriteRule ^issedit/tinymce/plugins/imagemanager/index\.php\?type=im\&page=index\.htm$ /admin/work.php?action=tinymce [L]
+
+<Files .htaccess>
+order allow,deny
+deny from all
+</Files>
+
+Options All -Indexes

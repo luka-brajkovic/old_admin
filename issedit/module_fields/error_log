@@ -1,0 +1,26 @@
+[06-Oct-2015 22:29:59 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/skycompu/public_html/issedit/navigation.php on line 71
+[06-Oct-2015 22:30:39 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/skycompu/public_html/issedit/navigation.php on line 71
+[06-Oct-2015 22:30:49 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/skycompu/public_html/issedit/navigation.php on line 71
+[06-Oct-2015 22:31:05 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/skycompu/public_html/issedit/navigation.php on line 71
+[06-Oct-2015 22:31:15 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/skycompu/public_html/issedit/navigation.php on line 71
+[06-Oct-2015 22:31:53 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/skycompu/public_html/issedit/navigation.php on line 71
+[06-Oct-2015 22:32:10 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/skycompu/public_html/issedit/navigation.php on line 71
+[06-Oct-2015 22:32:18 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/skycompu/public_html/issedit/navigation.php on line 71
+[06-Oct-2015 22:32:29 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/skycompu/public_html/issedit/navigation.php on line 71
+[06-Oct-2015 22:32:44 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/skycompu/public_html/issedit/navigation.php on line 71
+[06-Oct-2015 22:43:58 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/skycompu/public_html/issedit/navigation.php on line 71
+[06-Oct-2015 22:44:18 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/skycompu/public_html/issedit/navigation.php on line 71
+[06-Oct-2015 22:44:33 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/skycompu/public_html/issedit/navigation.php on line 71
+[06-Oct-2015 22:46:44 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/skycompu/public_html/issedit/navigation.php on line 71
+[06-Jun-2016 05:42:46 UTC] PHP Warning:  Module 'json' already loaded in Unknown on line 0
+[06-Jun-2016 05:42:46 UTC] PHP Notice:  Undefined index: infomsg in /home/skycompu/public_html/issedit/library/functions.class.php on line 358
+[06-Jun-2016 05:43:00 UTC] PHP Warning:  Module 'json' already loaded in Unknown on line 0
+[06-Jun-2016 05:43:00 UTC] PHP Notice:  Undefined index: infomsg in /home/skycompu/public_html/issedit/library/functions.class.php on line 358
+[15-Jun-2016 14:35:39 UTC] PHP Notice:  Undefined index: admin_info in /home/skycompu/public_html/issedit/library/config.php on line 5
+[15-Jun-2016 14:35:39 UTC] PHP Notice:  Undefined index: admin_lang in /home/skycompu/public_html/issedit/library/config.php on line 45
+[15-Jun-2016 14:35:39 UTC] PHP Notice:  Undefined index: loged_admin in /home/skycompu/public_html/issedit/library/functions.class.php on line 99
+[20-Jun-2016 06:09:37 UTC] PHP Notice:  Undefined index: infomsg in /home/skycompu/public_html/issedit/library/functions.class.php on line 358
+[20-Jun-2016 06:10:17 UTC] PHP Notice:  Undefined index: infomsg in /home/skycompu/public_html/issedit/library/functions.class.php on line 358
+[30-Jun-2016 00:40:02 UTC] PHP Notice:  Undefined index: admin_info in /home/skycompu/public_html/issedit/library/config.php on line 5
+[30-Jun-2016 00:40:02 UTC] PHP Notice:  Undefined index: admin_lang in /home/skycompu/public_html/issedit/library/config.php on line 45
+[30-Jun-2016 00:40:02 UTC] PHP Notice:  Undefined index: loged_admin in /home/skycompu/public_html/issedit/library/functions.class.php on line 99
