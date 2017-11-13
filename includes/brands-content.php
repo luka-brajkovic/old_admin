@@ -1,17 +1,10 @@
 <div class="container">
-    <ul class="pagePosition clear" itemtype="http://data-vocabulary.org/BreadcrumbList">
-        <li>
-            <span>Vi ste ovde:</span>
-        </li>
-        <li itemprop="itemListElement" itemscope="itemscope" itemtype="http://schema.org/ListItem">
-            <a href="/" title="Početna" itemprop="url">
-                <span itemprop="name">Početna</span>
-            </a>
-        </li>
-        <li>
-            <span>Robne marke</span>
-        </li>
-    </ul>
+	<?php
+	$breadcrumbs = array(
+		"Robne marke" => "/robne-marke"
+	);
+	$f->breadcrumbs($breadcrumbs, $csTitle, $csName);
+	?>
     <div class="holderContent clear">
         <div class="brendsHolder row">
             <div class="letterHolderFull">

@@ -7,9 +7,40 @@ class Functions extends Database {
 		die();
 	}
 
-	function breadcrumbs($breadcrumbs) {
-		
-		return $breadcrumbs;
+	function breadcrumbs($breadcrumbs, $csTitle, $csName) {
+		$breadCount = count($breadcrumbs);
+		$counter = 1;
+		?>
+		<ul class="pagePosition margin-vertical clear" vocab="http://schema.org/" typeof="BreadcrumbList">
+			<li>
+				<span>Vi ste ovde:</span>
+			</li>
+			<li property="itemListElement" typeof="ListItem">
+				<a href="/" title="<?= $csTitle; ?>" property="item" typeof="WebPage">
+					<span>Početna</span>
+					<meta property="name" content="<?= $csName; ?>">
+				</a>
+				<meta property="position" content="1">
+			</li>
+			<?php
+			foreach ($breadcrumbs as $name => $link) {
+				$link = ltrim($link, "/");
+				$counter++;
+				if ($link != "") {
+					//if ($breadCount == $counter) {
+					?>				
+					<li property="itemListElement" typeof="ListItem">
+						<a href="<?= $link; ?>" property="item" typeof="WebPage">
+							<span property="name" class="transition"><?= $name; ?></span>
+						</a>
+						<meta property="position" content="<?= $counter; ?>">
+					</li>
+					<?php
+				}
+			}
+			?>
+		</ul>
+		<?php
 	}
 
 	function cropPictureAddWhiteSpace($image, $targ_w, $targ_h, $imageType, $destinationFolder, $newImageName) {
