@@ -1,10 +1,10 @@
 <div class="filters">
-    <form action="" method="get">
+    <form id="formicei" action="" method="get">
         <?php
         if ($cat_last_url != '') {
 
             $parentIDMid = $catMiddleData->resource_id;
-            $numcat = $db->execQuery("SELECT * FROM categories WHERE parent_id = $parentIDMid  ORDER BY title");
+            $numcat = $db->execQuery("SELECT * FROM categories WHERE parent_id = $parentIDMid ORDER BY title");
             if ($numcat > 0) {
                 ?>
                 <ul id="category_filter" class="check ">
@@ -12,7 +12,7 @@
                     <?php
                     $catFromUrl = isset($_GET['cat']) ? $_GET['cat'] : array();
                     $queryFilterCat = $db->execQuery("SELECT * FROM categories WHERE status = 1 AND parent_id = $parentIDMid ORDER BY title");
-                    while ($dataCatfilter = mysql_fetch_array($queryFilterCat)) {
+                    while ($dataCatfilter = mysqli_fetch_array($queryFilterCat)) {
                         $active = in_array($dataCatfilter['resource_id'], $catFromUrl) ? "active" : "";
                         ?>
                         <?php
@@ -48,7 +48,7 @@
                     <?php
                     $catFromUrl = isset($_GET['cat']) ? $_GET['cat'] : array();
                     $queryFilterCat = $db->execQuery("SELECT * FROM categories WHERE parent_id = $parentIDMid");
-                    while ($dataCatfilter = mysql_fetch_array($queryFilterCat)) {
+                    while ($dataCatfilter = mysqli_fetch_array($queryFilterCat)) {
                         $active = in_array($dataCatfilter['resource_id'], $catFromUrl) ? "active" : "";
                         ?>
                         <li>
@@ -65,48 +65,41 @@
                 </ul>
                 <?php
             }
-            if (mysql_num_rows($preporukaQuery) > 1 && $rangeSpanMin < $rangeSpanMax) {
-                ?>
-
-                <fieldset>
-                    <h5>Raspon cene:</h5>
-                    <?php
-                    $priceData = mysql_fetch_object($preporukaQueryPrice);
-                    $minPrice = round(isset($_GET['min_cena']) ? $_GET['min_cena'] : $rangeSpanMin);
-                    $maxPrice = round(isset($_GET['max_cena']) ? $_GET['max_cena'] : $rangeSpanMax);
-                    ?>
-                    <input type="hidden" class="range-slider" value="<?= $minPrice . "," . $maxPrice; ?>" />
-                </fieldset>
-            <?php } ?>
-            <?php if (mysql_num_rows($preporukaQueryBrand) > 0) {
-                
+            ?>
+            <fieldset class="priceRangeFech">
+                <h5>Raspon cene (rsd):</h5>
+                <input id="minPrice" type="number" value="<?= ($getMinPrice > 1 && $getMinPrice != "") ? $getMinPrice:""; ?>" name="min_cena" placeholder="od <?= round($rangeSpanMin); ?>">
+                <input id="maxPrice" type="number" value="<?= ($getMaxPrice > 1 && $getMaxPrice != "") ? $getMaxPrice : ""; ?>" name="max_cena" placeholder="do <?= round($rangeSpanMax); ?>">
+                <a id="priceChange" class="transition">Primeni</a>
+            </fieldset>
+            <?php if (mysqli_num_rows($preporukaQueryBrand) > 0) {
                 ?>  
                 <ul class="check">
                     <h5>Robna marka:</h5>
 
                     <?php
                     $brandFromUrl = isset($_GET['brand']) ? $_GET['brand'] : array();
-                    while ($dataBrandCat = mysql_fetch_array($preporukaQueryBrand)) {
+                    while ($dataBrandCat = mysqli_fetch_array($preporukaQueryBrand)) {
                         $active = in_array($dataBrandCat['b_rid'], $brandFromUrl) ? "active" : "";
                         if ($dataBrandCat['b_title'] != '') {
-                            
-                            $brendArra = mysql_query(""
-                        . "SELECT cp.id FROM _content_proizvodi cp "
-                        . " LEFT JOIN _content_brend b ON cp.brand = b.resource_id "
-                        . " LEFT JOIN categories_content cc ON cc.content_resource_id = cp.resource_id "
-                        . " LEFT JOIN categories c3 ON cc.category_resource_id = c3.resource_id "
-                        . " LEFT JOIN categories c2 ON c3.parent_id = c2.resource_id "
-                        . " WHERE "
-                        . " (c3.resource_id = $catMiddleData->resource_id OR c2.resource_id = $catMiddleData->resource_id ) "
-                        . " AND (cp.status = 1 OR cp.master_status = 'Active') AND cp.lang = $currentLanguage AND b.resource_id = ".$dataBrandCat['b_rid']." GROUP BY (cp.resource_id)") or die(mysql_error());
-                            $brendSount = mysql_num_rows($brendArra);
+
+                            $brendArra = mysqli_query($conn,""
+                                    . "SELECT cp.id FROM _content_products cp "
+                                    . " JOIN _content_brand b ON cp.brand = b.resource_id "
+                                    . " JOIN categories_content cc ON cc.content_resource_id = cp.resource_id "
+                                    . " JOIN categories c3 ON cc.category_resource_id = c3.resource_id "
+                                    . " JOIN categories c2 ON c3.parent_id = c2.resource_id "
+                                    . " WHERE "
+                                    . " (c3.resource_id = $catMiddleData->resource_id OR c2.resource_id = $catMiddleData->resource_id ) "
+                                    . " AND (cp.status = 1 OR cp.master_status = 'Active') AND cp.lang = $currentLanguage AND b.resource_id = " . $dataBrandCat['b_rid']) or die(mysqli_error($conn));
+                            $brendSount = mysqli_num_rows($brendArra);
                             ?>
                             <li>
                                 <span class="checkClick brand <?= $active; ?>">
                                     <i class="fa fa-square inac"></i>
                                     <i class="fa fa-check-square acti"></i>
                                 </span>
-                                <label><?= $dataBrandCat['b_title']." (".$brendSount.")"; ?></label>
+                                <label><?= $dataBrandCat['b_title'] . " (" . $brendSount . ")"; ?></label>
                                 <input type="checkbox" class="brand-check" name="brand[]" value="<?= $dataBrandCat['b_rid']; ?>">
                             </li>
                             <?php
@@ -119,7 +112,7 @@
             }
         }
         /* HVATAM FILTERE ODOZGO */
-        $site->getFiltersFrontEndOptimized($catMiddleData->resource_id, $REQUEST, $catMiddleData->resource_id);
+        $site->getFiltersFrontEndOptimized($catMiddleData->resource_id, $REQUEST);
         ?>
     </form>
 </div>

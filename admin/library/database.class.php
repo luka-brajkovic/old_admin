@@ -1,0 +1,62 @@
+<?php
+
+class Database {
+
+    public $insertId, $lastUsedQuery;
+    public $i_user = 1;
+    public $dbLink;
+
+    function __construct($db_host = "", $db_user = "", $db_pass = "", $db_name = "") {
+        if ($db_host == "") {
+            $db_host = DB_HOST;
+        }
+
+        if ($db_user == "") {
+            $db_user = DB_USER;
+        }
+
+        if ($db_pass == "") {
+            $db_pass = DB_PASS;
+        }
+
+        if ($db_name == "") {
+            $db_name = DB_BASE;
+        }
+        $this->dbLink = mysqli_connect(DB_HOST, DB_USER, DB_PASS) or die(mysqli_error($this->dbLink));
+        mysqli_query($this->dbLink,"SET NAMES utf8 COLLATE utf8_general_ci");
+        mysqli_select_db($this->dbLink, DB_BASE) or die(mysqli_error($this->dbLink));
+    }
+
+    function execQuery($SQL) {
+
+        $query = mysqli_query($this->dbLink,$SQL) or die(mysqli_error($this->dbLink));
+        $this->lastUsedQuery = $query;
+
+        if (substr($SQL, 0, 6) == "INSERT") {
+            $this->insertId = mysqli_insert_id($this->dbLink);
+        }
+
+        return $query;
+    }
+
+    function getValue($field, $table, $key, $value) {
+        $query = mysqli_query($this->dbLink,"SELECT `$field` FROM `$table` WHERE `$key` = '$value'") or die(mysqli_error($this->dbLink));
+        $row = mysqli_fetch_array($query);
+
+        return $row["$field"];
+    }
+
+    function numRows($SQL) {
+        $query = $this->execQuery($SQL);
+
+        return mysqli_num_rows($query);
+    }
+
+    function databaseDiscontect() {
+        mysqli_close($this->dbLink);
+    }
+
+}
+
+// end of class
+?>

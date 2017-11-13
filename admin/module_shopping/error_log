@@ -1,0 +1,7 @@
+[06-Nov-2017 08:42:37 UTC] PHP Notice:  Undefined index: infomsg in /home/wdsinrs/public_html/admin/admin/library/functions.class.php on line 351
+[06-Nov-2017 08:42:37 UTC] PHP Notice:  Undefined index: filter in /home/wdsinrs/public_html/admin/admin/library/functions.class.php on line 351
+[06-Nov-2017 08:42:37 UTC] PHP Notice:  Undefined variable: totalCount in /home/wdsinrs/public_html/admin/admin/module_shopping/index.php on line 29
+[06-Nov-2017 08:42:37 UTC] PHP Notice:  Trying to get property of non-object in /home/wdsinrs/public_html/admin/admin/module_shopping/index.php on line 29
+[06-Nov-2017 08:42:39 UTC] PHP Notice:  Undefined index: infomsg in /home/wdsinrs/public_html/admin/admin/library/functions.class.php on line 351
+[06-Nov-2017 08:42:39 UTC] PHP Notice:  Undefined variable: totalCount in /home/wdsinrs/public_html/admin/admin/module_shopping/index.php on line 29
+[06-Nov-2017 08:42:39 UTC] PHP Notice:  Trying to get property of non-object in /home/wdsinrs/public_html/admin/admin/module_shopping/index.php on line 29

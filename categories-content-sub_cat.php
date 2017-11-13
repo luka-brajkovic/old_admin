@@ -2,7 +2,7 @@
 <div class="innerCat margin-vertical">
     <ul>
         <?php
-        $cats = mysql_query("SELECT c.*, c2.title as cat_title, c2.url as cat_url FROM categories c "
+        $cats = mysqli_query($conn,"SELECT c.*, c2.title as cat_title, c2.url as cat_url FROM categories c "
                 . " LEFT JOIN categories c2 ON c.resource_id = c2.parent_id "
                 . " WHERE c.status = 1 AND c2.status = 1 AND c.parent_id = $catMasterData->resource_id ORDER BY c.ordering, c2.ordering");
 
@@ -13,7 +13,7 @@
         $currentSubUrl = "";
         $currentSubTitle = '';
         $currentUpperUrl = "";
-        while ($catSub = mysql_fetch_object($cats)) {
+        while ($catSub = mysqli_fetch_object($cats)) {
             if ($otvoreno && $currentMasterRid != $catSub->resource_id) {
                 if ($maloOtvoreno) {
 

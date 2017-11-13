@@ -9,7 +9,7 @@ $step2Class = $step3Class = $step4Class = "";
 <body>
     <?php
     include_once ("header.php");
-    include_once ("cart-content.php");
+    include_once ("includes/cart-content.php");
     include_once ("footer.php");
     ?>
 </body>

@@ -2,27 +2,28 @@
 include_once("library/config.php");
 $action = $f->getValue("action");
 switch ($action) {
-    
+
     case "check_if_mail_exist":
 
         $email = $f->getValue("email");
-        $sql = "SELECT id FROM _content_korisnici WHERE `e-mail` = '$email'";
+        $sql = "SELECT id FROM _content_users WHERE `e-mail` = '$email'";
         $num = $db->numRows($sql);
         if ($num > 0) {
-            $sql = "SELECT id FROM _content_korisnici WHERE `e-mail` = '$email' AND status = 1";
+            $sql = "SELECT id FROM _content_users WHERE `e-mail` = '$email' AND status = 1";
             $numActive = $db->numRows($sql);
             if ($numActive > 0) {
                 /* IMA AKTIVNIH */
-                $body = "<p>Poštovani, u nastavku je link preko kojeg će te dobiti formu za promenu e-mail adrese.</p>";
-                $body .= "<p><a href='" . $configSiteDomain . "moj-nalog/promena-lozinke/" . md5($email) . "' >Promena lozinke</a></p>";
-                $body .= "<p><strong>" . ucfirst(str_replace("www.", "", $SERVER_NAME)) . "</strong></p>";
+                $body = "<p>Poštovani, u nastavku je link preko kojeg će te dobiti formu za promenu vaše lozinke.</p>";
+                $body .= "<p><a href='" . $csDomain . "moj-nalog/promena-lozinke/" . md5($email) . "' >Promena lozinke</a></p>";
+                $body .= "<p><strong>" . $csName . "</strong></p>";
                 $yesterday = date("Y-m-d", time() - 60 * 60 * 24);
-                $userQuery = mysql_query("SELECT * FROM _content_korisnici WHERE `e-mail` = '$email' AND poslat_email = '" . date("Y-m-d") . "'");
-                if (mysql_num_rows($userQuery) > 0) {
+                $userQuery = mysqli_query($conn, "SELECT * FROM _content_users WHERE `e-mail` = '$email' AND poslat_email = '" . date("Y-m-d") . "'");
+                if (mysqli_num_rows($userQuery) > 0) {
                     echo "4";
                 } else {
-                    mysql_query("UPDATE _content_korisnici SET `poslat_email` = '" . date("Y-m-d") . "' WHERE `e-mail` = '$email'");
-                    $f->sendEmail($configSiteEmail, ucfirst(str_replace("www.", "", $SERVER_NAME)), $email, "Link za promenu lozinke", $body);
+                    mysqli_query($conn, "UPDATE _content_users SET `poslat_email` = '" . date("Y-m-d") . "' WHERE `e-mail` = '$email'");
+
+                    $f->sendMail($csEmail, $csName, $email, "", "Link za promenu lozinke - $csName", $body, $currentLanguage);
                     echo "1";
                 }
             } else {
@@ -33,6 +34,7 @@ switch ($action) {
             echo "3";
         }
         break;
+
     case "change_show_type":
 
         $klasa = $f->getValue("klasa");
@@ -41,46 +43,16 @@ switch ($action) {
 
         break;
 
-    case "cats":
-
-        $catCol = new Collection("_content_lekovi");
-        $catArr = $catCol->getCollection("WHERE status = 1");
-        foreach ($catArr as $cat) {
-
-            $title = $cat->url;
-
-            $cat->slika = strtolower($title) . ".jpg";
-            $cat->Save();
-        }
-
-        echo "Sacuvano";
-        break;
-
-
-    case "ciljne":
-
-        $lekoviCol = new Collection("_content_lekovi");
-        $lekoviArr = $lekoviCol->getCollection("WHERE status = 1");
-
-        foreach ($lekoviArr as $lek) {
-            echo $lek->lekovi_po_ciljnim_vrstama . "<br>";
-        }
-
-        break;
-
-
-
-
     case "odjava":
 
         if (isset($_SESSION["loged_user"])) {
             if (session_id() != "") {
                 $sesIdKorpe = session_id();
-                $korpari = mysql_query("SELECT id FROM korpa WHERE session_id = '$sesIdKorpe' LIMIT 1");
-                $korpari = mysql_fetch_object($korpari);
+                $korpari = mysqli_query($conn, "SELECT id FROM korpa WHERE session_id = '$sesIdKorpe' LIMIT 1");
+                $korpari = mysqli_fetch_object($korpari);
                 if ($korpari->id != "") {
-                    mysql_query("DELETE FROM `korpa` WHERE id = $korpari->id");
-                    mysql_query("DELETE FROM `proizvodi_korpe` WHERE korpa_rid = $korpari->id");
+                    mysqli_query($conn, "DELETE FROM `korpa` WHERE id = $korpari->id");
+                    mysqli_query($conn, "DELETE FROM `proizvodi_korpe` WHERE korpa_rid = $korpari->id");
                 }
             }
             unset($_SESSION["loged_user"]);
@@ -88,27 +60,6 @@ switch ($action) {
 
         $f->redirect("/");
 
-        break;
-    case "send_email":
-
-        $email = $f->stringCleaner($f->getValue("email"));
-        $user = $f->stringCleaner($f->getValue("ime"));
-        $subject = $f->stringCleaner($f->getValue("naslov"));
-        $body = $f->stringCleaner($f->getValue("poruka"));
-
-
-        require("library/phpmailer/class.phpmailer.php");
-
-        $mail = new PHPMailer();
-        $mail->From = $email;
-        $mail->FromName = "Visual Media doo | Branding Marketing Advertising";
-        $mail->AddAddress($configSiteEmail);
-        $mail->Subject = $subject;
-        $mail->Body = $body;
-        $mail->Send();
-
-        $_SESSION["email_sent"] = true;
-        $f->redirect("/kontakt");
         break;
 
     case "aktivacija":
@@ -137,43 +88,6 @@ switch ($action) {
 
         break;
 
-    case 'send_link':
-
-        $email = $f->getValue("md5email");
-        $code = $f->getValue("md5code");
-
-        $usersCol = new Collection("users");
-        $users = $usersCol->getCollection("WHERE status = 2 AND md5(email) = '$email' AND md5(code) = '$code'");
-        if (count($users) == 1) {
-
-            $novi_korisnik = $users[0];
-
-            $body = "<p>Poštovani<br>još samo jedan korak i završili ste registraciju.</p>";
-            $body .= "Kliknite <a href='" . $configSiteDomain . "aktiviraj/" . md5($novi_korisnik->email) . "'>OVDE</a>";
-            $body .= "<br><br>Čim kliknete na aktivacioni link bićete preusmereni na web sajt kao prijavljen korisnik.<br><br>";
-            $body .= "Hvala Vam na interesovanju.<br><br>";
-            $body .= "Osoblje web sajta voucher.rs";
-
-
-            require("library/phpmailer/class.phpmailer.php");
-
-            $mail = new PHPMailer();
-            $mail->From = "noreply@voucher.rs";
-            $mail->FromName = "Voucher.rs | popusti, ponude, proizvodi, sve na jednom mestu";
-            $mail->AddAddress($novi_korisnik->email);
-            $mail->Subject = "Aktivacioni link | Voucher.rs";
-            $mail->Body = $body;
-            $mail->Send();
-
-            $_SESSION["poslata_aktivacija"] = true;
-
-            $f->redirect("/registracija");
-        } else {
-            $f->redirect("/");
-        }
-
-        break;
-
     case "remove-from-compare":
 
         $rid = $f->getValue("rid");
@@ -185,7 +99,7 @@ switch ($action) {
             }
             $_SESSION["compare"] = $niz;
             if (count($_SESSION["compare"]) > 0) {
-                $colProds = new Collection("_content_proizvodi");
+                $colProds = new Collection("_content_products");
                 $colProdsArr = $colProds->getCollection("WHERE `status` = 1 AND `resource_id` IN (" . implode(",", $niz) . ")");
                 ?>
                 <a id="comparasion" href="/uporedi">Uporedi</a> 
@@ -200,39 +114,38 @@ switch ($action) {
             }
         }
 
-
-
         break;
+
     case "add-to-compare":
 
         $rid = $f->getValue("rid");
 
-        $colProds = new Collection("_content_proizvodi");
+        $colProds = new Collection("_content_products");
 
         if (isset($_SESSION["compare"]) && count($_SESSION["compare"]) > 0) {
 
             $niz = $_SESSION["compare"];
 
             if (!in_array("'" . $rid . "'", $_SESSION["compare"]) && count($_SESSION["compare"]) < 3) {
-                $whatCat = mysql_query("SELECT cp.*,c4.resource_id as cat_rid_sub "
-                        . " FROM _content_proizvodi cp"
+                $whatCat = mysqli_query($conn, "SELECT cp.*,c4.resource_id as cat_rid_sub "
+                        . " FROM _content_products cp"
                         . " LEFT JOIN categories_content cc ON cp.resource_id = cc.content_resource_id "
                         . " LEFT JOIN categories c4 ON cc.category_resource_id = c4.resource_id "
                         . " LEFT JOIN categories c3 ON c4.parent_id = c3.resource_id "
-                        . " WHERE cp.`status` = 1 AND cp.`resource_id` IN (" . implode(",", $niz) . ")") or die(mysql_error());
+                        . " WHERE cp.`status` = 1 AND cp.`resource_id` IN (" . implode(",", $niz) . ")") or die(mysqli_error($conn));
 
-                $whatCatArr = mysql_fetch_array($whatCat);
+                $whatCatArr = mysqli_fetch_array($whatCat);
 
                 $allowCat = $whatCatArr["cat_rid_sub"];
 
-                $whatCatToPut = mysql_query("SELECT cp.*,c4.resource_id as cat_rid_sub "
-                        . " FROM _content_proizvodi cp"
+                $whatCatToPut = mysqli_query($conn, "SELECT cp.*,c4.resource_id as cat_rid_sub "
+                        . " FROM _content_products cp"
                         . " LEFT JOIN categories_content cc ON cp.resource_id = cc.content_resource_id "
                         . " LEFT JOIN categories c4 ON cc.category_resource_id = c4.resource_id "
                         . " LEFT JOIN categories c3 ON c4.parent_id = c3.resource_id "
-                        . " WHERE cp.`status` = 1 AND cp.`resource_id` = '$rid'") or die(mysql_error());
+                        . " WHERE cp.`status` = 1 AND cp.`resource_id` = '$rid'") or die(mysqli_error($conn));
 
-                $whatCatToPutArr = mysql_fetch_array($whatCatToPut);
+                $whatCatToPutArr = mysqli_fetch_array($whatCatToPut);
 
                 $allowCatToPut = $whatCatToPutArr["cat_rid_sub"];
 
@@ -305,25 +218,35 @@ switch ($action) {
         }
         break;
 
-
-
     case "add-to-cart":
 
         $itemID = $_POST['itemID'];
         $price = $_POST['price'];
         $q = $_POST['q'];
-        $proizvod = new View("_content_proizvodi", $itemID, 'resource_id');
-        $brandic = $db->getValue("title", "_content_brend", "resource_id", "$proizvod->brand");
+        $proizvod = new View("_content_products", $itemID, 'resource_id');
+        $brandic = $db->getValue("title", "_content_brand", "resource_id", "$proizvod->brand");
         $prodForCart = $brandic . " " . $proizvod->title;
 
         $sessionID = session_id();
+
+        if ($proizvod->gratis_id != "") {
+            $gratis1 = $proizvod->gratis_id;
+        } else {
+            $gratis1 = 0;
+        }
+
+        if ($proizvod->gratis_id_2 != "") {
+            $gratis2 = $proizvod->gratis_id_2;
+        } else {
+            $gratis2 = 0;
+        }
 
         $korpa = new View("korpa", $sessionID, 'session_id');
         if (!empty($korpa->id)) {
             $korpaID = $korpa->id;
 
             $query = $db->execQuery("SELECT id from proizvodi_korpe WHERE korpa_rid = $korpaID AND original_rid = $itemID");
-            $proizvodKorpe = mysql_fetch_row($query);
+            $proizvodKorpe = mysqli_fetch_row($query);
 
             if (isset($proizvodKorpe[0])) {
 
@@ -337,14 +260,19 @@ switch ($action) {
                 $item->title = $prodForCart;
                 $item->cena = $price;
                 $item->kolicina = $q;
-                $item->gratis = $proizvod->gratis_id;
-                $item->gratis2 = $proizvod->gratis_id_2;
+                $item->gratis = $gratis1;
+                $item->gratis2 = $gratis2;
                 $item->Save();
             }
         } else {
             $korpa = new View("korpa");
             $korpa->session_id = $sessionID;
             $korpa->status = 0;
+            $korpa->user_id = 0;
+            $korpa->nacin_placanja = 0;
+            $korpa->num_views = 0;
+            $korpa->datum_poslata = "0000-00-00 00:00:00";
+            $korpa->system_date = "0000-00-00 00:00:00";
             $korpa->Save();
             $korpaID = $korpa->id;
 
@@ -354,14 +282,14 @@ switch ($action) {
             $item->title = $prodForCart;
             $item->cena = $price;
             $item->kolicina = $q;
-            $item->gratis = $proizvod->gratis_id;
-            $item->gratis2 = $proizvod->gratis_id_2;
+            $item->gratis = $gratis1;
+            $item->gratis2 = $gratis2;
             $item->Save();
         }
 
-        $query_u_korpi = mysql_query("SELECT * FROM proizvodi_korpe WHERE korpa_rid = $korpa->id ");
+        $query_u_korpi = mysqli_query($conn, "SELECT * FROM proizvodi_korpe WHERE korpa_rid = $korpa->id ");
 
-        echo mysql_num_rows($query_u_korpi);
+        echo mysqli_num_rows($query_u_korpi);
 
         break;
 
@@ -385,7 +313,7 @@ switch ($action) {
         $sessionID = session_id();
         $korpa = new View("korpa", $sessionID, 'session_id');
         if ($dostava == 1) {
-            $user = new View("_content_korisnici", $userID);
+            $user = new View("_content_users", $userID);
             $korpa->ime = $user->ime;
             $korpa->prezime = $user->prezime;
             $korpa->telefon = $user->mobilni_telefon;
@@ -422,14 +350,15 @@ switch ($action) {
         $korpa->session_id = "zavrseno";
         $korpa->Save();
 
-        $emailQ = mysql_query("SELECT `e-mail` as email FROM _content_korisnici WHERE id = $korpa->user_id ");
-        $emailArr = mysql_fetch_array($emailQ);
+        $emailQ = mysqli_query($conn, "SELECT `e-mail` as email FROM _content_users WHERE id = $korpa->user_id ");
+        $emailArr = mysqli_fetch_array($emailQ);
         $email = $emailArr[email];
 
         $db->execQuery("UPDATE korpa SET `session_id` = '' WHERE `id` = '$korpa->id' ");
 
         $body = "Nova kupovina koju možete videti i kontrolisati u admin delu sajta na stranici Korpe!";
-        $f->sendEmail($configSiteEmail, $name, $configSiteEmail, "Nova kupovina na sajtu " . $configSiteFirm, $body);
+
+        $f->sendMail($csEmail, $csName, $csEmail, "", "Nova kupovina na sajtu - $csName", $body, $currentLanguage);
 
         break;
 }

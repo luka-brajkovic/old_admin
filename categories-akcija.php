@@ -4,7 +4,7 @@ $pageData = $catMasterData;
 $urlJe = "proizvodi-na-akciji";
 
 $titleSEO = $catMasterData->title . " - Proizvodi na akciji";
-$descSEO = "Proizvodi na akciji iz kategorije $catMasterData->title, uvek jeftiniji od drugih, $configSiteFirm";
+$descSEO = "Proizvodi na akciji iz kategorije $catMasterData->title, uvek jeftiniji od drugih, $csName";
 ?>
 
 <?php include_once ("head.php"); ?>

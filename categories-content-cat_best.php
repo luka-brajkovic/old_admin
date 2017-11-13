@@ -1,7 +1,7 @@
 <div class="catbestHolder">
     <?php
-    $catBestQ = mysql_query("SELECT * FROM categories WHERE parent_id = $catMasterData->resource_id AND status = 1 ORDER BY ISNULL(istaknuta_pored_slidera), istaknuta_pored_slidera ASC, ordering ASC LIMIT 3");
-    while ($catBestData = mysql_fetch_object($catBestQ)) {
+    $catBestQ = mysqli_query($conn,"SELECT * FROM categories WHERE parent_id = $catMasterData->resource_id AND status = 1 ORDER BY ISNULL(istaknuta_pored_slidera), istaknuta_pored_slidera ASC, ordering ASC LIMIT 3");
+    while ($catBestData = mysqli_fetch_object($catBestQ)) {
         ?>
         <div class="catbestInner margin-vertical">
             <a href="/<?= $catMasterData->url; ?>/<?= $catBestData->url; ?>" title="<?= $catBestData->title; ?>">

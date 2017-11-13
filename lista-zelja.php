@@ -18,8 +18,8 @@ if (!$isLoged) {
                         <?php
                         $user = $_SESSION["loged_user"];
                         $sql = "SELECT cp.*, b.title as b_title, c.url as master_cat_url, c1.url as sub_cat_url FROM list_zelja lz "
-                                . " JOIN _content_proizvodi cp ON cp.resource_id = lz.product_rid "
-                                . " LEFT JOIN _content_brend b ON b.resource_id = cp.brand "
+                                . " JOIN _content_products cp ON cp.resource_id = lz.product_rid "
+                                . " LEFT JOIN _content_brand b ON b.resource_id = cp.brand "
                                 . " LEFT JOIN categories_content cc ON cp.resource_id = cc.content_resource_id "
                                 . " LEFT JOIN categories c1 ON c1.resource_id = cc.category_resource_id "
                                 . " LEFT JOIN categories c ON c.resource_id = c1.parent_id "
@@ -27,7 +27,7 @@ if (!$isLoged) {
                         $num = $db->numRows($sql);
                         $preporukaQuery = $db->execQuery($sql);
                         if ($num > 0) {
-                            while ($item = mysql_fetch_object($preporukaQuery)) {
+                            while ($item = mysqli_fetch_object($preporukaQuery)) {
                                 include ("little_product.php");
                             }
                         } else {

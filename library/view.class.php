@@ -101,7 +101,7 @@ class View extends Functions {
         $returnObject = array();
 
         $query = Database::execQuery($SQL);
-        while ($data = mysql_fetch_array($query, MYSQL_ASSOC)) {
+        while ($data = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
 
             $returnObject[] = new View($foreign_table, $data['id']);
         }
@@ -112,7 +112,7 @@ class View extends Functions {
     function linkWithCustom($foreign_table, $SQL) {
         $returnObject = array();
         $query = Database::execQuery($SQL);
-        while ($data = mysql_fetch_array($query, MYSQL_ASSOC)) {
+        while ($data = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
 
             $returnObject[] = new View($foreign_table, $data['id']);
         }
@@ -167,7 +167,7 @@ class View extends Functions {
     private function setFields() {
         $q = Database::execQuery("SHOW COLUMNS FROM `" . $this->table . "`");
 
-        while ($data = mysql_fetch_array($q, MYSQL_ASSOC)) {
+        while ($data = mysqli_fetch_array($q, MYSQLI_ASSOC)) {
             $this->{$data['Field']} = "";
         }
     }
@@ -177,7 +177,7 @@ class View extends Functions {
         $q = Database::execQuery("SHOW COLUMNS FROM `" . $this->table . "`");
 
         $fields = array();
-        while ($data = mysql_fetch_array($q, MYSQL_ASSOC)) {
+        while ($data = mysqli_fetch_array($q, MYSQLI_ASSOC)) {
             $fields[] = $data;
         }
 
@@ -186,17 +186,17 @@ class View extends Functions {
 
     private function getData() {
         $query = Database::execQuery("SELECT * FROM `" . $this->table . "` WHERE `" . $this->key_field . "` = '" . $this->key_value . "'");
-        if (mysql_num_rows($query) == 1) {
-            $row = mysql_fetch_array($query, MYSQL_ASSOC);
+        if (mysqli_num_rows($query) == 1) {
+            $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
             foreach ($row as $key => $value) {
                 $this->{$key} = $value;
             }
 
             /*
               $foreignKeysQuery = Database::execQuery("SELECT * FROM information_schema.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = '".DB_BASE."' AND CONSTRAINT_NAME != 'PRIMARY' AND TABLE_NAME='".$this->table."'");
-              $num = mysql_num_rows($foreignKeysQuery);
+              $num = mysqli_num_rows($foreignKeysQuery);
               if($num > 0) {
-              while($dataForeign = mysql_fetch_array($foreignKeysQuery)) {
+              while($dataForeign = mysqli_fetch_array($foreignKeysQuery)) {
               $column = $dataForeign["COLUMN_NAME"];
               $this->{$dataForeign["REFERENCED_TABLE_NAME"]._object} = new View($dataForeign["REFERENCED_TABLE_NAME"], $row[$column],$dataForeign["REFERENCED_COLUMN_NAME"]);
               }

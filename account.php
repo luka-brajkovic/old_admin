@@ -2,7 +2,10 @@
 include_once ("library/config.php");
 
 if (!$isLoged) {
-    $f->redirect("/poruka/prijava");
+    
+    $_SESSION['infoTitle'] = "<h1>Morate biti prijavljeni</h1>";
+    $_SESSION['infoText'] = "<p>Za sadržaj koji tražite morate biti prijavljeni.</p>";
+    $f->redirect("/prijava");
 }
 ?>
 
@@ -11,13 +14,12 @@ if (!$isLoged) {
 </head>
 <body>
     <?php
-    include_once ("popup.php");
     include_once ("header.php");
     ?>
     <div class="container">    
         <div class="content">
             <div class="nav_account clear">
-                <?php include_once("account_nav.php"); ?>
+                <?php include_once("includes/account_nav.php"); ?>
             </div>
             <h1>Vaš nalog (osnovni podaci)</h1>
             <?php
@@ -26,7 +28,7 @@ if (!$isLoged) {
             $contentType = new View("content_types", $contentTypeIDUsers);
             $table_name = $contentType->table_name;
 
-            $user_fields = mysql_query("SELECT * FROM content_type_fields WHERE content_type_id = $contentTypeIDUsers ");
+            $user_fields = mysqli_query($conn,"SELECT * FROM content_type_fields WHERE content_type_id = $contentTypeIDUsers ");
 
             $arrayOvihKojiIdu = array("ime", "prezime", "fiksni_telefon", "mobilni_telefon", "newsletter");
 
@@ -36,7 +38,7 @@ if (!$isLoged) {
 
 
 
-                while ($field = mysql_fetch_object($user_fields)) {
+                while ($field = mysqli_fetch_object($user_fields)) {
                     $columnName = $field->column_name;
                     if (in_array($field->column_name, $arrayOvihKojiIdu)) {
 
@@ -147,7 +149,7 @@ if (!$isLoged) {
                         <div class="half left">
                             <div class="gray"> 
                                 <?php
-                                $user_fields = mysql_query("SELECT * FROM content_type_fields WHERE content_type_id = $contentTypeIDUsers ORDER BY ordering ");
+                                $user_fields = mysqli_query($conn,"SELECT * FROM content_type_fields WHERE content_type_id = $contentTypeIDUsers ORDER BY ordering ");
                                 /*
 
                                  * CUSTOM FORMA - pravim counter da bi polja rasporedjivao levo ili desno kako hocu
@@ -155,7 +157,7 @@ if (!$isLoged) {
                                  *        */
                                 $counter = 0;
 
-                                while ($field = mysql_fetch_object($user_fields)) {
+                                while ($field = mysqli_fetch_object($user_fields)) {
                                     $columnName = $field->column_name;
                                     $counter++;
                                     if (in_array($field->column_name, $arrayOvihKojiIdu)) {
@@ -205,12 +207,12 @@ if (!$isLoged) {
                                                 <label><?= $field->title; ?></label>
                                                 <?php
                                                 list($tableExtract, $key, $show) = explode(",", $field->default_value);
-                                                $queryExtract = mysql_query("SELECT * FROM $tableExtract WHERE status = 1 AND lang = $currentLanguage ORDER BY title ASC");
+                                                $queryExtract = mysqli_query($conn,"SELECT * FROM $tableExtract WHERE status = 1 AND lang = $currentLanguage ORDER BY title ASC");
                                                 ?>
                                                 <select name='<?= $field->column_name; ?>' id='<?= $field->column_name; ?>'>
                                                     <option value=''>Odaberi <?= $field->title; ?></option>
                                                     <?php
-                                                    while ($value = mysql_fetch_array($queryExtract)) {
+                                                    while ($value = mysqli_fetch_array($queryExtract)) {
                                                         ?>
                                                         <option <?= ($f->getValue($field->column_name) == $value[$key]) ? " selected='selected' " : ""; ?> value='<?= $value[$key]; ?>'><?= $value[$show]; ?></option>
                                                         <?php
@@ -246,7 +248,7 @@ if (!$isLoged) {
 
                         <div class="half right picture">
                             <div style="padding-left:15px;">
-                                <?= $db->getValue("text", "_content_html_blocks", "resource_id", "8915"); ?>
+                                <?= $db->getValue("text", "_content_html_blocks", "resource_id", "11"); ?>
                             </div>    
                         </div>      
                     </form>

@@ -274,33 +274,6 @@ class Functions extends Database {
                             $class = " right ";
                         }
                         ?>
-                        <a class="fancybox <?= $class; ?>" href="<?= "/" . $bigs . $entry; ?>" data-fancybox-group="gallery" title="<?= "Slika " . $alt; ?>">
-                            <img alt="Galerija <?= $alt; ?>" src="<?= "/" . $thumbs . $entry; ?>" />
-                        </a>
-                        <?php
-                    }
-                }
-                closedir($handle);
-            }
-        }
-    }
-
-    function printGalleryPage($dir, $alt, $break_on) {
-        $full_path = substr($dir, 1);
-
-        if (is_dir($full_path)) {
-            $bigs = $full_path . "bigs/";
-            $thumbs = $full_path . "thumbs/";
-            $counter = 0;
-            if ($handle = opendir($thumbs)) {
-                while (false !== ($entry = readdir($handle))) {
-                    if ($entry != "." && $entry != "..") {
-                        $counter++;
-                        $class = "";
-                        if ($counter % $break_on == 0) {
-                            $class = " right ";
-                        }
-                        ?>
                         <div class="fifth left">
                             <a class="fancybox <?= $class; ?>" href="<?= "/" . $bigs . $entry; ?>" data-fancybox-group="gallery" title="<?= "Slika " . $alt; ?>">
                                 <img alt="Galerija <?= $alt; ?>" src="<?= "/" . $thumbs . $entry; ?>" />
@@ -319,97 +292,64 @@ class Functions extends Database {
 
         $string = str_replace("е", "е", $string);
         $string = str_replace("Е", "E", $string);
-
         $string = str_replace("р", "r", $string);
         $string = str_replace("Р", "R", $string);
-
         $string = str_replace("т", "t", $string);
         $string = str_replace("Т", "T", $string);
-
         $string = str_replace("з", "z", $string);
         $string = str_replace("З", "Z", $string);
-
         $string = str_replace("у", "u", $string);
         $string = str_replace("У", "U", $string);
-
         $string = str_replace("и", "i", $string);
         $string = str_replace("И", "I", $string);
-
         $string = str_replace("о", "o", $string);
         $string = str_replace("О", "O", $string);
-
         $string = str_replace("п", "p", $string);
         $string = str_replace("П", "P", $string);
-
         $string = str_replace("а", "a", $string);
         $string = str_replace("А", "A", $string);
-
         $string = str_replace("с", "s", $string);
         $string = str_replace("С", "S", $string);
-
         $string = str_replace("д", "d", $string);
         $string = str_replace("Д", "D", $string);
-
         $string = str_replace("ф", "f", $string);
         $string = str_replace("Ф", "F", $string);
-
         $string = str_replace("г", "g", $string);
         $string = str_replace("Г", "G", $string);
-
         $string = str_replace("х", "h", $string);
         $string = str_replace("Х", "H", $string);
-
         $string = str_replace("ј", "j", $string);
         $string = str_replace("Ј", "J", $string);
-
         $string = str_replace("л", "l", $string);
         $string = str_replace("Л", "L", $string);
-
         $string = str_replace("ц", "c", $string);
         $string = str_replace("Ц", "C", $string);
-
         $string = str_replace("в", "v", $string);
         $string = str_replace("В", "V", $string);
-
         $string = str_replace("б", "b", $string);
         $string = str_replace("Б", "B", $string);
-
         $string = str_replace("н", "n", $string);
         $string = str_replace("Н", "N", $string);
-
         $string = str_replace("м", "m", $string);
         $string = str_replace("М", "M", $string);
-
-
-
-
-
         $string = str_replace("ђ", "đ", $string);
         $string = str_replace("ж", "ž", $string);
         $string = str_replace("ш", "š", $string);
-
         $string = str_replace("ћ", "ć", $string);
         $string = str_replace("ч", "č", $string);
-
         $string = str_replace("Ђ", "Đ", $string);
         $string = str_replace("Ж", "Ž", $string);
         $string = str_replace("Ш", "Š", $string);
         $string = str_replace("Ћ", "Ć", $string);
         $string = str_replace("Ч", "Č", $string);
-
-
         $string = str_replace("љ", 'lj', $string);
         $string = str_replace("Љ", 'Lj', $string);
-
         $string = str_replace("Ђ", 'Đ', $string);
         $string = str_replace("ђ", 'đ', $string);
-
         $string = str_replace("њ", 'nj', $string);
         $string = str_replace("Њ", 'Nj', $string);
-
         $string = str_replace("џ", 'dž', $string);
         $string = str_replace("Џ", 'Dž', $string);
-
 
         return $string;
     }
@@ -597,8 +537,9 @@ class Functions extends Database {
     }
 
     function stringCleaner($string) {
+                
         $string = trim($string);
-        $string = mysql_real_escape_string($string);
+        $string = mysqli_real_escape_string($this->dbLink, $string);
 
         $string = str_replace("delete ", " ", $string);
         $string = str_replace("update ", " ", $string);
@@ -670,7 +611,7 @@ class Functions extends Database {
         $tmp = array();
         $query = $this->execQuery("SELECT content_id, tag, count(`tag`) AS br FROM tags  GROUP BY lower(`tag`) ORDER BY br DESC LIMIT 25");
         $i = 1;
-        while ($data = mysql_fetch_array($query, MYSQL_ASSOC)) {
+        while ($data = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
             if (Database::getValue("status", "content", "id", $data["content_id"]) == 1) {
                 if ($i >= 1 && $i < 3)
                     $font = 18;
@@ -1252,8 +1193,6 @@ class Functions extends Database {
         $totalPages = ceil($resultCount / $limit);
         if ($totalPages > 1) {
 
-
-
             $firstPage = ($page == 1) ? 0 : 1;
             $lastPage = ($page == $totalPages) ? 0 : $totalPages;
             $prevPage = ($page - 1 <= 0) ? 0 : $page - 1;
@@ -1269,8 +1208,6 @@ class Functions extends Database {
 
             // printing previous page link
 
-
-
             if ($prevPage != 0) {
 
                 echo "<a class='leftArrow' href=\"" . $url_link . "/strana/" . $prevPage . "\">◄</a>";
@@ -1279,8 +1216,6 @@ class Functions extends Database {
 
                 <?php
             }
-
-
             // printing middle pages
 
             for ($i; $i <= $countTill; $i++) {
@@ -1291,8 +1226,6 @@ class Functions extends Database {
                     echo "<a class='number' href=\"" . $url_link . "/strana/" . $i . "\">" . $i . "</a> ";
                 }
             }
-
-
             // printing next page link
 
             if ($nextPage != 0) {
@@ -1375,20 +1308,51 @@ class Functions extends Database {
         echo "</div>";
     }
 
-    function sendEmail($emailFrom, $fromName, $emailTo, $subject, $body) {
+    /*
+     * $emailFrom         -   email from
+     * $fromName          -   name from
+     * $emailTo           -   email to
+     * $nameTo            -   name to
+     * $subject           -   mail subject
+     * $body              -   mail body
+     * $currentLanguage   -   current language id
+     */
+    
+    function sendMail($emailFrom, $fromName, $emailTo, $nameTo, $subject, $body, $currentLanguage) {
 
-        require_once("library/phpmailer/class.phpmailer.php");
-
+        require_once("library/phpmailer/PHPMailerAutoload.php");
+        $settings = new View("settings", $currentLanguage, "lang_id");
+        
+        $body = nl2br($body, true);
+        $body= str_replace(array("\
+            ", "\\r", "\\n", "bcc:"), "<br/>", $body);
+        
         $mail = new PHPMailer();
+        
+        $mail->IsSMTP();
+        $mail->SMTPDebug = 0;
+        $mail->CharSet = 'UTF-8';
+        $mail->Host = $settings->site_outgoing_server;
+        $mail->Port = $settings->site_smtp_port;
+        $mail->SMTPAuth = true;
+        $mail->Username = $settings->site_username;
+        $mail->Password = $settings->site_password;
+        $mail->Mailer = "smtp";
+        $mail->SMTPSecure = 'ssl';
+
         $mail->From = $emailFrom;
-        $mail->AddReplyTo($emailFrom, $fromName);
         $mail->FromName = $fromName;
-        $mail->AddAddress($emailTo);
+        $mail->AddAddress($emailTo, $nameTo);
+        $mail->AddReplyTo($emailFrom, $fromName);
+
+        $mail->isHTML(true);
+        $mail->WordWrap = 50;
         $mail->Subject = $subject;
         $mail->Body = $body;
-
+        $mail->AltBody = strip_tags($body);
+                     
         if (!$mail->Send()) {
-            echo 'Poruka nije poslata na adresu: ' . $mail->ErrorInfo . '<br />';
+            echo 'Message was not sent. Mailer error: ' . $mail->ErrorInfo . '<br />';
         }
     }
 
@@ -1407,7 +1371,7 @@ class Functions extends Database {
     function printSelectOption($table, $valueField, $nameField, $lang_id) {
         $array[$table] = array();
         $query = Database::execQuery("SELECT $valueField, $nameField FROM $table WHERE lang_id='$lang_id' ORDER BY $nameField");
-        while ($data = mysql_fetch_array($query)) {
+        while ($data = mysqli_fetch_array($query)) {
             $help = array($data[$valueField] => "&nbsp;&nbsp;&nbsp;&nbsp;$data[$nameField]");
             array_push($array[$table], $help);
         }
@@ -1417,7 +1381,7 @@ class Functions extends Database {
 
     function printlanguageOptions($selected) {
         $query = Database::execQuery("SELECT * FROM languages ORDER BY ordering");
-        while ($data = mysql_fetch_array($query)) {
+        while ($data = mysqli_fetch_array($query)) {
             ?>
             <option value="<?= $data['id']; ?>" <?php if ($data['id'] == $selected) echo 'selected="selected"'; ?>><?= $data['title']; ?></option>
             <?php

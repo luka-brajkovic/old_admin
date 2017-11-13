@@ -40,23 +40,19 @@ RewriteRule ^index\.php$ / [L,R=301]
 #RewriteCond %{HTTP_HOST} !^www.skycomputer.rs$ [NC]
 #RewriteRule ^(.*)$ http://www.skycomputer.rs/$1 [L,R=301]
 
-RewriteRule ^issedit/$ issedit/index.php [L,QSA]
+RewriteRule ^admin/$ admin/index.php [L,QSA]
 RewriteRule ^/$ index.php [L,QSA]
 RewriteRule ^([^/\.]+).html/?$ /index.php [L,QSA]
 
 ErrorDocument 404 poruka/404
 RewriteRule ^poruka/404/?$ /error_page.php
 
-RewriteRule ^poruka/([^/\.]+)/?$ /index.php?poruka=$1 [L,QSA]
-
-RewriteRule ^odjava-sa-newsletter/([^/\.]+)/?$ /odjava-newsletter.php?md5_email=$1 [L,QSA]
-RewriteRule ^aktivacija-naloga/([^/\.]+)/?$ /aktivacija-naloga.php?md5_email=$1 [L,QSA]
-RewriteRule ^posalji-aktivaciju/([^/\.]+)/?$ /posalji-aktivaciju.php?md5_email=$1 [L,QSA]
-
 RewriteRule ^uporedi/?$ /compare.php [L,QSA]
 RewriteRule ^lista-zelja/?$ /account_wish_list.php [L,QSA]
 
-RewriteRule ^sve-kategorije/?$ /categories_master.php [L,QSA]
+RewriteRule ^strana/([^/\.]+)/?$ /page.php?url=$1 [L,QSA]
+RewriteRule ^kontakt/?$ /contact.php [L,QSA]
+RewriteRule ^pretraga/?$ /search.php?url=$1 [L,QSA]
 
 RewriteRule ^nalog/?$ /account.php [L,QSA]
 RewriteRule ^nalog/porudzbine/?$ /account_orders.php [L,QSA]
@@ -66,36 +62,35 @@ RewriteRule ^nalog/promena-lozinke/?$ /account_change_pass.php [L,QSA]
 RewriteRule ^nalog/lista-zelja/?$ /account_wish_list.php [L,QSA]
 RewriteRule ^nalog/odjava/?$ /work.php?action=odjava [L,QSA]
 
+RewriteRule ^odjava-sa-newsletter/([^/\.]+)/?$ /odjava-newsletter.php?md5_email=$1 [L,QSA]
+RewriteRule ^aktivacija-naloga/([^/\.]+)/?$ /aktivacija-naloga.php?md5_email=$1 [L,QSA]
+RewriteRule ^posalji-aktivaciju/([^/\.]+)/?$ /posalji-aktivaciju.php?md5_email=$1 [L,QSA]
 
 RewriteRule ^prijava/?$ /login.php [L,QSA]
 RewriteRule ^postojeci/prijava/?$ /login.php [L,QSA]
 RewriteRule ^promena-sifre/prijava/?$ /login.php [L,QSA]
 RewriteRule ^registracija/?$ /registration.php [L,QSA]
 
-RewriteRule ^pretraga/?$ /search.php?url=$1 [L,QSA]
-
 RewriteRule ^korpa/?$ /cart.php [L,QSA]
 RewriteRule ^korpa-prijava/?$ /cart-login.php [L,QSA]
 RewriteRule ^korpa-placanje/?$ /cart-pay.php [L,QSA]
 RewriteRule ^korpa-dostava/?$ /cart-delivery.php [L,QSA]
 
-RewriteRule ^kontakt/?$ /contact.php [L,QSA]
-RewriteRule ^strana/([^/\.]+)/?$ /page.php?url=$1 [L,QSA]
-
 RewriteRule ^robne-marke/?$ /brands.php [L,QSA]
 RewriteRule ^robne-marke/([^/\.]+)/?$ /brand-single.php?url=$1 [L,QSA]
 RewriteRule ^robne-marke/([^/\.]+)/page/([^/\.]+)/?$ /brand-single.php?url=$1&page=$2 [L,QSA]
 
-RewriteRule ^aktuelnosti/([^/\.]+)/?$ /vest_single.php?url=$1 [L,QSA]
-RewriteRule ^aktuelnosti/?$ /vesti.php [L,QSA]
+RewriteRule ^aktuelnosti/([^/\.]+)/?$ /blog-single.php?url=$1 [L,QSA]
+RewriteRule ^aktuelnosti/?$ /blog.php [L,QSA]
 
+RewriteRule ^sve-kategorije/?$ /categories_master.php [L,QSA]
 RewriteRule ^([^/\.]+)/([^/\.]+)/([^/\.]+)/([^/\.]+)/?$ /product_page.php?cat_master=$1&sub_cat=$2&url=$3&rid=$4 [L,QSA]
 RewriteRule ^([^/\.]+)/([^/\.]+)/([^/\.]+)/?$ /category-single.php?cat_master=$1&sub_cat=$2&last_cat=$3 [L,QSA]
 RewriteRule ^([^/\.]+)/([^/\.]+)/?$ /category-single.php?cat_master=$1&sub_cat=$2 [L,QSA]
 RewriteRule ^([^/\.]+)/?$ /categories.php?cat_master=$1 [L,QSA]
 
 #tinymce antihack
-RewriteRule ^issedit/tinymce/plugins/imagemanager/index\.php\?type=im\&page=index\.htm$ /admin/work.php?action=tinymce [L]
+RewriteRule ^admin/tinymce/plugins/imagemanager/index\.php\?type=im\&page=index\.htm$ /admin/work.php?action=tinymce [L]
 
 <Files .htaccess>
 order allow,deny

@@ -20,22 +20,22 @@ $rid = $f->getValue('rid');
 
 $fancyboxJS = 1;
 
-$proizvod = mysql_query("SELECT cp.*, c1.url as sub_cat_url, c.url as master_cat_url, cb.url as b_url, cb.logo as b_logo, cb.title as b_title FROM _content_proizvodi cp "
+$proizvod = mysqli_query($conn,"SELECT cp.*, c1.url as sub_cat_url, c.url as master_cat_url, cb.url as b_url, cb.logo as b_logo, cb.title as b_title FROM _content_products cp "
         . " LEFT JOIN categories_content cc ON cp.resource_id = cc.content_resource_id "
         . " LEFT JOIN categories c1 ON c1.resource_id = cc.category_resource_id "
         . " LEFT JOIN categories c ON c.resource_id = c1.parent_id "
-        . " LEFT JOIN _content_brend cb ON cb.resource_id = cp.brand "
-        . " WHERE cp.resource_id = '$rid' AND cp.url = '$url' LIMIT 1") or die(mysql_error());
-$proizvod = mysql_fetch_object($proizvod);
+        . " LEFT JOIN _content_brand cb ON cb.resource_id = cp.brand "
+        . " WHERE cp.resource_id = '$rid' AND cp.url = '$url' LIMIT 1") or die(mysqli_error($conn));
+$proizvod = mysqli_fetch_object($proizvod);
 
-$canonical = $configSiteDomain . $proizvod->master_cat_url . "/" . $proizvod->sub_cat_url . "/" . $url . "/" . $rid;
+$canonical = $csDomain . $proizvod->master_cat_url . "/" . $proizvod->sub_cat_url . "/" . $url . "/" . $rid;
 
 if (empty($proizvod->resource_id)) {
     $f->redirect("/poruka/404");
 }
 
 $cumbView = $proizvod->num_views + 1;
-mysql_query("UPDATE _content_proizvodi SET num_views = '$cumbView' WHERE resource_id = '$rid' AND url = '$url' LIMIT 1");
+mysqli_query($conn,"UPDATE _content_products SET num_views = '$cumbView' WHERE resource_id = '$rid' AND url = '$url' LIMIT 1");
 
 function breadCrumbs($catID, &$array) {
     $catObj = new View('categories', $catID, 'resource_id');
@@ -49,7 +49,7 @@ function breadCrumbs($catID, &$array) {
 
 $conCat = new View('categories_content', $proizvod->resource_id, 'content_resource_id');
 $query = $db->execQuery("SELECT category_resource_id FROM categories_content WHERE content_resource_id = $proizvod->resource_id");
-$data = mysql_fetch_row($query);
+$data = mysqli_fetch_row($query);
 $catResourceID = $data[0];
 $niz = breadCrumbs($catResourceID, $niz);
 
@@ -61,12 +61,12 @@ if ($proizvod->technical_description != "") {
     $descSEO = $niz[1]->title . " / " . $niz[2]->title . " | " . $proizvod->b_title ." ". $proizvod->title . ": " . substr(strip_tags(str_replace("\r\n", " ", htmlspecialchars_decode($proizvod->marketing_description))), 0, 60) . "...";
 }
 
-if (is_file("uploads/uploaded_pictures/_content_proizvodi/" . $dimUrlLitShare . "/" . $proizvod->product_image)) {
-    $imgSEO = "/uploads/uploaded_pictures/_content_proizvodi/" . $dimUrlLitShare . "/" . $proizvod->product_image;
-} elseif (is_file("uploads/uploaded_pictures/_content_proizvodi/" . $dimUrlLitBigs . "/" . $proizvod->product_image)) {
-    $imgSEO = "/uploads/uploaded_pictures/_content_proizvodi/" . $dimUrlLitBigs . "/" . $proizvod->product_image;
+if (is_file("uploads/uploaded_pictures/_content_products/" . $dimUrlLitShare . "/" . $proizvod->product_image)) {
+    $imgSEO = "/uploads/uploaded_pictures/_content_products/" . $dimUrlLitShare . "/" . $proizvod->product_image;
+} elseif (is_file("uploads/uploaded_pictures/_content_products/" . $dimUrlLitBigs . "/" . $proizvod->product_image)) {
+    $imgSEO = "/uploads/uploaded_pictures/_content_products/" . $dimUrlLitBigs . "/" . $proizvod->product_image;
 } else {
-    $imgSEO = "/uploads/uploaded_pictures/_content_proizvodi/" . $dimUrlLitSecund . "/" . $proizvod->product_image;
+    $imgSEO = "/uploads/uploaded_pictures/_content_products/" . $dimUrlLitSecund . "/" . $proizvod->product_image;
 }
 
 $greske = $komentarisano = array();
@@ -108,23 +108,14 @@ if ($f->verifyFormToken('form1')) {
     if (empty($greske)) {
 
         $bodyc = "Postavljen je komentar, čeka na odobravanje iz admina na proizvodu sa linkom:<br/>" . $canonical;
-
-        require_once("library/phpmailer/class.phpmailer.php");
-
-        $mail = new PHPMailer();
-        $mail->From = "$configSiteEmail";
-        $mail->AddReplyTo($emailCom, $nameCom);
-        $mail->FromName = $nameCom;
-        $mail->AddAddress($configSiteEmail);
-        $mail->Subject = "Postavljen novi komentar";
-        $mail->Body = $bodyc;
-        $mail->Send();
+        
+        $f->sendMail($emailCom, $nameCom, $csEmail, $csName, "Postavljen novi komentar", $bodyc, $currentLanguage);
 
         $paketKontakt = new View("resources");
-        $paketKontakt->table_name = "_content_komentari";
+        $paketKontakt->table_name = "_content_comments";
         $paketKontakt->Save();
 
-        $newEmail = new View("_content_komentari");
+        $newEmail = new View("_content_comments");
         $newEmail->resource_id = $paketKontakt->id;
         $newEmail->title = $nameCom;
         $newEmail->url = $f->generateUrlFromText($nameCom);
@@ -147,7 +138,7 @@ $capcha2 = rand(1, 9);
 $htmlTagAddOG = 'prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# product: http://ogp.me/ns/product#"';
 $ogType = "product";
 
-$shareUrl = "http://".$HOST."".$REQUEST;
+$shareUrl = rtrim($csDomain,"/").$REQUEST;
 
 include_once ("head.php"); ?>
 

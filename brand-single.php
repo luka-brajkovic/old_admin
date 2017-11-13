@@ -4,18 +4,18 @@ $urlAKTIVE = "/robne-marke";
 
 $brandUrl = $f->getValue('url');
 
-$brandObj = new View('_content_brend', $brandUrl, 'url');
+$brandObj = new View('_content_brand', $brandUrl, 'url');
 
 if ($brandObj->resource_id == "") {
     $f->redirect("/poruka/404");
 }
 
 $cumbView = $brandObj->num_views + 1;
-mysql_query("UPDATE _content_brend SET num_views = '$cumbView' WHERE resource_id = '$brandObj->resource_id' AND url = '$brandObj->url' LIMIT 1");
+mysqli_query($conn,"UPDATE _content_brand SET num_views = '$cumbView' WHERE resource_id = '$brandObj->resource_id' AND url = '$brandObj->url' LIMIT 1");
 
 $titleSEO = $brandObj->title . " proizvodi";
 $descSEO = "Sve $brandObj->title proizode možete pronaći kod nas, kao i mnogih drugih svetskih brendova po povoljnim cenama.";
-$imgSEO = "/uploads/uploaded_pictures/_content_brend/630x354/" . $brandObj->logo;
+$imgSEO = "/uploads/uploaded_pictures/_content_brand/630x354/" . $brandObj->logo;
 
 include_once ("head.php");
 ?></head>

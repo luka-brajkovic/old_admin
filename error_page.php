@@ -1,11 +1,7 @@
 <?php
 include_once ("library/config.php");
 
-$naslovna = true;
-
-?>
-
-<?php include_once ("head.php"); ?>
+include_once ("head.php"); ?>
 
 </head>
 <body>

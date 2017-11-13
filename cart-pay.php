@@ -14,7 +14,7 @@ $step4Class = "";
 <body>
     <?php
     include_once ("header.php");
-    include_once ("cart-pay-content.php");
+    include_once ("includes/cart-pay-content.php");
     include_once ("footer.php");
     ?>
 </body>

@@ -12,19 +12,10 @@ class Site extends Functions {
      * @param $level int Koliko sam u dubinu otisao
      * 
      */
-    function getFiltersFrontEndOptimized($cat_rid, $server_url, $cat_rid2) {
+    function getFiltersFrontEndOptimized($cat_rid, $server_url) {
 
-        $filterHeaders = new Collection("filter_headers");
-        $filterValues = new Collection("filter_values");
-        $filterJoins = new Collection("filter_joins");
-        $categories = new Collection("categories");
-        $proizvodi = new Collection("_content_proizvodi");
-        $lang = 1;
-
-        $categoriesArr = $categories->getCollection("WHERE resource_id = $cat_rid");
-        $catData = $categoriesArr[0];
-
-
+        $catData = mysqli_query($this->dbLink,"SELECT url FROM categories WHERE resource_id = $cat_rid LIMIT 1");
+        $catData = mysqli_fetch_object($catData);
 
         $server_url = str_replace($catData->url, $catData->url . "#", $server_url);
         if (substr($server_url, -1) == "/") {
@@ -33,158 +24,145 @@ class Site extends Functions {
 
         $addonUrlEx = explode("#", $server_url);
 
-        $filterHeadersArr = $filterHeaders->getCollection("WHERE cat_resource_id = $cat_rid ORDER BY ordering");
-        if (count($filterHeadersArr) > 0) {
-            /*
-              echo "<h5>Kategorie Filter</h5>"; */
-            $joinsCat = "";
-            $whereCat = "";
+        $filterHeadersArr = mysqli_query($this->dbLink,"SELECT title, id, `show`, url FROM filter_headers WHERE cat_resource_id = $cat_rid ORDER BY ordering") or die(mysqli_error($this->dbLink));
+        while ($fh = mysqli_fetch_object($filterHeadersArr)) {
+            $counter = 0;
 
-            if ($cat_rid != $cat_rid2) {
-                $joinsCat .= " JOIN categories_content cc ON cc.content_resource_id = cp.resource_id";
-                $whereCat .= " AND cc.category_resource_id = '$cat_rid2'";
+            $filValue = mysqli_query($this->dbLink,"SELECT fv.url, fv.id, fv.title FROM filter_values fv "
+                    . " JOIN filter_joins fj ON fj.fv_id = fv.id "
+                    // . " JOIN _content_products cp ON cp.resource_id = fj.product_rid "
+                    . " WHERE "
+                    // . " (cp.status = 1 OR cp.master_status = 'Active') "
+                    . " fv.fh_id = '$fh->id' GROUP BY (fv.id) ORDER BY CAST(fv.title AS UNSIGNED), fv.title ASC ") or die(mysqli_error($this->dbLink));
+            $numbPerFilter = mysqli_num_rows($filValue);
+
+            if ($numbPerFilter > 0) {
+                echo "<div class='filter_group'><h5>$fh->title</h5>";
+                echo "<ul class='check' data-id='" . $fh->id . "'>";
+            } else {
+                echo "<div class='filter_group'>";
+                echo "<ul>";
             }
-
-            foreach ($filterHeadersArr as $fh) {
-                $counter = 0;
-
-                $filValue = mysql_query("SELECT fv.* FROM filter_values fv "
-                        . " LEFT JOIN filter_joins fj ON fj.fh_id = fv.fh_id "
-                        . " LEFT JOIN _content_proizvodi cp ON cp.resource_id = fj.product_rid"
-                        . " WHERE (cp.status = 1 OR cp.master_status = 'Active') AND fv.fh_id = $fh->id GROUP BY (fv.title) ORDER BY CAST(fv.title AS UNSIGNED), fv.title ASC ") or die(mysql_error());
-                $numbPerFilter = mysql_num_rows($filValue);
-                if (mysql_num_rows($filValue)) {
-                    echo "<div class='filter_group'><h5>$fh->title</h5>";
-                    echo "<ul class='check' data-id='" . $fh->id . "'>";
-                } else {
-                    echo "<div class='filter_group'>";
-                    echo "<ul>";
-                }
-                switch ($fh->show) {
-                    case '1':
+            switch ($fh->show) {
+                case '1':
 
 
-                        while ($value = mysql_fetch_object($filValue)) {
-                            $currentUrl = $server_url;
+                    while ($value = mysqli_fetch_object($filValue)) {
+                        $currentUrl = $server_url;
 
-                            if (strpos($currentUrl, $fh->url) !== false) {
-                                /* AKO IMA OVAJ HEADER */
+                        if (strpos($currentUrl, $fh->url) !== false) {
+                            /* AKO IMA OVAJ HEADER */
 
-                                $currentEx = explode("/" . $fh->url, $currentUrl);
-                                list($thisPart) = explode("/", $currentEx[0]);
-                                $oldPart = $thisPart;
-                                if (strpos($thisPart, $value->url . "_") !== false) {
-                                    $thisPart = str_replace($value->url . "_", "", $thisPart);
-                                } else if (strpos($thisPart, $value->url) !== false) {
-                                    $thisPart = str_replace($value->url, "", $thisPart);
-                                } else {
-                                    $thisPart .= "_" . $value->url;
-                                }
-                                $currentUrl = str_replace($oldPart, $thisPart, $currentUrl);
+                            $currentEx = explode("/" . $fh->url, $currentUrl);
+                            list($thisPart) = explode("/", $currentEx[0]);
+                            $oldPart = $thisPart;
+                            if (strpos($thisPart, $value->url . "_") !== false) {
+                                $thisPart = str_replace($value->url . "_", "", $thisPart);
+                            } else if (strpos($thisPart, $value->url) !== false) {
+                                $thisPart = str_replace($value->url, "", $thisPart);
                             } else {
-
-                                /* AKO NEMA OVAJ HEADER */
-                                $currentUrl .= "/" . $fh->url . "=" . $value->url;
+                                $thisPart .= "_" . $value->url;
                             }
-                            
-                            // AKO HOCES DA UBACIS KOLIKO PROIZVODA IMA DODAJ ($countProds) 
-                            $countProds = 0;
+                            $currentUrl = str_replace($oldPart, $thisPart, $currentUrl);
+                        } else {
 
-                            $proizvodiArr = mysql_query("
-								SELECT cp.id FROM _content_proizvodi cp 
-                                JOIN filter_joins fj ON cp.resource_id = fj.product_rid 
-								$joinsCat
-								WHERE fj.fv_id LIKE '%$value->id%' AND fj.fh_id = $fh->id AND (cp.status = 1 OR cp.master_status = 'Active') $whereCat ") or die(mysql_error());
-                            $countProds = mysql_num_rows($proizvodiArr);
-                             
+                            /* AKO NEMA OVAJ HEADER */
+                            $currentUrl .= "/" . $fh->url . "=" . $value->url;
+                        }
 
-                            $urlExplosion = explode("&", $server_url);
+                        // AKO HOCES DA UBACIS KOLIKO PROIZVODA IMA DODAJ ($countProds) 
+                        $countProds->count = 0;
 
-                            if($countProds > 0){
-                                echo "<li>";
-                                /* ISPITIVANJE URL-a */
-                                $filtersURL = "";
-                                $urlEXPLOSION = explode("filters=true", $server_url);
-                                if (!isset($urlEXPLOSION[1])) {
-                                    $urlEXPLOSION[1] = null;
-                                } else {
-                                    $filtersURL = $urlEXPLOSION[1];
-                                }
+                        $proizvodiArr = mysqli_query($this->dbLink,"
+								SELECT COUNT(cp.id) as count FROM _content_products cp 
+                                JOIN filter_joins fj ON cp.resource_id = fj.product_rid
+								WHERE fj.fv_id LIKE '%$value->id%' AND fj.fh_id = $fh->id "
+                                . " AND (cp.status = 1 OR cp.master_status = 'Active') "
+                                . "") or die(mysqli_error($this->dbLink));
+                        $countProds = mysqli_fetch_object($proizvodiArr);
 
-                                if (strpos($filtersURL, "&" . $fh->id . "=") !== false && strpos($filtersURL, "-" . $value->id . "-") !== false) {
-                                    echo "<span class=\"checkClick filter active\"><i class='fa fa-square inac'></i><i class='fa fa-check-square acti'></i></span>";
-                                } else {
-                                    echo "<span class=\"checkClick filter\"><i class='fa fa-square inac'></i><i class='fa fa-check-square acti'></i></span>";
-                                }
-                                echo "<label>" . htmlspecialchars_decode($value->title) . " ($countProds)</label>"; /* AKO HOCES DA UBACIS KOLIKO PROIZVODA IMA DODAJ ($countProds)  */
-                                echo "<input type='checkbox' name='" . $fh->url . "' value='$value->id' /></li>";
-                                if($counter==3){ ?>
+                        $urlExplosion = explode("&", $server_url);
+                        if ($countProds->count > 0) {
+                            echo "<li>";
+                            /* ISPITIVANJE URL-a */
+                            $filtersURL = "";
+                            $urlEXPLOSION = explode("filters=true", $server_url);
+                            if (!isset($urlEXPLOSION[1])) {
+                                $urlEXPLOSION[1] = null;
+                            } else {
+                                $filtersURL = $urlEXPLOSION[1];
+                            }
+
+                            if (strpos($filtersURL, "&" . $fh->id . "=") !== false && strpos($filtersURL, "-" . $value->id . "-") !== false) {
+                                echo "<span class=\"checkClick filter active\"><i class='fa fa-square inac'></i><i class='fa fa-check-square acti'></i></span>";
+                            } else {
+                                echo "<span class=\"checkClick filter\"><i class='fa fa-square inac'></i><i class='fa fa-check-square acti'></i></span>";
+                            }
+                            echo "<label>" . htmlspecialchars_decode($value->title) . " ($countProds->count)</label>";
+                            echo "<input type='checkbox' name='" . $fh->url . "' value='$value->id' /></li>";
+                            if (strpos($filtersURL, "&" . $fh->id . "=") === false && strpos($filtersURL, "-" . $value->id . "-") === false) {
+                                if ($counter == 3) {
+                                    ?>
                                     <span id="doNotShowFilter-<?= $fh->url; ?>" class="doNotShowFilter">
-                                <?php }elseif($numbPerFilter - 1==$counter && $counter > 2){ ?>
+                                    <?php } elseif ($numbPerFilter - 1 == $counter && $counter > 2) { ?>
                                     </span>
                                     <a id='open-<?= $fh->url; ?>' class="open" onclick="showMoreFilters('<?= $fh->url; ?>')" href="javascript:">Prikaži sve</a>
                                     <i class="fa fa-angle-down filterArrowDown-<?= $fh->url; ?> filterArrowDown"></i><i class="fa fa-angle-up filterArrowUp-<?= $fh->url; ?> filterArrowUp"></i>
-                                <?php }                            
-                                $counter++;
-                            }
-                        }
-
-                        break;
-
-                    case '2':
-                        $filterValuesArr = $filterValues->getCollection("WHERE fh_id = $fh->id ");
-                        $currentUrl = $addonUrlEx[1];
-
-                        if (count($filterValuesArr) > 0) {
-                            echo "<select onchange=\"var thisValue = $(this).val(); submitFilters(thisValue,$fh->show)\" name='" . $fh->id . "_" . $lang . "' id='" . $fh->id . "_" . $lang . "'>";
-
-                            echo "<option value='" . $fh->url . "_all'>Izaberi</option>";
-
-                            foreach ($filterValuesArr as $value) {
-                                $proizvodiArr = $proizvodi->getCollectionCustom("
-										SELECT cp.id FROM _content_proizvodi cp JOIN filter_joins fj ON cp.resource_id = fj.product_rid 
-										WHERE fj.fv_id LIKE '%$value->id--,%' AND fj.fh_id = $fh->id AND (cp.status = 1 OR cp.master_status = 'Active') AND cp.lang = $lang ");
-                                $countProds = count($proizvodiArr);
-
-                                if (strpos($currentUrl, "/" . $fh->url . "=") !== false) {
-
-                                    $currentExplode = explode("/" . $fh->url . "=", $currentUrl);
-                                    $currentEx1 = explode("/", $currentExplode[1]);
-                                    $currentEx = $currentEx1[0];
-                                    if (strpos($currentEx, $value->url) !== false) {
-                                        echo "<option selected = 'selected' value='" . $fh->url . "_" . $value->url . "'>$value->title ($countProds)</option>";
-                                    } else {
-                                        echo "<option value='" . $fh->url . "_" . $value->url . "'>$value->title ($countProds - $currentEx)</option>";
-                                    }
-                                } else {
-                                    echo "<option value='" . $fh->url . "_" . $value->url . "'>$value->title ($countProds)</option>";
+                                    <?php
                                 }
-                            }
-                            echo "</select>";
+                            }else{ ?>
+                                    
+                            <?php }
+                            $counter++;
                         }
+                    }
 
-                        break;
+                    break;
 
-                    default:
+                case '2':
+                    $filterValuesArr = mysqli_query($this->dbLink,"SELECT * FROM filter_values WHERE fh_id = $fh->id ") or die(mysqli_error($this->dbLink));
+                    $currentUrl = $addonUrlEx[1];
 
-                        break;
-                }
-                echo "</ul>";
-                echo "</div>";
+                    if (mysqli_num_rows($filterValuesArr) > 0) {
+                        echo "<select onchange=\"var thisValue = $(this).val(); submitFilters(thisValue,$fh->show)\" name='" . $fh->id . "_1' id='" . $fh->id . "_1'>";
+
+                        echo "<option value='" . $fh->url . "_all'>Izaberi</option>";
+
+                        while ($value = mysqli_fetch_object($filterValuesArr)) {
+                            $proizvodiArr = mysqli_query($this->dbLink,"
+										SELECT COUNT(cp.id) as count FROM _content_products cp JOIN filter_joins fj ON cp.resource_id = fj.product_rid 
+										WHERE fj.fv_id LIKE '%$value->id--,%' AND fj.fh_id = $fh->id "
+                                    //  . " AND (cp.status = 1 OR cp.master_status = 'Active') "
+                                    . " AND cp.lang = 1 ");
+                            $countProds = mysqli_fetch_object($proizvodiArr);
+
+                            if (strpos($currentUrl, "/" . $fh->url . "=") !== false) {
+
+                                $currentExplode = explode("/" . $fh->url . "=", $currentUrl);
+                                $currentEx1 = explode("/", $currentExplode[1]);
+                                $currentEx = $currentEx1[0];
+                                if (strpos($currentEx, $value->url) !== false) {
+                                    echo "<option selected = 'selected' value='" . $fh->url . "_" . $value->url . "'>$value->title ($countProds->count)</option>";
+                                } else {
+                                    echo "<option value='" . $fh->url . "_" . $value->url . "'>$value->title ($countProds->count - $currentEx)</option>";
+                                }
+                            } else {
+                                echo "<option value='" . $fh->url . "_" . $value->url . "'>$value->title ($countProds->count)</option>";
+                            }
+                        }
+                        echo "</select>";
+                    }
+
+                    break;
+
+                default:
+
+                    break;
             }
-            return;
-        } else {
-            /*
-              $categoriesArr = $categories->getCollection("WHERE lang = $lang AND resource_id = $cat_rid");
-              $catData = $categoriesArr[0];
-              $categoriesArr = $categories->getCollection("WHERE lang = $lang AND resource_id = $catData->parent_id");
-              $catParent = $categoriesArr[0];
-              if($catParent->id!='') {
-              return $this->getFiltersFrontEnd($catParent->resource_id, $lang, $server_url, $catData->resource_id);
-              } else {
-              return "";
-              } */
+            echo "</ul>";
+            echo "</div>";
         }
+        return;
     }
 
     function printCatsOptions($usluge_proizvodi, $categoriesArr) {
@@ -234,42 +212,11 @@ class Site extends Functions {
         }
     }
 
-    function printGallery($gallery, $title) {
-
-        $relativePath = substr($gallery, 1);
-
-        $relativePathThumbs = $relativePath . "thumbs";
-        $relativePathBigs = $relativePath . "bigs";
-
-
-
-        if (is_dir($relativePathThumbs)) {
-            if ($handle = opendir($relativePathThumbs)) {
-                ?>
-                <div class="galery">
-                    <?php
-                    while (false !== ($entry = readdir($handle))) {
-                        if ($entry != "." && $entry != "..") {
-                            ?>
-                            <a title="<?= $title; ?>" data-fancybox-group="gallery" href="<?= $gallery . "bigs/$entry"; ?>" class="fancybox ">
-                                <img alt="<?= $title; ?>" src="<?= $gallery . "thumbs/$entry"; ?>">
-                            </a>
-                            <?php
-                        }
-                    }
-                    closedir($handle);
-                    ?>
-                </div>
-                <?php
-            }
-        }
-    }
-
     function printFrontMenuLong($menuResId, $parentId, $active = "", $lang, $activeClass = "active", $level = 1) {
 
         //Cupam koji mi je menu_id za ovaj jezik i za resource_id
         $menuQuery = Database::execQuery("SELECT id FROM menus WHERE resource_id = '$menuResId' AND lang_id = '$lang'");
-        $dataMenu = mysql_fetch_array($menuQuery);
+        $dataMenu = mysqli_fetch_array($menuQuery);
 
         //Pravim kolekciju linkova koje treba da prikazujem
         $menuItemsCollection = new Collection("menu_items");
@@ -335,7 +282,7 @@ class Site extends Functions {
 
         //Cupam koji mi je menu_id za ovaj jezik i za resource_id
         $menuQuery = Database::execQuery("SELECT id FROM menus WHERE resource_id = '$menuResId' AND lang_id = '$lang'");
-        $dataMenu = mysql_fetch_array($menuQuery);
+        $dataMenu = mysqli_fetch_array($menuQuery);
 
         //Pravim kolekciju linkova koje treba da prikazujem
         $menuItemsCollection = new Collection("menu_items");
@@ -385,6 +332,5 @@ class Site extends Functions {
         if ($parentId == 0)
             echo "</ul>";
     }
-
 }
 ?>

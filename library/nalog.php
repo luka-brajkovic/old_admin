@@ -9,7 +9,6 @@ $urlAKTIVE = "/" . $lang_code;
 </head>
 <body>
     <?php
-    include ("popup.php");
     include ("header.php");
 
     include ("footer.php");

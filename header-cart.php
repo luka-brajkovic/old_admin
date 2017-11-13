@@ -2,7 +2,7 @@
     <div class="clear headerLogin">
         <ul class="right">
             <?php
-            if ($configSiteShop == 1) {
+            if ($csShop == 1) {
                 if ($isLoged) {
                     ?>
                     <li class="right account">
@@ -24,7 +24,7 @@
     </div>
     <div class="headerCart clear">
         <div class="right">
-            <?php if ($configSiteShop == 1) { ?>
+            <?php if ($csShop == 1) { ?>
                 <div class="wishHeader">
                     <a href="/lista-zelja">
                         <i class="fa fa-heart-o left"></i>
@@ -48,7 +48,7 @@
         </div>
         <div class="right">
             <div class="cartHeader quarterMarginRS">
-                <?php if ($configSiteShop == 1) { ?>
+                <?php if ($csShop == 1) { ?>
                     <a href="/korpa" title="Idi u korpu">
                         <i class="fa fa-cart-arrow-down left"></i>
                         <div class="right">
@@ -57,7 +57,7 @@
                             $korpa = new View("korpa", $sessionID, 'session_id');
                             if (!empty($korpa->id)) {
                                 $queryKorpa = $db->execQuery("SELECT COUNT(id) as korpa_suma from proizvodi_korpe WHERE korpa_rid = $korpa->id");
-                                $dataKorpa = mysql_fetch_row($queryKorpa);
+                                $dataKorpa = mysqli_fetch_row($queryKorpa);
                                 if (count($dataKorpa) > 0) {
                                     $sumaKorpa = $dataKorpa[0];
                                 } else {
@@ -76,6 +76,6 @@
         </div>
     </div>
     <li class="right">
-        <a class="headerPhone" href="tel:<?= str_replace(array(" ", "-", "/"), "", $configSitePhone); ?>" title="Kontaktirajte nas"><?= str_replace("+381", "0", $configSitePhone); ?></a>
+        <a class="headerPhone" href="tel:<?= str_replace(array(" ", "-", "/"), "", $csPhone); ?>" title="Kontaktirajte nas"><?= str_replace("+381", "0", $csPhone); ?></a>
     </li>
 </div>

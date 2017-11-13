@@ -11,9 +11,14 @@ $userData = $usersArr[0];
 if (!empty($userData->id)) {
     $userData->status = 2;
     $userData->Save();
-    $f->redirect("/poruka/uspesna-odjava");
+
+    $_SESSION['infoTitle'] = "<h1>Odjava sa newsletter liste</h1>";
+    $_SESSION['infoText'] = "<p>Poštovani, uspešno ste se odjavili sa naše newsletter liste!</p>";
+    $f->redirect("/");
 } else {
-    $f->redirect("/poruka/odjavljen");
+    $_SESSION['infoTitle'] = "<h1>Već ste odjavljeni</h1>";
+    $_SESSION['infoText'] = "<p>Poštovani, Vaš email je već bio odjavljen sa naše newsletter liste!</p>";
+    $f->redirect("/");
 }
 
 

@@ -16,19 +16,18 @@ include_once ("head.php");
 </head>
 <body>
     <?php
-    include_once ("popup.php");
     include_once ("header.php");
 
     $niz = $_SESSION["compare"];
 
-    $whatCat = mysql_query("SELECT cp.*,c4.url as c4_url, c3.url as c3_url "
-            . " FROM _content_proizvodi cp"
+    $whatCat = mysqli_query($conn,"SELECT cp.*,c4.url as c4_url, c3.url as c3_url "
+            . " FROM _content_products cp"
             . " LEFT JOIN categories_content cc ON cp.resource_id = cc.content_resource_id "
             . " LEFT JOIN categories c4 ON cc.category_resource_id = c4.resource_id "
             . " LEFT JOIN categories c3 ON c4.parent_id = c3.resource_id "
-            . " WHERE cp.`status` = 1 AND cp.`resource_id` IN (" . implode(",", $niz) . ")") or die(mysql_error());
+            . " WHERE cp.`status` = 1 AND cp.`resource_id` IN (" . implode(",", $niz) . ")") or die(mysqli_error($conn));
 
-    $whatCatArr = mysql_fetch_array($whatCat);
+    $whatCatArr = mysqli_fetch_array($whatCat);
 
     $catNumber4 = $whatCatArr["c4_url"];
     $catNumber3 = $whatCatArr["c3_url"];
@@ -39,7 +38,7 @@ include_once ("head.php");
                 <span>Vi ste ovde:</span>
             </li>
             <li itemprop="itemListElement" itemscope="itemscope" itemtype="http://schema.org/ListItem">
-                <a href="/" title="<?= $configSiteTitle; ?>" itemprop="url">
+                <a href="/" title="<?= $csTitle; ?>" itemprop="url">
                     <span itemprop="name">Početna</span>
                 </a>
             </li>
@@ -65,19 +64,19 @@ include_once ("head.php");
                             foreach ($compareArr as $rid) {
                                 $counter++;
                                 $rid = str_replace("'", "", $rid);
-                                $proizvod = new View("_content_proizvodi", $rid, "resource_id");
-                                $brend = new View("_content_brend", $proizvod->brand, "resource_id");
+                                $proizvod = new View("_content_products", $rid, "resource_id");
+                                $brend = new View("_content_brand", $proizvod->brand, "resource_id");
                                 echo "<td>";
                                 ?>
                         <a href="<?= $whatCatArr["c3_url"] . "/" . $whatCatArr["c4_url"] . "/" . $proizvod->url . "/" . $rid; ?>" title="<?= $brend->title . " " . $proizvod->title; ?>">
                             <h3><?= $brend->title . " " . $proizvod->title; ?></h3>
                         </a>
                         <?php
-                        if (is_file("uploads/uploaded_pictures/_content_proizvodi/$dimUrlLitSecund/$proizvod->product_image")) {
+                        if (is_file("uploads/uploaded_pictures/_content_products/$dimUrlLitSecund/$proizvod->product_image")) {
                             ?>
 
-                            <a data-fancybox-group="productTitle" href="/uploads/uploaded_pictures/_content_proizvodi/<?= $dimUrlLitBigs . "/" . $proizvod->product_image; ?>" title="<?= $brend->title . " " . $proizvod->title; ?>" class="fancybox">
-                                <img width="125" height="100" src='/uploads/uploaded_pictures/_content_proizvodi/<?= $dimUrlLitSecund . "/" . $proizvod->product_image; ?>' alt='$brend->title." ".$proizvod->title' />
+                            <a data-fancybox-group="productTitle" href="/uploads/uploaded_pictures/_content_products/<?= $dimUrlLitBigs . "/" . $proizvod->product_image; ?>" title="<?= $brend->title . " " . $proizvod->title; ?>" class="fancybox">
+                                <img width="125" height="100" src='/uploads/uploaded_pictures/_content_products/<?= $dimUrlLitSecund . "/" . $proizvod->product_image; ?>' alt='$brend->title." ".$proizvod->title' />
                             </a>
                             <?php
                         } else {
@@ -93,7 +92,7 @@ include_once ("head.php");
                         <a class="addCart" href="javascript:addToCart('<?= $proizvod->resource_id; ?>','1','<?= ($proizvod->master_price > 0) ? $proizvod->master_price : $proizvod->price; ?>')" title="Dodaj u korpu"><i class="fa fa-cart-plus"></i> Dodaj u korpu</a>
                         <h6>Šifra proizvoda: <?= $proizvod->product_code; ?></h6>
                         <h6>Brend: <?php
-                            $brandData = new View("_content_brend", $proizvod->brand, "resource_id");
+                            $brandData = new View("_content_brand", $proizvod->brand, "resource_id");
                             echo $brandData->title;
                             ?></h6>
                         <h6>Kategorija: <?php
@@ -107,13 +106,13 @@ include_once ("head.php");
                         <h6>Garancija: <?= $proizvod->warranty; ?></h6>
 
                         <?php
-                        $filterCompare = mysql_query("SELECT fv.title as value_title, fh.title as header_title FROM filter_values fv "
+                        $filterCompare = mysqli_query($conn,"SELECT fv.title as value_title, fh.title as header_title FROM filter_values fv "
                                 . " LEFT JOIN filter_joins fj ON fj.fv_id = fv.id "
                                 . " LEFT JOIN filter_headers fh ON fh.id = fj.fh_id "
-                                . " LEFT JOIN _content_proizvodi cp ON cp.resource_id = fj.product_rid "
-                                . " WHERE fj.product_rid = $proizvod->resource_id") or die(mysql_error());
+                                . " LEFT JOIN _content_products cp ON cp.resource_id = fj.product_rid "
+                                . " WHERE fj.product_rid = $proizvod->resource_id") or die(mysqli_error($conn));
 
-                        while ($compareFil = mysql_fetch_object($filterCompare)) {
+                        while ($compareFil = mysqli_fetch_object($filterCompare)) {
                             echo "<p>" . $compareFil->header_title . ": " . htmlspecialchars_decode($compareFil->value_title) . "</p>";
                         }
                         ?>

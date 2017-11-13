@@ -2,16 +2,16 @@
     <ul class="clear">
         <li>
             <?php
-            if (is_file("uploads/uploaded_pictures/_content_proizvodi/" . $dimUrlLitBigs . "/" . $proizvod->product_image)) {
+            if (is_file("uploads/uploaded_pictures/_content_products/" . $dimUrlLitBigs . "/" . $proizvod->product_image)) {
                 ?>
-                <a data-fancybox-group="productTitle" href="<?= '/uploads/uploaded_pictures/_content_proizvodi/' . $dimUrlLitBigs . "/" . $proizvod->product_image; ?>" title="<?= $proizvod->b_title . " " . $proizvod->title; ?>" class="fancybox">
-                    <img itemprop="image" class="transition" src="<?= '/uploads/uploaded_pictures/_content_proizvodi/' . $dimUrlLitSecund . "/" . $proizvod->product_image; ?>" alt="<?= $proizvod->title; ?>" title="<?= $proizvod->b_title . " " . $proizvod->title; ?>" />
+                <a data-fancybox-group="productTitle" href="<?= '/uploads/uploaded_pictures/_content_products/' . $dimUrlLitBigs . "/" . $proizvod->product_image; ?>" title="<?= $proizvod->b_title . " " . $proizvod->title; ?>" class="fancybox">
+                    <img itemprop="image" class="transition" src="<?= '/uploads/uploaded_pictures/_content_products/' . $dimUrlLitSecund . "/" . $proizvod->product_image; ?>" alt="<?= $proizvod->title; ?>" title="<?= $proizvod->b_title . " " . $proizvod->title; ?>" />
                     <span>Kliknite da uveličate sliku</span>
                 </a>
-            <?php } elseif (is_file("uploads/uploaded_pictures/_content_proizvodi/" . $dimUrlLitSecund . "/" . $proizvod->product_image)) {
+            <?php } elseif (is_file("uploads/uploaded_pictures/_content_products/" . $dimUrlLitSecund . "/" . $proizvod->product_image)) {
                 ?>
-                <a data-fancybox-group="productTitle" href="<?= '/uploads/uploaded_pictures/_content_proizvodi/' . $dimUrlLitSecund . "/" . $proizvod->product_image; ?>" title="<?= $proizvod->b_title . " " . $proizvod->title; ?>" class="fancybox">
-                    <img itemprop="image" class="transition" src="<?= '/uploads/uploaded_pictures/_content_proizvodi/' . $dimUrlLitSecund . "/" . $proizvod->product_image; ?>" alt="<?= $proizvod->title; ?>" title="<?= $proizvod->b_title . " " . $proizvod->title; ?>" />
+                <a data-fancybox-group="productTitle" href="<?= '/uploads/uploaded_pictures/_content_products/' . $dimUrlLitSecund . "/" . $proizvod->product_image; ?>" title="<?= $proizvod->b_title . " " . $proizvod->title; ?>" class="fancybox">
+                    <img itemprop="image" class="transition" src="<?= '/uploads/uploaded_pictures/_content_products/' . $dimUrlLitSecund . "/" . $proizvod->product_image; ?>" alt="<?= $proizvod->title; ?>" title="<?= $proizvod->b_title . " " . $proizvod->title; ?>" />
                     <span>Kliknite da uveličate sliku</span>
                 </a>
             <?php } else {
@@ -23,11 +23,11 @@
         <?php
         for ($i = 1; $i < 11; $i++) {
             $slika = "slika_" . $i;
-            if (is_file('uploads/uploaded_pictures/_content_proizvodi/' . $dimUrlLit . "/" . $proizvod->$slika)) {
+            if (is_file('uploads/uploaded_pictures/_content_products/' . $dimUrlLit . "/" . $proizvod->$slika)) {
                 ?>
                 <li>
-                    <a data-fancybox-group="productTitle" href="<?= '/uploads/uploaded_pictures/_content_proizvodi/' . $dimUrlLitBigs . "/" . $proizvod->$slika; ?>" title="<?= $proizvod->title; ?>" class="fancybox">
-                        <img class="transition" src="<?= '/uploads/uploaded_pictures/_content_proizvodi/' . $dimUrlLit . "/" . $proizvod->$slika; ?>" alt="<?= $proizvod->b_title . " " . $proizvod->title; ?> - Slika <?= $i; ?>" title="<?= $proizvod->b_title . " " . $proizvod->title; ?> - Slika <?= $i; ?>" />
+                    <a data-fancybox-group="productTitle" href="<?= '/uploads/uploaded_pictures/_content_products/' . $dimUrlLitBigs . "/" . $proizvod->$slika; ?>" title="<?= $proizvod->title; ?>" class="fancybox">
+                        <img class="transition" src="<?= '/uploads/uploaded_pictures/_content_products/' . $dimUrlLit . "/" . $proizvod->$slika; ?>" alt="<?= $proizvod->b_title . " " . $proizvod->title; ?> - Slika <?= $i; ?>" title="<?= $proizvod->b_title . " " . $proizvod->title; ?> - Slika <?= $i; ?>" />
                     </a>
                 </li>
                 <?php
@@ -44,11 +44,11 @@
     <span class="password">
         <figure>
             <?php
-            if (is_file("uploads/uploaded_pictures/_content_brend/140x60/" . $proizvod->b_logo)) {
+            if (is_file("uploads/uploaded_pictures/_content_brand/140x60/" . $proizvod->b_logo)) {
                 ?>
 
                 <a href="/robne-marke/<?= $proizvod->b_url; ?>">
-                    <img class="trueImage" src="/uploads/uploaded_pictures/_content_brend/140x60/<?= $proizvod->b_logo; ?>" alt="<?= $proizvod->b_title; ?>" title="<?= $proizvod->b_title; ?>">
+                    <img class="trueImage" src="/uploads/uploaded_pictures/_content_brand/140x60/<?= $proizvod->b_logo; ?>" alt="<?= $proizvod->b_title; ?>" title="<?= $proizvod->b_title; ?>">
                 </a>
             <?php } else { ?>
                 Brend proizvoda: <a href="/robne-marke/<?= $proizvod->b_url; ?>"><?= $proizvod->b_title; ?></strong></a>

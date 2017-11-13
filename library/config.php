@@ -5,6 +5,10 @@ session_start();
 
 include ("mysql.php");
 
+// Turn off all error reporting
+error_reporting(E_ERROR);
+ini_set('display_errors', 1);
+
 //Putanja za aplikaciju
 define("APP_PATH", "library/");
 define("MODULE_PATH", "../library/");
@@ -32,11 +36,17 @@ function __autoload($class_name) {
 
 //Kreiramo osnovne klase
 $db = new Database();
+$conn = $db->dbLink;
+
 $f = new Functions();
 $site = new Site();
 
 //utvrdjujemo koji je lang code, tj. na kom smo jezuku
-$lang_code = $f->getValue("lang_code");
+if (isset($lang_code)) {
+    $lang_code = $f->getValue("lang_code");
+} else {
+    $lang_code = "";
+}
 
 //Ako nema jezika onda cemo da iscitamo defaultni
 if ($lang_code == "") {
@@ -59,58 +69,67 @@ foreach ($langfile as $constant) {
 
 $HOST = $_SERVER['HTTP_HOST'];
 $REQUEST = $_SERVER['REQUEST_URI'];
-$SERVER_NAME = $_SERVER['SERVER_NAME'];
 
 //Citamo iz settings tabele sve za ovaj jezik
 $settings = new View("settings", $currentLanguage, "lang_id");
 
 //Vadimo sva podesavanja za jezik
-$configSiteTitle = $settings->site_title;
-$configSiteFooter = $settings->site_footer;
-$configSiteKeywords = $settings->site_keywords;
-$configSiteDescription = $settings->site_description;
-$configSiteEmail = $settings->site_email;
-$configSiteDomain = "http://" . $SERVER_NAME . "/";
-$configSitePhone = $settings->site_phone;
-$configSiteFacebook = $settings->site_facebook;
-$configSiteAccount = $settings->site_account;
-$configSiteFirm = $settings->site_firm;
-$configSiteTwitter = $settings->site_twitter;
-$configSiteLinkedIn = $settings->site_linkedin;
-$configSiteInstagram = $settings->site_instagram;
-$configSitePinterest = $settings->site_pinterest;
-$configSiteYouTube = $settings->site_youtube;
-$configSiteVimeo = $settings->site_vimeo;
-$configSiteAddress = $settings->site_address;
-$configSiteZip = $settings->site_zip;
-$configSiteCity = $settings->site_city;
-$configSiteCountry = $settings->site_country;
-$configSiteGooglePlus = $settings->site_google_plus;
-$configSiteKoordinate = $settings->site_koordinate;
-$configSiteGoogleMap = $settings->site_embed;
-$configSiteAnalyric = $settings->site_analytic;
-$configSiteVerification = $settings->site_verification;
-$configSiteShop = $settings->online_shop;
+$csTitle = $settings->site_title;
+$csFooter = $settings->site_footer;
+$csDesc = $settings->site_description;
+$csEmail = $settings->site_email;
+$csDomain = "https://" . $HOST . "/";
+$csPhone = $settings->site_phone;
+$csPhone2 = $settings->site_phone_2;
+$csFacebook = $settings->site_facebook;
+$csFacebookAppID = $settings->site_facebook_app_id;
+$csAccount = $settings->site_account;
+$csName = $settings->site_firm;
+$csTwitter = $settings->site_twitter;
+$csTwitterUsername = $settings->site_twitter_username;
+$csLinkedIn = $settings->site_linkedin;
+$csInstagram = $settings->site_instagram;
+$csPinterest = $settings->site_pinterest;
+$csYouTube = $settings->site_youtube;
+$csVimeo = $settings->site_vimeo;
+$csAddress = $settings->site_address;
+$csZip = $settings->site_zip;
+$csCity = $settings->site_city;
+$csCountry = $settings->site_country;
+$csGooglePlus = $settings->site_google_plus;
+$csCoordinates = $settings->site_koordinate;
+$csGoogleMap = $settings->site_embed;
+$csGAnalytic = $settings->site_analytic;
+$csVerification = $settings->site_verification;
+$csMailServer = $settings->site_outgoing_server;
+$csMailPort = $settings->site_smtp_port;
+$csMailUser = $settings->site_username;
+$csMailPassword = $settings->site_password;
+$csWorkingTime1 = $settings->site_working_time_1;
+$csWorkingTime2 = $settings->site_working_time_2;
+$csWorkingTime3 = $settings->site_working_time_3;
+$csGoogleMapKey = $settings->site_api_key;
+$csShop = $settings->online_shop;
 
-if ($configSiteShop == 1 && isset($_SESSION["loged_user"])) {
+if ($csShop == 1 && isset($_SESSION["loged_user"])) {
     $isLoged = true;
-    $userData = new View("_content_korisnici", $_SESSION["loged_user"]);
+    $userData = new View("_content_users", $_SESSION["loged_user"]);
 } else {
     $isLoged = false;
 }
 
 /*
-  $depthQuery = mysql_query("SELECT MAX(level) as max_level FROM categories WHERE status = 1 AND lang = $currentLanguage");
-  $depth = mysql_fetch_array($depthQuery);
+  $depthQuery = mysqli_query($conn,"SELECT MAX(level) as max_level FROM categories WHERE status = 1 AND lang = $currentLanguage");
+  $depth = mysqli_fetch_array($depthQuery);
   $depth = $depth[max_level];
  */
 
 $nizZelja = array();
-if ($configSiteShop == 1) {
+if ($csShop == 1) {
     if ($isLoged) {
         $idUsera = $userData->resource_id;
-        $list = mysql_query("SELECT * FROM list_zelja WHERE user_rid = $idUsera") or die(mysql_error());
-        while ($row = mysql_fetch_object($list)) {
+        $list = mysqli_query($conn, "SELECT * FROM list_zelja WHERE user_rid = $idUsera") or die(mysqli_error($conn));
+        while ($row = mysqli_fetch_object($list)) {
             array_push($nizZelja, $row->product_rid);
         }
     }
@@ -138,3 +157,6 @@ $singleCategories = $fancyboxJS = 0;
 
 $naslovna = false;
 $urlAKTIVE = $urlJe = $catMasterDataURL = $catMiddleDataURL = $cat_master_url = $lastletter = $tagCurrent = $ogType = $htmlTagAddOG = "";
+
+$allProductPrce = mysqli_query($conn, "SELECT MAX(price) as max_price, MIN(price) as min_price FROM _content_products WHERE status = 1 AND price > '2.00' ") or die(mysqli_error($conn));
+$allProductPrce = mysqli_fetch_object($allProductPrce);

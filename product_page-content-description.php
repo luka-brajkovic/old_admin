@@ -14,20 +14,20 @@
                     </td>
                     <td>
                         <?php if ($proizvod->old_price != '' && $proizvod->old_price != '0' && ($proizvod->old_price > $proizvod->price || $proizvod->old_price > $proizvod->master_price)) { ?> 
-                            <?= number_format($proizvod->old_price, 2, ",", "."); ?> rsd
+                            <?= number_format($proizvod->old_price, 0, ",", "."); ?> rsd
                         <?php } ?>
                         <span class="right">
-                            <strong class="bodovi">Broj bodova: <?= ($proizvod->master_price > 0) ? number_format($proizvod->master_price / 1000, 2, ",", ".") : number_format($proizvod->price / 1000, 2, ",", "."); ?></strong>
+                            <strong class="bodovi">Broj bodova: <?= ($proizvod->master_price > 0) ? number_format($proizvod->master_price / 1000, 0, ",", ".") : number_format($proizvod->price / 1000, 0, ",", "."); ?></strong>
                         </span>
                     </td>
                 </tr>
                 <tr class="newPrice" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                     <td>Aktuelna cena:</td>
                     <td class="posRel">
-                        <span><?= ($proizvod->master_price > 0) ? number_format($proizvod->master_price, 2, ",", ".") : number_format($proizvod->price, 2, ",", "."); ?></span> rsd
-                        <meta itemprop="price" content="<?= ($proizvod->master_price > 0) ? number_format($proizvod->master_price, 2, ".", "") : number_format($proizvod->price, 2, ".", ""); ?>">
+                        <span><?= ($proizvod->master_price > 0) ? number_format($proizvod->master_price, 0, ",", ".") : number_format($proizvod->price, 0, ",", "."); ?></span> rsd
+                        <meta itemprop="price" content="<?= ($proizvod->master_price > 0) ? number_format($proizvod->master_price, 0, ".", "") : number_format($proizvod->price, 0, ".", ""); ?>">
                         <meta itemprop="priceCurrency" content="RSD">
-                        <meta itemprop="url" content="<?= $configSiteDomain . $proizvod->master_cat_url . "/" . $proizvod->sub_cat_url . "/" . $url . "/" . $rid; ?>">
+                        <meta itemprop="url" content="<?= $csDomain . $proizvod->master_cat_url . "/" . $proizvod->sub_cat_url . "/" . $url . "/" . $rid; ?>">
                         <?php if ($proizvod->master_status == 'Active' && $proizvod->status != 1) { ?>
                             <meta itemprop="availability" content="http://schema.org/LimitedAvailability">
                         <?php } elseif ($proizvod->status != 1) { ?>
@@ -61,13 +61,13 @@
                 </tr>
                 <?php
                 if ($proizvod->gratis_id != "") {
-                    $gratis = mysql_query("SELECT cp.product_image, cp.resource_id, cp.title, cp.url, c.url as sub_url, c1.url as cat_url, cb.title as b_title FROM _content_proizvodi cp "
+                    $gratis = mysqli_query($conn,"SELECT cp.product_image, cp.resource_id, cp.title, cp.url, c.url as sub_url, c1.url as cat_url, cb.title as b_title FROM _content_products cp "
                             . " LEFT JOIN categories_content cc ON cc.content_resource_id = cp.resource_id "
                             . " LEFT JOIN categories c ON c.resource_id = cc.category_resource_id "
                             . " LEFT JOIN categories c1 ON c.parent_id = c1.resource_id "
-                            . " LEFT JOIN _content_brend cb ON cb.resource_id = cp.brand "
+                            . " LEFT JOIN _content_brand cb ON cb.resource_id = cp.brand "
                             . " WHERE cp.resource_id = $proizvod->gratis_id LIMIT 1");
-                    $gratis = mysql_fetch_object($gratis);
+                    $gratis = mysqli_fetch_object($gratis);
                     ?>
                     <tr class="forDinar">
                         <?php if ($proizvod->gratis_id_2 != "") { ?>
@@ -78,11 +78,11 @@
                         <td>
                             <a href="/<?= $gratis->sub_url . "/" . $gratis->cat_url . "/" . $gratis->url . "/" . $gratis->resource_id; ?>" title="<?= $gratis->b_title . " " . $gratis->title; ?>">
                                 <?php
-                                if (is_file("uploads/uploaded_pictures/_content_proizvodi/" . $dimUrlLit . "/" . $gratis->product_image)) {
+                                if (is_file("uploads/uploaded_pictures/_content_products/" . $dimUrlLit . "/" . $gratis->product_image)) {
                                 ?>
-                                    <img src="/uploads/uploaded_pictures/_content_proizvodi/<?= $dimUrlLit . "/" . $gratis->product_image; ?>" alt="<?= $gratis->b_title . " " . $gratis->title; ?>">
-                                <?php } elseif (is_file("uploads/uploaded_pictures/_content_proizvodi/" . $dimUrlLitSecund . "/" . $gratis->product_image)) { ?>
-                                    <img src="/uploads/uploaded_pictures/_content_proizvodi/<?= $dimUrlLitSecund . "/" . $gratis->product_image; ?>" alt="<?= $gratis->b_title . " " . $gratis->title; ?>">
+                                    <img src="/uploads/uploaded_pictures/_content_products/<?= $dimUrlLit . "/" . $gratis->product_image; ?>" alt="<?= $gratis->b_title . " " . $gratis->title; ?>">
+                                <?php } elseif (is_file("uploads/uploaded_pictures/_content_products/" . $dimUrlLitSecund . "/" . $gratis->product_image)) { ?>
+                                    <img src="/uploads/uploaded_pictures/_content_products/<?= $dimUrlLitSecund . "/" . $gratis->product_image; ?>" alt="<?= $gratis->b_title . " " . $gratis->title; ?>">
                                 <?php } ?>
                                 <?= $gratis->b_title . " " . $gratis->title; ?>
                             </a>
@@ -91,19 +91,19 @@
                 <?php
                 }
                 if ($proizvod->gratis_id_2 != "") {
-                    $gratis = mysql_query("SELECT cp.product_image, cp.resource_id, cp.title, cp.url, c.url as sub_url, c1.url as cat_url, cb.title as b_title FROM _content_proizvodi cp "
+                    $gratis = mysqli_query($conn,"SELECT cp.product_image, cp.resource_id, cp.title, cp.url, c.url as sub_url, c1.url as cat_url, cb.title as b_title FROM _content_products cp "
                             . " LEFT JOIN categories_content cc ON cc.content_resource_id = cp.resource_id "
                             . " LEFT JOIN categories c ON c.resource_id = cc.category_resource_id "
                             . " LEFT JOIN categories c1 ON c.parent_id = c1.resource_id "
-                            . " LEFT JOIN _content_brend cb ON cb.resource_id = cp.brand "
+                            . " LEFT JOIN _content_brand cb ON cb.resource_id = cp.brand "
                             . " WHERE cp.resource_id = $proizvod->gratis_id_2 LIMIT 1");
-                    $gratis = mysql_fetch_object($gratis);
+                    $gratis = mysqli_fetch_object($gratis);
                     ?>
                     <tr class="forDinar">
                         <td class="red">&nbsp;</td>
                         <td>
                             <a href="/<?= $gratis->sub_url . "/" . $gratis->cat_url . "/" . $gratis->url . "/" . $gratis->resource_id; ?>" title="<?= $gratis->b_title . " " . $gratis->title; ?>">
-                                <img src="/uploads/uploaded_pictures/_content_proizvodi/<?= $dimUrlLit . "/" . $gratis->product_image; ?>" alt="<?= $gratis->b_title . " " . $gratis->title; ?>">
+                                <img src="/uploads/uploaded_pictures/_content_products/<?= $dimUrlLit . "/" . $gratis->product_image; ?>" alt="<?= $gratis->b_title . " " . $gratis->title; ?>">
         <?= $gratis->b_title . " " . $gratis->title; ?>
                             </a>
                         </td>
@@ -112,7 +112,7 @@
             </tbody>
         </table>
     <?php } ?>
-<?php if ($configSiteShop == 1) { ?>
+<?php if ($csShop == 1) { ?>
         <table class="margin-vertical">
             <tbody>
                 <?php
@@ -142,8 +142,8 @@
                     ?>
                     <?php
                     $korisnik = $_SESSION['loged_user'];
-                    $numList = mysql_query("SELECT * FROM list_zelja WHERE user_rid = '$korisnik' AND product_rid = '$proizvod->resource_id'");
-                    $numList = mysql_num_rows($numList);
+                    $numList = mysqli_query($conn,"SELECT * FROM list_zelja WHERE user_rid = '$korisnik' AND product_rid = '$proizvod->resource_id'");
+                    $numList = mysqli_num_rows($numList);
                     ?>
                     <tr>
                         <td></td>
@@ -159,8 +159,8 @@
         </table>
     <?php } ?>
     <?php
-    $dostava = mysql_query("SELECT text FROM _content_html_blocks WHERE resource_id = '12499' LIMIT 1");
-    $dostava = mysql_fetch_object($dostava);
+    $dostava = mysqli_query($conn,"SELECT text FROM _content_html_blocks WHERE resource_id = '16' LIMIT 1");
+    $dostava = mysqli_fetch_object($dostava);
     echo str_replace("../..", "", $dostava->text);
     ?>
 </div>

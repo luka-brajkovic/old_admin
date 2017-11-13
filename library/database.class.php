@@ -7,33 +7,33 @@ class Database {
     public $dbLink;
 
     function __construct() {
-        $this->dbLink = mysql_connect(DB_HOST, DB_USER, DB_PASS) or die(mysql_error());
-        mysql_query("SET NAMES utf8 COLLATE utf8_general_ci", $this->dbLink);
-        mysql_select_db(DB_BASE, $this->dbLink) or die(mysql_error());
+        $this->dbLink = mysqli_connect(DB_HOST, DB_USER, DB_PASS) or die(mysqli_error($this->dbLink));
+        mysqli_query($this->dbLink, "SET NAMES utf8 COLLATE utf8_general_ci");
+        mysqli_select_db($this->dbLink, DB_BASE) or die(mysqli_error($this->dbLink));
     }
 
     function execQuery($SQL) {
 
-        $query = mysql_query($SQL, $this->dbLink) or die(mysql_error($this->dbLink));
+        $query = mysqli_query($this->dbLink, $SQL) or die(mysqli_error($this->dbLink));
         $this->lastUsedQuery = $query;
 
         if (substr($SQL, 0, 6) == "INSERT") {
-            $this->insertId = mysql_insert_id($this->dbLink);
+            $this->insertId = mysqli_insert_id($this->dbLink);
         }
 
         return $query;
     }
 
     function getValue($field, $table, $key, $value) {
-        $query = mysql_query("SELECT `$field` FROM `$table` WHERE `$key` = '$value'") or die(mysql_error($this->dbLink));
-        $row = mysql_fetch_array($query);
+        $query = mysqli_query($this->dbLink, "SELECT `$field` FROM `$table` WHERE `$key` = '$value'") or die(mysqli_error($this->dbLink));
+        $row = mysqli_fetch_array($query);
 
         return $row["$field"];
     }
 
     function getValue2($field, $table, $key, $value, $key1, $value1) {
-        $query = mysql_query("SELECT `$field` FROM `$table` WHERE `$key` = '$value' AND `$key1` = '$value1'") or die(mysql_error($this->dbLink));
-        $row = mysql_fetch_array($query);
+        $query = mysqli_query($this->dbLink, "SELECT `$field` FROM `$table` WHERE `$key` = '$value' AND `$key1` = '$value1'") or die(mysqli_error($this->dbLink));
+        $row = mysqli_fetch_array($query);
 
         return $row["$field"];
     }
@@ -41,11 +41,15 @@ class Database {
     function numRows($SQL) {
         $query = $this->execQuery($SQL);
 
-        return mysql_num_rows($query);
+        return mysqli_num_rows($query);
     }
 
     function databaseDiscontect() {
-        mysql_close($this->dbLink);
+        mysqli_close($this->dbLink);
+    }
+    
+    public function __destruct() {
+        $this->databaseDiscontect();
     }
 
 }

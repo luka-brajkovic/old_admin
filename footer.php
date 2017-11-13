@@ -19,13 +19,13 @@
                         <h5>Proizvodi koje ste gledali: </h5>
                         <div class="productListIndex row">
                             <?php
-                            $gledano = mysql_query("SELECT cp.*, b.title as b_title, c.url as master_cat_url, c1.url as sub_cat_url FROM _content_proizvodi cp "
-                                    . " LEFT JOIN _content_brend b ON b.resource_id = cp.brand "
+                            $gledano = mysqli_query($conn, "SELECT cp.*, b.title as b_title, c.url as master_cat_url, c1.url as sub_cat_url FROM _content_products cp "
+                                    . " LEFT JOIN _content_brand b ON b.resource_id = cp.brand "
                                     . " LEFT JOIN categories_content cc ON cp.resource_id = cc.content_resource_id "
                                     . " LEFT JOIN categories c1 ON c1.resource_id = cc.category_resource_id "
                                     . " LEFT JOIN categories c ON c.resource_id = c1.parent_id "
                                     . " WHERE (cp.status = 1 OR cp.master_status = 'Active') AND cp.resource_id IN (" . rtrim($ocisceniRidovi, ",") . ") ");
-                            while ($item = mysql_fetch_object($gledano)) {
+                            while ($item = mysqli_fetch_object($gledano)) {
                                 include ("little_product-search.php");
                             }
                             ?>
@@ -41,11 +41,11 @@
         <div class="container">
             <div class="footerContHolder row">
                 <div class="quarter left">
-                    <h4>Podrška</h4>
+                    <h4>Kupovina</h4>
                     <ul>
                         <?php
-                        $topMenu = mysql_query("SELECT url, title FROM menu_items WHERE menu_id = 6 ORDER BY ordering");
-                        while ($menItem = mysql_fetch_object($topMenu)) {
+                        $topMenu = mysqli_query($conn, "SELECT url, title FROM menu_items WHERE menu_id = 3 ORDER BY ordering");
+                        while ($menItem = mysqli_fetch_object($topMenu)) {
                             ?>
                             <li>
                                 <i class="fa fa-circle"></i>
@@ -57,25 +57,11 @@
                     </ul>
                 </div>
                 <div class="quarter left">
-                    <h4>Korisnik</h4>
+                    <h4>Korisnički nalog</h4>
                     <ul>
                         <?php
-                        $topMenu = mysql_query("SELECT url, title FROM menu_items WHERE menu_id = 7 ORDER BY ordering");
-                        while ($menItem = mysql_fetch_object($topMenu)) {
-                            ?>
-                            <li>
-                                <i class="fa fa-circle"></i>
-                                <a href="<?= $menItem->url; ?>" title="<?= $menItem->title; ?>"><?= $menItem->title; ?></a>
-                            </li> 
-                            <?php
-                        }
-                        ?>
-                    </ul>
-                    <h4>Dokumentacija</h4>
-                    <ul>
-                        <?php
-                        $topMenu = mysql_query("SELECT * FROM menu_items WHERE menu_id = 11 ORDER BY ordering");
-                        while ($menItem = mysql_fetch_object($topMenu)) {
+                        $topMenu = mysqli_query($conn, "SELECT url, title FROM menu_items WHERE menu_id = 2 ORDER BY ordering");
+                        while ($menItem = mysqli_fetch_object($topMenu)) {
                             ?>
                             <li>
                                 <i class="fa fa-circle"></i>
@@ -87,100 +73,86 @@
                     </ul>
                 </div>
                 <div class="quarter left">
-
-                    <h4>Ostalo</h4>
-                    <ul>
-                        <?php
-                        $topMenu = mysql_query("SELECT url, title FROM menu_items WHERE menu_id = 10 ORDER BY ordering");
-                        while ($menItem = mysql_fetch_object($topMenu)) {
-                            ?>
-                            <li>
-                                <i class="fa fa-circle"></i>
-                                <a href="<?= $menItem->url; ?>" title="<?= $menItem->title; ?>"><?= $menItem->title; ?></a>
-                            </li> 
-                            <?php
-                        }
-                        ?>
-                    </ul>
                     <h4>Pratite nas</h4>
                     <ul itemscope itemtype="http://schema.org/Organization">
-                        <link itemprop="url" content="<?= rtrim($configSiteDomain, "/"); ?>">
+                        <link itemprop="url" content="<?= rtrim($csDomain, "/"); ?>">
                         <?php
-                        if ($configSiteFacebook != "") {
+                        if ($csFacebook != "") {
                             ?>
                             <li>
                                 <i class="fa fa-circle"></i>
-                                <a href="<?= $configSiteFacebook; ?>" target="_blank" title="Facebook stranica <?= $configSiteFirm; ?>">Facebook</a>
+                                <a href="<?= $csFacebook; ?>" target="_blank" title="Facebook stranica <?= $csName; ?>">Facebook</a>
                             </li>
                             <?php
                         }
-                        if ($configSiteGooglePlus != "") {
+                        if ($csGooglePlus != "") {
                             ?>
                             <li>
                                 <i class="fa fa-circle"></i>
-                                <a href="<?= $configSiteGooglePlus; ?>" title="Google Plus stranica <?= $configSiteFirm; ?>" target="_blank">Google Plus</a>
+                                <a href="<?= $csGooglePlus; ?>" title="Google Plus stranica <?= $csName; ?>" target="_blank">Google Plus</a>
                             </li>
                             <?php
                         }
-                        if ($configSiteTwitter != "") {
+                        if ($csTwitter != "") {
                             ?>
                             <li>
                                 <i class="fa fa-circle"></i>
-                                <a href="<?= $configSiteTwitter; ?>" title="Twitter stranica <?= $configSiteFirm; ?>" target="_blank">Twitter</a>
+                                <a href="<?= $csTwitter; ?>" title="Twitter stranica <?= $csName; ?>" target="_blank">Twitter</a>
                             </li>
                             <?php
                         }
-                        if ($configSiteLinkedIn != "") {
+                        if ($csLinkedIn != "") {
                             ?>
                             <li>
                                 <i class="fa fa-circle"></i>
-                                <a href="<?= $configSiteLinkedIn; ?>" title="LinkedIn stranica <?= $configSiteFirm; ?>" target="_blank">LinkedIn</a>
+                                <a href="<?= $csLinkedIn; ?>" title="LinkedIn stranica <?= $csName; ?>" target="_blank">LinkedIn</a>
                             </li>
                             <?php
                         }
-                        if ($configSiteYouTube != "") {
+                        if ($csYouTube != "") {
                             ?>
                             <li>
                                 <i class="fa fa-circle"></i>
-                                <a href="<?= $configSiteYouTube; ?>" title="You Tube stranica <?= $configSiteFirm; ?>" target="_blank">You Tube</a>
+                                <a href="<?= $csYouTube; ?>" title="You Tube stranica <?= $csName; ?>" target="_blank">You Tube</a>
                             </li>
                             <?php
                         }
-                        if ($configSiteVimeo != "") {
+                        if ($csVimeo != "") {
                             ?>
                             <li>
                                 <i class="fa fa-circle"></i>
-                                <a class="vimeo" href="<?= $configSiteVimeo; ?>" title="Vimeo stranica <?= $configSiteFirm; ?>" target="_blank">Vimeo</a>
+                                <a class="vimeo" href="<?= $csVimeo; ?>" title="Vimeo stranica <?= $csName; ?>" target="_blank">Vimeo</a>
                             </li>
                             <?php
                         }
-                        if ($configSiteInstagram != "") {
+                        if ($csInstagram != "") {
                             ?>
                             <li>
                                 <i class="fa fa-circle"></i>
-                                <a class="instagram" href="<?= $configSiteInstagram; ?>" title="Instagram stranica <?= $configSiteFirm; ?>" target="_blank">Instagram</a>
+                                <a class="instagram" href="<?= $csInstagram; ?>" title="Instagram stranica <?= $csName; ?>" target="_blank">Instagram</a>
                             </li>
                             <?php
                         }
-                        if ($configSitePinterest != "") {
+                        if ($csPinterest != "") {
                             ?>
                             <li>
                                 <i class="fa fa-circle"></i>
-                                <a class="pinterest" href="<?= $configSitePinterest; ?>" title="Pinterest stranica <?= $configSiteFirm; ?>" target="_blank">Pinterest</a>
+                                <a class="pinterest" href="<?= $csPinterest; ?>" title="Pinterest stranica <?= $csName; ?>" target="_blank">Pinterest</a>
                             </li>
                         <?php } ?>
                     </ul>
                 </div>
                 <div class="quarter left">
                     <h4>Kontakt</h4>
-                    <ul>
+                    <p><?= $csAddress; ?><br><?= $csZip . " " . $csCity . " - " . $csCountry; ?></p>
+                    <p><a href="tel:<?= $csPhone; ?>"><?= $csPhone; ?></a>
                         <?php
-                        $kontaktFooter = mysql_query("SELECT text FROM _content_html_blocks WHERE resource_id = 8922 LIMIT 1");
-                        $kontaktFooter = mysql_fetch_object($kontaktFooter);
-                        echo $kontaktFooter->text
-                        ?>
-
-                    </ul>
+                        if ($csPhone2 != "") {
+                            ?>
+                        <br><a href="tel:<?= $csPhone2; ?>"><?= $csPhone2; ?></a>
+                        <?php } ?>
+                    </p>
+                    <p><a href="mailto:<?= $csEmail; ?>"><?= $csEmail; ?></a></p>
                 </div>
             </div>
 
@@ -203,11 +175,11 @@
                 if (isset($_SESSION["compare"])) {
 
                     if (count($_SESSION["compare"]) > 0 || !empty($_SESSION["compare"])) {
-                        $colProdsArr = mysql_query("SELECT cp.resource_id, cp.title, cb.title as b_title FROM _content_proizvodi cp "
-                                . " LEFT JOIN _content_brend cb ON cb.resource_id = cp.brand "
-                                . " WHERE cp.status = 1 AND cp.resource_id IN (" . implode(',', $_SESSION['compare']) . ")") or die(mysql_error());
-                        if (mysql_num_rows($colProdsArr) > 0) {
-                            while ($item = mysql_fetch_object($colProdsArr)) {
+                        $colProdsArr = mysqli_query($conn, "SELECT cp.resource_id, cp.title, cb.title as b_title FROM _content_products cp "
+                                . " LEFT JOIN _content_brand cb ON cb.resource_id = cp.brand "
+                                . " WHERE cp.status = 1 AND cp.resource_id IN (" . implode(',', $_SESSION['compare']) . ")") or die(mysqli_error($conn));
+                        if (mysqli_num_rows($colProdsArr) > 0) {
+                            while ($item = mysqli_fetch_object($colProdsArr)) {
                                 ?>
                                 <a title="<?= $item->title; ?>" href="javascript:"><?= substr($item->b_title . " " . $item->title, 0, 55); ?><span data-rid='<?= $item->resource_id; ?>'>x</span></a> 
                                 <?php
@@ -297,10 +269,10 @@ include 'js/iss.php';
     var widthScreen = $(window).width();
     widthScreen < 768 ? ($(".categoriesList").attr("class", "categoriesListRes"), $(".clear.right.quarter-x3.masterMenu.clear").attr("class", "resMenu"), $(".resMenu").click(function () {
         var a = $(".resMenu ul").css("display");
-        "none" === a ? ($(".resMenu i.little").attr("class","fa fa-times little"), $(".resMenu ul").slideDown("fast")) : ($(".resMenu i.little").attr("class","fa fa-bars little"), $(".resMenu ul").slideUp("fast"))
+        "none" === a ? ($(".resMenu i.little").attr("class", "fa fa-times little"), $(".resMenu ul").slideDown("fast")) : ($(".resMenu i.little").attr("class", "fa fa-bars little"), $(".resMenu ul").slideUp("fast"))
     }), $(".quarter.left.masterMenuProizvodi").attr("class", "resMenuProizvodi"), $(".resMenuProizvodi").click(function () {
         var a = $(".categoriesListRes").css("display");
-        "none" === a ? ($(".resMenuProizvodi strong i.little").attr("class","fa fa-times little"), $(".categoriesListRes").slideDown("fast")) : ($(".resMenuProizvodi strong i.little").attr("class","fa fa-bars little"), $(".categoriesListRes").slideUp("fast"))
+        "none" === a ? ($(".resMenuProizvodi strong i.little").attr("class", "fa fa-times little"), $(".categoriesListRes").slideDown("fast")) : ($(".resMenuProizvodi strong i.little").attr("class", "fa fa-bars little"), $(".categoriesListRes").slideUp("fast"))
     })) : ($(".productPopUp").click(function () {
         var a = $(".productCats .categoriesList").css("display");
         "none" === a ? $(".productCats .categoriesList").slideDown("fast") : $(".productCats .categoriesList").slideUp("fast")
@@ -319,8 +291,8 @@ include 'js/iss.php';
     $(window).resize(function () {
         var a = $(window).width();
         a < 768 ? ($(".categoriesList").attr("class", "categoriesListRes"), $(".clear.right.quarter-x3.masterMenu.clear").attr("class", "resMenu"), $(".quarter.left.masterMenuProizvodi").attr("class", "resMenuProizvodi")) : ($(".productPopUp").click(function () {
-            var a = $(".productCats .categoriesList").css("display");            
-        "none" === a ? ($(".resMenu i.little").attr("class","fa fa-times little"), $(".resMenu ul").slideDown("fast")) : ($(".resMenu i.little").attr("class","fa fa-bars little"), $(".resMenu ul").slideUp("fast"))            
+            var a = $(".productCats .categoriesList").css("display");
+            "none" === a ? ($(".resMenu i.little").attr("class", "fa fa-times little"), $(".resMenu ul").slideDown("fast")) : ($(".resMenu i.little").attr("class", "fa fa-bars little"), $(".resMenu ul").slideUp("fast"))
         }), $(".categoriesListRes").attr("class", "list categoriesList quarterMarginMasterR"), $(".resMenuProizvodi").attr("class", "quarter left masterMenuProizvodi"), $(".resMenu").attr("class", "clear right quarter-x3 masterMenu clear"), $(window).load(function () {
             var a = Math.max.apply(null, $(".drziOpis h4").map(function () {
                 return $(this).height()
@@ -329,3 +301,8 @@ include 'js/iss.php';
         }))
     });
 </script>
+<?php
+if ($csGAnalytic != "" && strpos($csDomain, "wds.in.rs") === FALSE) {
+    include ("google-analytics.php");
+}
+?>

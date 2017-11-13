@@ -1,0 +1,60 @@
+[04-Nov-2017 21:55:40 UTC] PHP Notice:  Undefined index: admin_info in /home/wdsinrs/public_html/admin/admin/library/config.php on line 5
+[04-Nov-2017 21:55:40 UTC] PHP Notice:  Undefined index: admin_lang in /home/wdsinrs/public_html/admin/admin/library/config.php on line 45
+[04-Nov-2017 21:55:40 UTC] PHP Notice:  Undefined property: View::$site_keywords in /home/wdsinrs/public_html/admin/admin/library/config.php on line 58
+[04-Nov-2017 21:55:40 UTC] PHP Notice:  Undefined index: loged_admin in /home/wdsinrs/public_html/admin/admin/library/functions.class.php on line 99
+[04-Nov-2017 21:55:41 UTC] PHP Notice:  Undefined index: admin_info in /home/wdsinrs/public_html/admin/admin/library/config.php on line 5
+[04-Nov-2017 21:55:41 UTC] PHP Notice:  Undefined property: View::$site_keywords in /home/wdsinrs/public_html/admin/admin/library/config.php on line 58
+[04-Nov-2017 21:55:41 UTC] PHP Notice:  Undefined index: action in /home/wdsinrs/public_html/admin/admin/library/functions.class.php on line 351
+[04-Nov-2017 21:55:41 UTC] PHP Notice:  Undefined index: infomsg in /home/wdsinrs/public_html/admin/admin/library/functions.class.php on line 351
+[04-Nov-2017 21:55:52 UTC] PHP Notice:  Undefined index: admin_info in /home/wdsinrs/public_html/admin/admin/library/config.php on line 5
+[04-Nov-2017 21:55:52 UTC] PHP Notice:  Undefined property: View::$site_keywords in /home/wdsinrs/public_html/admin/admin/library/config.php on line 58
+[04-Nov-2017 21:55:52 UTC] PHP Notice:  Undefined variable: redirect in /home/wdsinrs/public_html/admin/admin/work.php on line 35
+[04-Nov-2017 21:55:53 UTC] PHP Notice:  Undefined property: View::$site_keywords in /home/wdsinrs/public_html/admin/admin/library/config.php on line 58
+[04-Nov-2017 21:56:06 UTC] PHP Notice:  Undefined property: View::$site_keywords in /home/wdsinrs/public_html/admin/admin/library/config.php on line 58
+[06-Nov-2017 08:37:50 UTC] PHP Notice:  Undefined index: admin_info in /home/wdsinrs/public_html/admin/admin/library/config.php on line 5
+[06-Nov-2017 08:37:50 UTC] PHP Notice:  Undefined index: admin_lang in /home/wdsinrs/public_html/admin/admin/library/config.php on line 45
+[06-Nov-2017 08:37:50 UTC] PHP Notice:  Undefined index: loged_admin in /home/wdsinrs/public_html/admin/admin/library/functions.class.php on line 99
+[06-Nov-2017 08:37:51 UTC] PHP Notice:  Undefined index: admin_info in /home/wdsinrs/public_html/admin/admin/library/config.php on line 5
+[06-Nov-2017 08:37:51 UTC] PHP Notice:  Undefined index: action in /home/wdsinrs/public_html/admin/admin/library/functions.class.php on line 351
+[06-Nov-2017 08:37:51 UTC] PHP Notice:  Undefined index: infomsg in /home/wdsinrs/public_html/admin/admin/library/functions.class.php on line 351
+[06-Nov-2017 08:37:54 UTC] PHP Notice:  Undefined index: admin_info in /home/wdsinrs/public_html/admin/admin/library/config.php on line 5
+[06-Nov-2017 08:37:54 UTC] PHP Notice:  Undefined variable: redirect in /home/wdsinrs/public_html/admin/admin/work.php on line 35
+[07-Nov-2017 14:41:09 UTC] PHP Notice:  Undefined index: admin_info in /home/wdsinrs/public_html/admin/admin/library/config.php on line 5
+[07-Nov-2017 14:41:09 UTC] PHP Notice:  Undefined index: admin_lang in /home/wdsinrs/public_html/admin/admin/library/config.php on line 45
+[07-Nov-2017 14:41:09 UTC] PHP Notice:  Undefined index: loged_admin in /home/wdsinrs/public_html/admin/admin/library/functions.class.php on line 99
+[07-Nov-2017 14:41:09 UTC] PHP Notice:  Undefined index: admin_info in /home/wdsinrs/public_html/admin/admin/library/config.php on line 5
+[07-Nov-2017 14:41:09 UTC] PHP Notice:  Undefined index: action in /home/wdsinrs/public_html/admin/admin/library/functions.class.php on line 351
+[07-Nov-2017 14:41:09 UTC] PHP Notice:  Undefined index: infomsg in /home/wdsinrs/public_html/admin/admin/library/functions.class.php on line 351
+[07-Nov-2017 14:41:29 UTC] PHP Notice:  Undefined index: admin_info in /home/wdsinrs/public_html/admin/admin/library/config.php on line 5
+[07-Nov-2017 14:41:29 UTC] PHP Notice:  Undefined index: action in /home/wdsinrs/public_html/admin/admin/library/functions.class.php on line 351
+[07-Nov-2017 14:41:29 UTC] PHP Notice:  Undefined index: infomsg in /home/wdsinrs/public_html/admin/admin/library/functions.class.php on line 351
+[08-Nov-2017 11:52:00 UTC] PHP Notice:  Undefined index: admin_info in /home/wdsinrs/public_html/admin/admin/library/config.php on line 8
+[08-Nov-2017 11:52:00 UTC] PHP Warning:  mysqli_real_escape_string() expects exactly 2 parameters, 1 given in /home/wdsinrs/public_html/admin/admin/library/functions.class.php on line 12
+[08-Nov-2017 11:52:37 UTC] PHP Notice:  Undefined index: admin_info in /home/wdsinrs/public_html/admin/admin/library/config.php on line 8
+[08-Nov-2017 11:52:37 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, string given in /home/wdsinrs/public_html/admin/admin/library/functions.class.php on line 12
+[08-Nov-2017 11:52:44 UTC] PHP Notice:  Undefined index: admin_info in /home/wdsinrs/public_html/admin/admin/library/config.php on line 8
+[08-Nov-2017 11:52:44 UTC] PHP Notice:  Undefined variable: redirect in /home/wdsinrs/public_html/admin/admin/work.php on line 35
+[08-Nov-2017 11:52:45 UTC] PHP Notice:  Undefined variable: conn in /home/wdsinrs/public_html/admin/admin/header.php on line 19
+[08-Nov-2017 11:52:45 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, null given in /home/wdsinrs/public_html/admin/admin/header.php on line 19
+[08-Nov-2017 11:52:45 UTC] PHP Notice:  Undefined variable: conn in /home/wdsinrs/public_html/admin/admin/header.php on line 19
+[08-Nov-2017 11:52:45 UTC] PHP Warning:  mysqli_error() expects parameter 1 to be mysqli, null given in /home/wdsinrs/public_html/admin/admin/header.php on line 19
+[08-Nov-2017 11:55:43 UTC] PHP Notice:  Undefined variable: conn in /home/wdsinrs/public_html/admin/admin/header.php on line 19
+[08-Nov-2017 11:55:43 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, null given in /home/wdsinrs/public_html/admin/admin/header.php on line 19
+[08-Nov-2017 11:55:43 UTC] PHP Notice:  Undefined variable: conn in /home/wdsinrs/public_html/admin/admin/header.php on line 19
+[08-Nov-2017 11:55:43 UTC] PHP Warning:  mysqli_error() expects parameter 1 to be mysqli, null given in /home/wdsinrs/public_html/admin/admin/header.php on line 19
+[08-Nov-2017 11:56:16 UTC] PHP Fatal error:  Using $this when not in object context in /home/wdsinrs/public_html/admin/admin/library/config.php on line 46
+[08-Nov-2017 11:56:16 UTC] PHP Fatal error:  Using $this when not in object context in /home/wdsinrs/public_html/admin/admin/library/config.php on line 46
+[08-Nov-2017 11:58:35 UTC] PHP Notice:  Undefined index: lang_code in /home/wdsinrs/public_html/admin/admin/library/functions.class.php on line 351
+[08-Nov-2017 11:58:35 UTC] PHP Warning:  simplexml_load_file() [<a href='function.simplexml-load-file'>function.simplexml-load-file</a>]: I/O warning : failed to load external entity &quot;library/languages/sr.xml&quot; in /home/wdsinrs/public_html/admin/library/config.php on line 58
+[08-Nov-2017 11:58:35 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/wdsinrs/public_html/admin/library/config.php on line 60
+[08-Nov-2017 11:58:35 UTC] PHP Notice:  Use of undefined constant ADMIN_TITLE - assumed 'ADMIN_TITLE' in /home/wdsinrs/public_html/admin/admin/newsletter.php on line 10
+[08-Nov-2017 11:58:35 UTC] PHP Notice:  Undefined index: specemail in /home/wdsinrs/public_html/admin/admin/newsletter.php on line 28
+[08-Nov-2017 11:58:35 UTC] PHP Notice:  Undefined index: okinut in /home/wdsinrs/public_html/admin/admin/newsletter.php on line 29
+[08-Nov-2017 11:58:35 UTC] PHP Notice:  Undefined index: poruka in /home/wdsinrs/public_html/admin/admin/newsletter.php on line 30
+[08-Nov-2017 11:58:35 UTC] PHP Notice:  Undefined index: pocetniLimit in /home/wdsinrs/public_html/admin/admin/newsletter.php on line 31
+[08-Nov-2017 11:58:35 UTC] PHP Notice:  Undefined index: krajnjiLimit in /home/wdsinrs/public_html/admin/admin/newsletter.php on line 32
+[08-Nov-2017 11:58:35 UTC] PHP Notice:  Undefined variable: addQ in /home/wdsinrs/public_html/admin/admin/newsletter.php on line 37
+[08-Nov-2017 11:58:35 UTC] PHP Notice:  Undefined offset: 0 in /home/wdsinrs/public_html/admin/admin/newsletter.php on line 38
+[08-Nov-2017 11:58:35 UTC] PHP Notice:  Trying to get property of non-object in /home/wdsinrs/public_html/admin/admin/newsletter.php on line 41
+[08-Nov-2017 11:58:35 UTC] PHP Notice:  Trying to get property of non-object in /home/wdsinrs/public_html/admin/admin/newsletter.php on line 44
+[08-Nov-2017 11:58:35 UTC] PHP Notice:  Trying to get property of non-object in /home/wdsinrs/public_html/admin/admin/newsletter.php on line 45

@@ -9,10 +9,11 @@
                         <span>Vi ste ovde:</span>
                     </li>
                     <li property="itemListElement" typeof="ListItem">
-                        <a href="<?= rtrim($configSiteDomain, "/"); ?>" title="<?= $configSiteTitle; ?>" property="item" typeof="WebPage">
-                            <span property="name">Početna</span>
-                            <meta property="position" content="1">
+                        <a href="/" title="<?= $csTitle; ?>" property="item" typeof="WebPage">
+                            <span>Početna</span>
+                            
                         </a>
+                        <meta property="position" content="1">
                     </li> 
                     <li property="itemListElement" typeof="ListItem">
                         <a href="/proizvodi-na-akciji" property="item" typeof="WebPage">
@@ -23,8 +24,8 @@
                 </ol>
                 <div class="akcPag paginacija right">
                     <?php
-                    $holeQuery = "SELECT cp.*, b.title as b_title, c.url as master_cat_url, c1.url as sub_cat_url FROM _content_proizvodi cp "
-                            . " LEFT JOIN _content_brend b ON b.resource_id = cp.brand "
+                    $holeQuery = "SELECT cp.*, b.title as b_title, c.url as master_cat_url, c1.url as sub_cat_url FROM _content_products cp "
+                            . " LEFT JOIN _content_brand b ON b.resource_id = cp.brand "
                             . " LEFT JOIN categories_content cc ON cp.resource_id = cc.content_resource_id "
                             . " LEFT JOIN categories c1 ON c1.resource_id = cc.category_resource_id "
                             . " LEFT JOIN categories c ON c.resource_id = c1.parent_id "
@@ -42,7 +43,7 @@
                     $orderSql = " ORDER BY cp.ordering ASC ";
 
                     $holeQuery .= $orderSql . $limitSql;
-                    $preporukaQuery = mysql_query($holeQuery) or die(mysql_error());
+                    $preporukaQuery = mysqli_query($conn,$holeQuery) or die(mysqli_error($conn));
 
                     for ($i = 1; $i <= $brojStrana; $i++) {
                         if ($brojStrana > 1) {
@@ -63,15 +64,15 @@
                         <input type="hidden" name="cat_master" value="proizvodi-na-akciji">
                         <select name="choosecat" onchange="this.form.submit()">
                             <?php
-                            $proizvodi_na_akciji = mysql_query("SELECT cp.*,c1.title as cat_title,c1.resource_id as cat_rid FROM _content_proizvodi cp"
+                            $proizvodi_na_akciji = mysqli_query($conn,"SELECT cp.*,c1.title as cat_title,c1.resource_id as cat_rid FROM _content_products cp"
                                     . " LEFT JOIN categories_content cc ON cp.resource_id = cc.content_resource_id "
                                     . " LEFT JOIN categories c2 ON cc.category_resource_id = c2.resource_id "
                                     . " LEFT JOIN categories c1 ON c2.parent_id = c1.resource_id "
-                                    . " WHERE cp.status = 1 AND (cp.akcija = 'Da' OR cp.price < cp.old_price OR cp.master_price < cp.old_price) GROUP BY (c1.resource_id) ORDER BY c1.ordering ") or die(mysql_error());
+                                    . " WHERE cp.status = 1 AND (cp.akcija = 'Da' OR cp.price < cp.old_price OR cp.master_price < cp.old_price) GROUP BY (c1.resource_id) ORDER BY c1.ordering ") or die(mysqli_error($conn));
                             ?>
                             <option value="">Sve kategorije</option>
                             <?php
-                            while ($itemAkcija = mysql_fetch_object($proizvodi_na_akciji)) {
+                            while ($itemAkcija = mysqli_fetch_object($proizvodi_na_akciji)) {
                                 ?>
                                 <option value="<?= $itemAkcija->cat_rid; ?>" <?= ($getKategoriju == $itemAkcija->cat_rid) ? "selected" : ""; ?>><?= $itemAkcija->cat_title; ?></option>
                                 <?php
@@ -86,7 +87,7 @@
                 <div id="akcija_custom" class="productHolder">
                     <div class="productListIndex row">
                         <?php
-                        while ($item = mysql_fetch_object($preporukaQuery)) {
+                        while ($item = mysqli_fetch_object($preporukaQuery)) {
                             include ("little_product.php");
                         }
                         ?>        
@@ -123,24 +124,23 @@
                         <span>Vi ste ovde:</span>
                     </li>
                     <li property="itemListElement" typeof="ListItem">
-                        <a href="<?= rtrim($configSiteDomain, "/"); ?>" title="<?= $configSiteTitle; ?>" property="item" typeof="WebPage">
-                            <span property="name">Početna</span>
-                            <meta property="position" content="1">
+                        <a href="/" title="<?= $csTitle; ?>" property="item" typeof="WebPage">
+                            <span>Početna</span>
+                            
                         </a>
+                        <meta property="position" content="1">
                     </li> 
                     <?php if ($cat_master_url == "proizvodi-na-akciji") { ?>
-                        <li property="itemListElement" typeof="ListItem">
-                            <a href="/proizvodi-na-akciji" property="item" typeof="WebPage">
-                                <span property="name">Proizvodi na akciji</span>
-                                <meta property="position" content="2">
+                        <li>
+                            <a href="/proizvodi-na-akciji">
+                                <span>Proizvodi na akciji</span>
                             </a>
                         </li>
                     <?php } else {
                         ?>
-                        <li property="itemListElement" typeof="ListItem">
-                            <a href="/<?= $catMasterData->url; ?>" property="item" typeof="WebPage">
-                                <span property="name"><?= $catMasterData->title; ?></span>
-                                <meta property="position" content="2">
+                        <li>
+                            <a href="/<?= $catMasterData->url; ?>">
+                                <span><?= $catMasterData->title; ?></span>
                             </a>
                         </li>
                     <?php }
@@ -148,21 +148,21 @@
                 </ol>
                 <div class="catProductAll">
                     <?php
-                    $subCatAll = mysql_query("SELECT title, url, resource_id FROM categories WHERE parent_id = '$catMasterData->resource_id' AND status = 1 ORDER BY ordering") or die(mysql_error());
-                    if (mysql_num_rows($subCatAll) > 0) {
+                    $subCatAll = mysqli_query($conn,"SELECT title, url, resource_id FROM categories WHERE parent_id = '$catMasterData->resource_id' AND status = 1 ORDER BY ordering") or die(mysqli_error($conn));
+                    if (mysqli_num_rows($subCatAll) > 0) {
                         ?>
                         <h1><?= $catMasterData->title; ?> - podkategorije</h1>
 
                         <div class="catHolder row">
                             <?php
-                            while ($subCat = mysql_fetch_object($subCatAll)) {
+                            while ($subCat = mysqli_fetch_object($subCatAll)) {
 
-                                $checkLast = mysql_query("SELECT c3.resource_id as last_cat_rid FROM categories c3 "
+                                $checkLast = mysqli_query($conn,"SELECT c3.resource_id as last_cat_rid FROM categories c3 "
                                         . " LEFT JOIN categories_content cc ON c3.resource_id = cc.category_resource_id "
-                                        . " LEFT JOIN _content_proizvodi cp ON cp.resource_id = cc.content_resource_id "
+                                        . " LEFT JOIN _content_products cp ON cp.resource_id = cc.content_resource_id "
                                         . " LEFT JOIN categories c2 ON c2.resource_id = c3.parent_id "
-                                        . " WHERE (cp.status = 1 OR cp.master_status = 'Active') AND c2.resource_id = '$subCat->resource_id' GROUP BY (c3.resource_id) LIMIT 1") or die(mysql_error());
-                                if (mysql_num_rows($checkLast) > 0) {
+                                        . " WHERE (cp.status = 1 OR cp.master_status = 'Active') AND c2.resource_id = '$subCat->resource_id' GROUP BY (c3.resource_id) LIMIT 1") or die(mysqli_error($conn));
+                                if (mysqli_num_rows($checkLast) > 0) {
                                     ?>
                                     <div class="subCatMaster quarter left">
                                         <div class="ispod">
@@ -171,11 +171,11 @@
                                     </div>
                                     <?php
                                 } else {
-                                    $subCatAlls = mysql_query("SELECT c2.resource_id as cat_rid FROM categories c2 "
+                                    $subCatAlls = mysqli_query($conn,"SELECT c2.resource_id as cat_rid FROM categories c2 "
                                             . " LEFT JOIN categories_content cc ON c2.resource_id = cc.category_resource_id "
-                                            . " LEFT JOIN _content_proizvodi cp ON cp.resource_id = cc.content_resource_id "
-                                            . " WHERE (cp.status = 1 OR cp.master_status = 'Active') AND c2.resource_id = '$subCat->resource_id' GROUP BY (c2.resource_id) LIMIT 1") or die(mysql_error());
-                                    if (mysql_num_rows($subCatAlls) > 0) {
+                                            . " LEFT JOIN _content_products cp ON cp.resource_id = cc.content_resource_id "
+                                            . " WHERE (cp.status = 1 OR cp.master_status = 'Active') AND c2.resource_id = '$subCat->resource_id' GROUP BY (c2.resource_id) LIMIT 1") or die(mysqli_error($conn));
+                                    if (mysqli_num_rows($subCatAlls) > 0) {
                                         ?>
                                         <div class="subCatMaster quarter left">
                                             <div class="ispod">
@@ -193,7 +193,7 @@
                         <?php
                     }
 
-                    $numRo = mysql_num_rows($preporukaQuery);
+                    $numRo = mysqli_num_rows($preporukaQuery);
                     if ($numRo > 15) {
                         ?>
                         <h1><?= $catMasterData->title; ?> - proizvodi na akciji</h1>
@@ -206,38 +206,38 @@
                                 <h1><?= $catMasterData->title; ?> - najprodavaniji proizvodi</h1>
                                 <div class="productHolder row">
                                     <?php
-                                    $preporukaQuery = mysql_query(""
-                                            . "SELECT cp.*, b.title as b_title, c.url as master_cat_url, c1.url as sub_cat_url FROM _content_proizvodi cp "
-                                            . " LEFT JOIN _content_brend b ON b.resource_id = cp.brand "
+                                    $preporukaQuery = mysqli_query($conn,""
+                                            . "SELECT cp.*, b.title as b_title, c.url as master_cat_url, c1.url as sub_cat_url FROM _content_products cp "
+                                            . " LEFT JOIN _content_brand b ON b.resource_id = cp.brand "
                                             . " LEFT JOIN categories_content cc ON cp.resource_id = cc.content_resource_id "
                                             . " LEFT JOIN categories c1 ON c1.resource_id = cc.category_resource_id "
                                             . " LEFT JOIN categories c ON c.resource_id = c1.parent_id "
                                             . " WHERE (c.resource_id = $catMasterData->resource_id OR c1.resource_id = $catMasterData->resource_id ) AND "
-                                            . " cp.product_image!='' AND (cp.status = 1 OR cp.master_status = 'Active') AND cp.lang = $currentLanguage ORDER BY cp.ordering ASC LIMIT 0,16") or die(mysql_error());
-                                    $numRo = mysql_num_rows($preporukaQuery);
+                                            . " cp.product_image!='' AND (cp.status = 1 OR cp.master_status = 'Active') AND cp.lang = $currentLanguage ORDER BY cp.ordering ASC LIMIT 0,16") or die(mysqli_error($conn));
+                                    $numRo = mysqli_num_rows($preporukaQuery);
                                 }
 
                                 $addedProd = "";
-                                while ($item = mysql_fetch_object($preporukaQuery)) {
+                                while ($item = mysqli_fetch_object($preporukaQuery)) {
                                     $addedProd .= $item->resource_id . ", ";
                                     include ("little_product.php");
                                 }
 
                                 if ($numRo < 16) {
                                     $addedProd = rtrim($addedProd, ", ");
-                                    if($addedProd!=""){
+                                    if ($addedProd != "") {
                                         $addNotIn = " AND cp.resource_id NOT IN ($addedProd) ";
                                     }
                                     $limitacija = 16 - $numRo;
-                                    $preporukaQueryDopuna = mysql_query(""
-                                            . "SELECT cp.*, b.title as b_title, c.url as master_cat_url, c1.url as sub_cat_url FROM _content_proizvodi cp "
-                                            . " LEFT JOIN _content_brend b ON b.resource_id = cp.brand "
+                                    $preporukaQueryDopuna = mysqli_query($conn,""
+                                            . "SELECT cp.*, b.title as b_title, c.url as master_cat_url, c1.url as sub_cat_url FROM _content_products cp "
+                                            . " LEFT JOIN _content_brand b ON b.resource_id = cp.brand "
                                             . " LEFT JOIN categories_content cc ON cp.resource_id = cc.content_resource_id "
                                             . " LEFT JOIN categories c1 ON c1.resource_id = cc.category_resource_id "
                                             . " LEFT JOIN categories c ON c.resource_id = c1.parent_id "
                                             . " WHERE (c.resource_id = $catMasterData->resource_id OR c1.resource_id = $catMasterData->resource_id ) AND "
-                                            . " cp.product_image!='' AND (cp.status = 1 OR cp.master_status = 'Active') $addNotIn AND cp.lang = $currentLanguage ORDER BY cp.num_views DESC LIMIT 0,$limitacija") or die(mysql_error());
-                                    while ($item = mysql_fetch_object($preporukaQueryDopuna)) {
+                                            . " cp.product_image!='' AND (cp.status = 1 OR cp.master_status = 'Active') $addNotIn AND cp.lang = $currentLanguage ORDER BY cp.num_views DESC LIMIT 0,$limitacija") or die(mysqli_error($conn));
+                                    while ($item = mysqli_fetch_object($preporukaQueryDopuna)) {
                                         include ("little_product.php");
                                     }
                                 }

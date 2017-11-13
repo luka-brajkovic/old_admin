@@ -16,11 +16,11 @@ $htmlTagAddOG = 'prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# business
     if ($_POST["okinuto"] != "") {
         $email = $_POST["email"];
         if (filter_var($email, FILTER_VALIDATE_EMAIL) === FALSE) {
-            $salje = $db->getValue("text", "_content_html_blocks", "resource_id", "8881");
+            $salje = $db->getValue("text", "_content_html_blocks", "resource_id", "8");
         } else {
-            $salje = $db->getValue("text", "_content_html_blocks", "resource_id", "8882");
-            $bodyUser = $db->getValue("text", "_content_html_blocks", "resource_id", "8883");
-            $f->sendEmail($configSiteEmail, "$configSiteFirm", $email, "Uspešna prijava na newsletter", $bodyUser);
+            $salje = $db->getValue("text", "_content_html_blocks", "resource_id", "9");
+            $bodyUser = $db->getValue("text", "_content_html_blocks", "resource_id", "10");
+            $f->sendEmail($csEmail, "$csName", $email, "Uspešna prijava na newsletter", $bodyUser, $currentLanguage);
 
             $postojiEmail = $db->getValue("resource_id", "_content_newsletter", title, $email);
 
@@ -56,9 +56,8 @@ $htmlTagAddOG = 'prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# business
         </div>
         <?php
     }
-    include_once ("popup.php");
     include_once ("header.php");
-    include_once ("index-content.php");
+    include_once ("includes/index-content.php");
     include_once ("footer.php");
     ?>
 </body>

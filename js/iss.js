@@ -211,7 +211,7 @@ $(".have_sub").click(function () {
         $("ul.list li a").css("color", "#3f3c3d");
         $("ul.list li a").css("background-color", "#f9f9f9");
         $(this).css("color", "");
-        $(this).css("background-color", "#E72627");
+        $(this).css("background-color", "#307AB7");
         $(this).css("color", "#FFF");
         $(this).parent().find("ul").slideDown("slow");
     } else {

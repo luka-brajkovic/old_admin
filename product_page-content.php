@@ -4,29 +4,29 @@
             <span>Vi ste ovde:</span>
         </li> 
         <li property="itemListElement" typeof="ListItem">
-            <a href="<?= rtrim($configSiteDomain, "/"); ?>" title="<?= $configSiteTitle; ?>" property="item" typeof="WebPage">
-                <span property="name">Početna</span>
-                <meta property="position" content="1">
+            <a href="/" title="<?= $csTitle; ?>" property="item" typeof="WebPage">
+                <span>Početna</span>
+                <meta property="name" content="<?= $csName; ?>">
             </a>
+            <meta property="position" content="1">
         </li>   
         <li property="itemListElement" typeof="ListItem">
             <a href="/<?= $niz[1]->url; ?>" title="<?= $niz[1]->title; ?>" property="item" typeof="WebPage">
                 <span property="name" class="transition"><?= $niz[1]->title; ?></span>
-                <meta property="position" content="2">
             </a>
+            <meta property="position" content="2">
         </li>    
         <li property="itemListElement" typeof="ListItem">
             <a href="/<?= $niz[1]->url; ?>/<?= $niz[2]->url; ?>" title="<?= $niz[2]->title; ?>" property="item" typeof="WebPage">
                 <span property="name" class="transition"><?= $niz[2]->title; ?></span>
-                <meta property="position" content="3">
             </a>
+            <meta property="position" content="3">
         </li>    
-        <li property="itemListElement" typeof="ListItem">
-            <a href="/<?= $niz[1]->url; ?>/<?= $niz[2]->url . "/" . $proizvod->url . "/" . $proizvod->resource_id; ?>" title="<?= $niz[2]->title; ?>" property="item" typeof="WebPage">
-                <span property="name" class="transition"><?= $proizvod->b_title . " " . $proizvod->title; ?></span>
-                <meta property="position" content="4">
+        <li>
+            <a href="/<?= $niz[1]->url; ?>/<?= $niz[2]->url . "/" . $proizvod->url . "/" . $proizvod->resource_id; ?>" title="<?= $niz[2]->title; ?>">
+                <span class="transition"><?= $proizvod->b_title . " " . $proizvod->title; ?></span>
             </a>
-        </li>    
+        </li>  
     </ol>
     <div class="productPageHolder">
         <div class="productTop row" itemscope itemtype="http://schema.org/Product">

@@ -8,8 +8,8 @@
                 <select name='kategorija'>
                     <option value="" >Sve kategorije</option>
                     <?php
-                    $allCats = mysql_query("SELECT * FROM categories WHERE status = 1 AND parent_id = 0 AND lang = $currentLanguage ORDER BY ordering") or die(mysql_error());
-                    while ($catSearch = mysql_fetch_object($allCats)) {
+                    $allCats = mysqli_query($conn,"SELECT * FROM categories WHERE status = 1 AND parent_id = 0 AND lang = $currentLanguage ORDER BY ordering") or die(mysqli_error($conn));
+                    while ($catSearch = mysqli_fetch_object($allCats)) {
                         if (!isset($kategorijaSearch)) {
                             $kategorijaSearch = "";
                         }

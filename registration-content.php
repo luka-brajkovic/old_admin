@@ -2,12 +2,12 @@
 $contentTypeIDUsers = "69";
 $contentType = new View("content_types", $contentTypeIDUsers);
 $table_name = $contentType->table_name;
-$user_fields = mysql_query("SELECT * FROM content_type_fields WHERE content_type_id = $contentTypeIDUsers");
+$user_fields = mysqli_query($conn, "SELECT * FROM content_type_fields WHERE content_type_id = $contentTypeIDUsers");
 
 $greske = array();
 
 if ($f->verifyFormToken('form1')) {
-    while ($field = mysql_fetch_object($user_fields)) {
+    while ($field = mysqli_fetch_object($user_fields)) {
         $columnName = $field->column_name;
         switch ($columnName) {
             case "ime":
@@ -57,8 +57,10 @@ if ($f->verifyFormToken('form1')) {
                     break;
             }
         } else {
-            $postanski = $db->getValue("postanski_broj", "_content_gradovi", resource_id, $f->getValue('grad'));
+            $postanski = $db->getValue("postanski_broj", "_content_cities", resource_id, $f->getValue('grad'));
 
+            $nameAndSurname = $f->getValue("ime") . " " . $f->getValue("prezime");
+            
             $resource = new View("resources");
             $resource->table_name = $table_name;
             $resource->Save();
@@ -66,10 +68,13 @@ if ($f->verifyFormToken('form1')) {
             $newUser->resource_id = $resource->id;
             $newUser->extend($_POST);
             $newUser->postanski_broj = $postanski;
-            $newUser->title = $f->getValue("ime") . " " . $f->getValue("prezime");
+            $newUser->title = $nameAndSurname;
             $newUser->url = $f->generateUrlFromText($f->getValue("ime") . " " . $f->getValue("prezime"));
             $newUser->system_date = date("Y-m-d H:i:s");
             $newUser->lang = 1;
+            $newUser->ordering = 0;
+            $newUser->num_views = 0;
+            $newUser->poslat_email = "0000-00-00";
             $newUser->status = 2;
             $newUser->lozinka = md5($f->getValue("lozinka"));
             $newUser->Save();
@@ -98,33 +103,13 @@ if ($f->verifyFormToken('form1')) {
             }
             $fieldMail = "e-mail";
             $md5_email = md5($newUser->$fieldMail);
-            
-            $body = "<p>Poštovani/a ".$f->getValue('ime').",</p>";
-            $body .= "<p>Vaš nalog će te aktivirati klikom na <a href='" . $configSiteDomain . "aktivacija-naloga/$md5_email'>Aktivacioni link</a></p>";
-            $body .= "<p>Ukoliko ne možete klikom da aktivirate nalog, kopirajte i otvorite u vašem pretraživaču sledeći link:<br /> <a href='" . $configSiteDomain . "aktivacija-naloga/$md5_email'>" . $configSiteDomain . "aktivacija-naloga/$md5_email</a></p>";
-            $body .= "<p>Još jednom koristimo priliku da Vam se zahvalimo na korišćenju naših usluga.</p><p>Vaš " . $configSiteFirm . " tim</p>";
 
-            require_once("library/phpmailer/class.phpmailer.php");
+            $body = "<p>Poštovani/a " . $f->getValue('ime') . ",</p>";
+            $body .= "<p>Vaš nalog će te aktivirati klikom na <a href='" . $csDomain . "aktivacija-naloga/$md5_email'>Aktivacioni link</a></p>";
+            $body .= "<p>Ukoliko ne možete klikom da aktivirate nalog, kopirajte i otvorite u vašem pretraživaču sledeći link:<br /> <a href='" . $csDomain . "aktivacija-naloga/$md5_email'>" . $csDomain . "aktivacija-naloga/$md5_email</a></p>";
+            $body .= "<p>Još jednom koristimo priliku da Vam se zahvalimo na korišćenju naših usluga.</p><p>Vaš " . $csName . " tim</p>";
 
-            $mail = new PHPMailer();
-            $mail->From = "$configSiteEmail";
-            $mail->AddReplyTo($configSiteEmail, ucfirst(str_replace("www.", "", $_SERVER['SERVER_NAME'])) . " | Internet prodavnica");
-            $mail->FromName = ucfirst(str_replace("www.", "", $_SERVER['SERVER_NAME'])) . " | Internet prodavnica";
-            $mail->AddAddress($newUser->$fieldMail);
-            $mail->Subject = "Aktivacija naloga";
-            $mail->Body = $body;
-            $mail->Send();
-            /*
-              $bodyc = "Nova registracija korisnika sa email-om: $newUser->$fieldMail";
-
-              $mail = new PHPMailer();
-              $mail->From = "$configSiteEmail";
-              $mail->AddReplyTo($configSiteEmail, ucfirst(str_replace("www.", "", $_SERVER['SERVER_NAME'])) . " | Internet prodavnica");
-              $mail->FromName = ucfirst(str_replace("www.", "", $_SERVER['SERVER_NAME'])) . " | Internet prodavnica";
-              $mail->AddAddress($configSiteEmail);
-              $mail->Subject = "Registracija korisnika";
-              $mail->Body = $bodyc;
-              $mail->Send(); */
+            $f->sendMail($csEmail, $csName, $newUser->$fieldMail, $nameAndSurname, "Aktivacija naloga - $csName", $body, $currentLanguage);
 
             $f->redirect("/strana/aktivacija-naloga");
         }
@@ -172,7 +157,7 @@ if (!empty($greske)) {
             <span">Registracija</span>
         </li>
     </ul>
-    <h1>Pridruži se na <?= $configSiteFirm; ?></h1>
+    <h1>Pridruži se na <?= $csName; ?></h1>
     <div class="logCont">
         <h4>Osnovni podaci:</h4>
         <form action="<?= $REQUEST; ?>" method="post" class="clear">
@@ -181,10 +166,10 @@ if (!empty($greske)) {
                     <?php
                     $newToken = $f->generateFormToken('form1');
 
-                    $user_fields = mysql_query("SELECT * FROM content_type_fields WHERE content_type_id = $contentTypeIDUsers ORDER BY ordering");
+                    $user_fields = mysqli_query($conn, "SELECT * FROM content_type_fields WHERE content_type_id = $contentTypeIDUsers ORDER BY ordering");
                     /*                     * **** CUSTOM FORMA - pravim counter da bi polja rasporedjivao levo ili desno kako hocu ***** */
                     $counter = 0;
-                    while ($field = mysql_fetch_object($user_fields)) {
+                    while ($field = mysqli_fetch_object($user_fields)) {
                         $counter++;
                         /* PRILAGODJENO */
                         if ($counter == 7) {
@@ -238,13 +223,13 @@ if (!empty($greske)) {
                                 <label><?= $field->title; ?></label>
                                 <?php
                                 list($tableExtract, $key, $show) = explode(",", $field->default_value);
-                                $queryExtract = mysql_query("SELECT * FROM $tableExtract WHERE status = 1 AND lang = $currentLanguage ORDER BY title ASC");
+                                $queryExtract = mysqli_query($conn, "SELECT * FROM $tableExtract WHERE status = 1 AND lang = $currentLanguage ORDER BY title ASC");
                                 ?>
                                 <select name='<?= $field->column_name; ?>' id='<?= $field->column_name; ?>'>
                                     <option value=''>Odaberi <?= $field->title; ?></option>
                                     <?php
                                     $fildic = $f->getValue($field->column_name);
-                                    while ($value = mysql_fetch_object($queryExtract)) {
+                                    while ($value = mysqli_fetch_object($queryExtract)) {
                                         ?>
                                         <option <?= ($fildic == $value->$key) ? " selected='selected' " : ""; ?> value='<?= $value->$key; ?>'><?= $value->$show . " (" . $value->postanski_broj . ")"; ?></option>
                                         <?php
@@ -274,7 +259,7 @@ if (!empty($greske)) {
                         <strong class="mustClick">
                             Čekiranjem check boxa ispod podrazumeva se da ste pročitali i složili se sa 
                             <a href="/strana/uslovi-koriscenja" target="_blank">uslovima korišćenja</a>
-                            <input class="right" style="width:auto;" <?= ($f->getValue("agree")!="")?'checked=""':''; ?> type="checkbox" name="agree" value="agree" />
+                            <input class="right" style="width:auto;" <?= ($f->getValue("agree") != "") ? 'checked=""' : ''; ?> type="checkbox" name="agree" value="agree" />
                         </strong>
                         <em <?= (in_array("agree", $greske)) ? "style='display:block;'" : ""; ?>><?= "* Morate se složiti sa uslovima korišćenja"; ?> </em> 
                     </p>
@@ -286,7 +271,7 @@ if (!empty($greske)) {
             </div>			
             <div class="half picture">
                 <div style="padding-left:15px;">
-                    <?= $db->getValue("text", "_content_html_blocks", "url", "desno-registracija"); ?>
+                    <?= $db->getValue("text", "_content_html_blocks", "resource_id", "1"); ?>
                 </div>    
             </div>   
             <input type="hidden" name="token" value="<?= $newToken; ?>">   

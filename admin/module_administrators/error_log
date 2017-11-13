@@ -1,0 +1,4 @@
+[08-Nov-2017 11:58:27 UTC] PHP Notice:  Undefined index: infomsg in /home/wdsinrs/public_html/admin/admin/library/functions.class.php on line 351
+[08-Nov-2017 11:58:27 UTC] PHP Notice:  Undefined index: wrong_data in /home/wdsinrs/public_html/admin/admin/module_administrators/edit_admin.php on line 38
+[08-Nov-2017 11:58:27 UTC] PHP Notice:  Undefined index: wrong_pass in /home/wdsinrs/public_html/admin/admin/module_administrators/edit_admin.php on line 45
+[08-Nov-2017 11:58:27 UTC] PHP Notice:  Undefined index: wrong_pass in /home/wdsinrs/public_html/admin/admin/module_administrators/edit_admin.php on line 70
