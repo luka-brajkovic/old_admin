@@ -361,5 +361,73 @@ switch ($action) {
         $f->sendMail($csEmail, $csName, $csEmail, "", "Nova kupovina na sajtu - $csName", $body, $currentLanguage);
 
         break;
+
+
+    case "logout":
+
+        $_SESSION["fb_241802152614929_code"] = "";
+
+        $_SESSION["fb_5daf553c6d2a519bc70069ed68287915_access_token"] = "";
+
+        unset($_SESSION["loged_user"]);
+
+        $f->redirect("/");
+
+        break;
+
+
+    case "login_fb":
+
+        /* require 'facebook.php'; */
+        require_once("facebook.php");
+        $config = array();
+        $config["appId"] = "1710815072558243";
+        $config["secret"] = "b9fbd15ff7281da41c5be48423e859c7";
+        $config["redirect_uri"] = "https://www.bigputovanja.com";
+        $config['fileUpload'] = false; // optional
+        $fb = new Facebook($config);
+
+        $ajax_user_id = $_POST['id'];
+        $ajax_tk = $_POST['tk'];
+
+        $readData = @file_get_contents('https://graph.facebook.com/v2.9/me?fields=id,name,email,picture&access_token=' . $ajax_tk);
+        $fbuser = json_decode($readData);
+
+        $email = $fbuser->email;
+        $external_id = $fbuser->id;
+        if ($email) {
+            $usersCollection = new Collection("users");
+            $usersA = $usersCollection->getCollection("WHERE email = '$email'");
+            if (count($usersA) == 0) {
+                $user = new View("users");
+                $user->fullname = $fbuser->name;
+                $user->email = $email;
+                $user->status = 1;
+                $user->fbuser = 1;
+                $user->newsletter_putovanja = "Da";
+                $password = rand(1, 9999);
+                $body = "Poštovani,<br /><br />Na portal bigutovanja.com se možete prijaviti i klasičnom prijavom:<br /><br />e-mail: $email<br />lozinka: $password";
+                $body .= "<br>Kasnije ovu lozinku možete promeniti sa administratorske stranice Vašeg profila.<br /><br />BiGputovanja Tim";
+                $f->sendEmail($configSiteEmail, $configSiteTitle, $email, "Podaci za prijavljivanje na BiGputovanja.com", $body);
+                $user->password = md5($password);
+                $user->external_id = $external_id;
+                $user->date_added = date("Y-m-d H:i:s");
+                $user->Save();
+                $_SESSION["loged_user"] = $user->id;
+            } else {
+                $user = $usersA[0];
+                $user->status = 1;
+                if (!$user->fullname) {
+                    $user->fullname = $fbuser->name;
+                }
+                $user->Save();
+                $_SESSION["loged_user"] = $usersA[0]->id;
+            }
+            /* PORUKA AKO HOCE DA MU KAZES DA JE LOGOVAN */
+            echo "1";
+        } else {
+            echo "2";
+        }
+        break;
 }
 ?>

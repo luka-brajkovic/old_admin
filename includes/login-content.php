@@ -109,6 +109,10 @@ if ($f->verifyFormToken('form1')) {
                     <div class="newUser">
                         <p class="reg"><strong>Novi korisnik?</strong><br />Pridružite se hiljadama naših kupaca koji već uživaju u svim prednostima on-line kupovine.</p>
                         <a class="moreSecund" href="/registracija" title="">Registruj se</a>
+
+                        <a class="faceLogin" onclick="fb_login()" href="#">
+                            <i class="fa fa-facebook"></i> Log In
+                        </a>
                     </div>
                 </div>    
             </div>
@@ -120,3 +124,78 @@ if ($f->verifyFormToken('form1')) {
         </div>
     </div>
 </div>
+
+
+
+
+
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '1710815072558243', // App ID
+            channelUrl: '//www.bigputovanja.com/', // Channel File
+            status: true, // check login status
+            cookie: true, // enable cookies to allow the server to access the session
+            oauth: true,
+            xfbml: false, // parse XFBML
+            version: 'v2.8'
+        });
+        FB.AppEvents.logPageView();
+    };
+
+    // Load the SDK asynchronously
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id))
+            return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/sr_RS/all.js#xfbml=1&appId=1710815072558243";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    function fb_login() {
+        FB.login(function (response) {
+
+            if (response.authResponse) {
+                var user_id = response.authResponse.userID;
+                var tk = response.authResponse.accessToken;
+                var broj;
+                $.ajax({
+                    type: "POST",
+                    async: false,
+                    url: "/work.php",
+                    data: "id=" + user_id + "&tk=" + tk + "&action=login_fb",
+                    success: function (msg) {
+                        console.log('OVO: ' + msg);
+                        broj = msg;
+                    }
+                });
+
+                broj = parseInt(broj);
+
+                if (broj == 0) {
+                    window.location = '/<?= ($canonical != "") ? $canonical : ltrim($_SERVER['REQUEST_URI'], "/"); ?>';
+                } else {
+                    window.location = '/<?= ($canonical != "") ? $canonical : ltrim($_SERVER['REQUEST_URI'], "/"); ?>';
+                }
+            } else {
+                alert("Morate da dozvolite pristupe Vašim podacima sa Facebook-a kako bi se uspešno registrovali!");
+            }
+
+        }, {scope: 'email'});
+    }
+    function fb_logout() {
+        FB.logout(function (response) {
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/work.php",
+                data: "action=logout_fb",
+                success: function (msg) {
+                    location.href = '/';
+                }
+            });
+        });
+    }
+</script>
