@@ -4,7 +4,9 @@
 define("DB_HOST", "localhost");
 define("DB_USER", "root");
 define("DB_PASS", "");
-define("DB_BASE", "admin_old");
+
+define("DB_BASE", "admin");
+
 
 // za poddomene
 define("DB_ROOT", "dev");

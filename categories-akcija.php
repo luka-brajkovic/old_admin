@@ -12,7 +12,7 @@ $descSEO = "Proizvodi na akciji iz kategorije $catMasterData->title, uvek jeftin
 <body>
     <?php
     include_once ("header.php");
-    include_once ("categories-content-akcija.php");
+    include_once ("includes/categories-content-akcija.php");
     include_once ("footer.php");
     ?>
 </body>

@@ -13,7 +13,7 @@ include_once ("head.php");
 <body>
     <?php
     include_once ("header.php");
-    include_once ("brands-content.php");
+    include_once ("includes/brands-content.php");
     include_once ("footer.php");
     ?>
     <script>
