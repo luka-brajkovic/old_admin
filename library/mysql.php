@@ -2,9 +2,9 @@
 
 //Konekcija za bazu
 define("DB_HOST", "localhost");
-define("DB_USER", "wdsinrs_user");
-define("DB_PASS", "123user456");
-define("DB_BASE", "wdsinrs_admin");
+define("DB_USER", "root");
+define("DB_PASS", "");
+define("DB_BASE", "admin");
 
 // za poddomene
 define("DB_ROOT", "dev");

@@ -57,7 +57,7 @@ if ($cat_master_url == "proizvodi-na-akciji") {
 <body>
     <?php
     include_once ("header.php");
-    include_once ("categories-content.php");
+    include_once ("includes/categories-content.php");
     include_once ("footer.php");
     ?>
 </body>

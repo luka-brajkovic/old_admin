@@ -18,7 +18,7 @@ include_once ("head.php");
     </div>
     <?php
     include_once ("header.php");
-    include_once ("registration-content.php");
+    include_once ("includes/registration-content.php");
     include_once ("footer.php");
     ?>
 </body>

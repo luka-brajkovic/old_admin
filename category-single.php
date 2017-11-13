@@ -132,7 +132,7 @@ if ($cat_master_url == "proizvodi-na-akciji") {
     <body>
         <?php
         include_once ("header.php");
-        include_once ("category-single-content.php");
+        include_once ("includes/category-single-content.php");
         include_once ("footer.php");
         include 'js/filter-cat-scripts-min.php';
         ?>
