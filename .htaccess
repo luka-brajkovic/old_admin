@@ -62,6 +62,7 @@ RewriteRule ^nalog/promena-lozinke/?$ /account_change_pass.php [L,QSA]
 RewriteRule ^nalog/lista-zelja/?$ /account_wish_list.php [L,QSA]
 RewriteRule ^nalog/odjava/?$ /work.php?action=odjava [L,QSA]
 
+RewriteRule ^aktivacija-newsletter/([^/\.]+)/?$ /work.php?md5_email=$1&action=aktivacija-newsletter [L,QSA]
 RewriteRule ^odjava-sa-newsletter/([^/\.]+)/?$ /odjava-newsletter.php?md5_email=$1 [L,QSA]
 RewriteRule ^aktivacija-naloga/([^/\.]+)/?$ /aktivacija-naloga.php?md5_email=$1 [L,QSA]
 RewriteRule ^posalji-aktivaciju/([^/\.]+)/?$ /posalji-aktivaciju.php?md5_email=$1 [L,QSA]

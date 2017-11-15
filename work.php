@@ -66,26 +66,21 @@ switch ($action) {
 
     case "aktivacija-newsletter":
 
-        $email = $f->getValue("md5email");
+        $email = $f->getValue("md5_email");
 
-        $usersCol = new Collection("_content_newsletter");
-        $users = $usersCol->getCollection("WHERE md5(email) = '$email' ");
-        if (count($users) == 1) {
-            $user = $users[0];
-            $user->newsletter = 1;
-            $user->Save();
+	$usersCol = new Collection("_content_newsletter");
+	$users = $usersCol->getCollection("WHERE md5(title) = '$email' LIMIT 1");
 
-            $_SESSION["loged_user"] = $user->id;
-            if (isset($_SESSION["vrati_posle_na"])) {
-                $f->redirect($_SESSION["vrati_posle_na"]);
-            } else {
-                $_SESSION["first_timer"] = true;
+	if (count($users) == 1) {
+		$user = $users[0];
+		$user->status = 1;
+		$user->Save();
 
-                $f->redirect("/");
-            }
-        } else {
-            $f->redirect("/");
-        }
+		$_SESSION['infoTitle'] = "<h1>Uspešna aktivacija</h1>";
+		$_SESSION['infoText'] = "<p>Poštovani, uspešno ste aktivirali Vašu prijavu na newsletter.</p>";
+
+		$f->redirect("/");
+	}
 
         break;
 
@@ -328,6 +323,12 @@ switch ($action) {
 
         break;
 
+case "remove-kupon":
+
+        $_SESSION['kupon'] = "";
+
+        break;
+	
     case "update-q-cart":
         $id = $_POST['itemID'];
         $q = $_POST['q'];

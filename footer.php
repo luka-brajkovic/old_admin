@@ -73,6 +73,21 @@
                     </ul>
                 </div>
                 <div class="quarter left">
+					<h4>Newsletter</h4>
+					<form action="<?= $REQUEST; ?>" method="post">
+						<?php
+						$newToken = $f->generateFormToken('newsletter');
+						?>
+						<div class="row">
+							<p class="fifth-x4">
+								<input type="text" name="email" value="<?= $newsletterEmail; ?>" placeholder="Email">
+							</p>
+							<p class="fifth">
+								<input class="more" type="submit" value="Prijavi">
+							</p>
+						</div>
+						<input type="hidden" name="token" value="<?= $newToken; ?>">
+					</form>
                     <h4>Pratite nas</h4>
                     <ul itemscope itemtype="http://schema.org/Organization">
                         <link itemprop="url" content="<?= rtrim($csDomain, "/"); ?>">
@@ -149,7 +164,7 @@
 						<?php
 						if ($csPhone2 != "") {
 							?>
-	                        <br><a href="tel:<?= $csPhone2; ?>"><?= $csPhone2; ?></a>
+							<br><a href="tel:<?= $csPhone2; ?>"><?= $csPhone2; ?></a>
 						<?php } ?>
                     </p>
                     <p><a href="mailto:<?= $csEmail; ?>"><?= $csEmail; ?></a></p>
