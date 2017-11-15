@@ -45,6 +45,21 @@ if ($f->verifyFormToken('form1')) {
 
 ?>
 <script>
+    function onSignIn(googleUser) {
+        var id_token = googleUser.getAuthResponse().id_token
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'work.php?action=login_google');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            console.log('Signed in as: ' + xhr.responseText);
+        };
+        xhr.send('idtoken=' + id_token);
+    }
+</script>
+
+
+
+<script>
     // This is called with the results from from FB.getLoginStatus().
     function statusChangeCallback(response) {
         console.log('statusChangeCallback');
@@ -249,6 +264,8 @@ if ($f->verifyFormToken('form1')) {
                         </div>
 
                         <button onclick="fb_logout()">logout</button>
+
+                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
                     </div>
                 </div>    
             </div>

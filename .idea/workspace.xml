@@ -2,86 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="439ed2ec-e094-4c4a-9591-2dec4f681666" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Authentication/AccessToken.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Authentication/AccessTokenMetadata.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Authentication/OAuth2Client.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Exceptions/FacebookAuthenticationException.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Exceptions/FacebookAuthorizationException.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Exceptions/FacebookClientException.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Exceptions/FacebookOtherException.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Exceptions/FacebookResponseException.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Exceptions/FacebookResumableUploadException.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Exceptions/FacebookSDKException.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Exceptions/FacebookServerException.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Exceptions/FacebookThrottleException.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Facebook.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/FacebookApp.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/FacebookBatchRequest.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/FacebookBatchResponse.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/FacebookClient.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/FacebookRequest.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/FacebookResponse.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/FileUpload/FacebookFile.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/FileUpload/FacebookResumableUploader.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/FileUpload/FacebookTransferChunk.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/FileUpload/FacebookVideo.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/FileUpload/Mimetypes.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/Birthday.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/Collection.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/GraphAchievement.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/GraphAlbum.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/GraphApplication.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/GraphCoverPhoto.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/GraphEdge.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/GraphEvent.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/GraphGroup.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/GraphList.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/GraphLocation.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/GraphNode.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/GraphNodeFactory.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/GraphObject.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/GraphObjectFactory.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/GraphPage.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/GraphPicture.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/GraphSessionInfo.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/GraphNodes/GraphUser.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Helpers/FacebookCanvasHelper.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Helpers/FacebookJavaScriptHelper.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Helpers/FacebookPageTabHelper.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Helpers/FacebookRedirectLoginHelper.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Helpers/FacebookSignedRequestFromInputHelper.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Http/GraphRawResponse.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Http/RequestBodyInterface.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Http/RequestBodyMultipart.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Http/RequestBodyUrlEncoded.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/HttpClients/FacebookCurl.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/HttpClients/FacebookCurlHttpClient.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/HttpClients/FacebookGuzzleHttpClient.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/HttpClients/FacebookHttpClientInterface.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/HttpClients/FacebookStream.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/HttpClients/FacebookStreamHttpClient.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/HttpClients/HttpClientsFactory.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/HttpClients/certs/DigiCertHighAssuranceEVRootCA.pem" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/PersistentData/FacebookMemoryPersistentDataHandler.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/PersistentData/FacebookSessionPersistentDataHandler.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/PersistentData/PersistentDataFactory.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/PersistentData/PersistentDataInterface.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/PseudoRandomString/McryptPseudoRandomStringGenerator.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/PseudoRandomString/OpenSslPseudoRandomStringGenerator.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/PseudoRandomString/PseudoRandomStringGeneratorFactory.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/PseudoRandomString/PseudoRandomStringGeneratorInterface.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/PseudoRandomString/PseudoRandomStringGeneratorTrait.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/PseudoRandomString/RandomBytesPseudoRandomStringGenerator.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/PseudoRandomString/UrandomPseudoRandomStringGenerator.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/SignedRequest.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Url/FacebookUrlDetectionHandler.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Url/FacebookUrlManipulator.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/Url/UrlDetectionInterface.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/autoload.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Facebook/polyfills.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/includes/login-content.php" afterPath="$PROJECT_DIR$/includes/login-content.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/work.php" afterPath="$PROJECT_DIR$/work.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/login.php" afterPath="$PROJECT_DIR$/login.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -105,11 +27,10 @@
       <file leaf-file-name="config.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/library/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1665">
-              <caret line="111" column="31" lean-forward="false" selection-start-line="111" selection-start-column="31" selection-end-line="111" selection-end-column="31" />
+            <state relative-caret-position="1650">
+              <caret line="110" column="31" lean-forward="false" selection-start-line="110" selection-start-column="31" selection-end-line="110" selection-end-column="31" />
               <folding>
-                <marker date="1510568497000" expanded="true" signature="4077:4119" ph="SELECT * FRO... list_zelja" />
-                <marker date="1510568497000" expanded="true" signature="5046:5160" ph="SELECT MAX(p... _" />
+                <marker date="1510733745000" expanded="true" signature="714:715" ph="..." />
               </folding>
             </state>
           </provider>
@@ -128,49 +49,50 @@
       <file leaf-file-name="login.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/login.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
-              <caret line="36" column="0" lean-forward="false" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+            <state relative-caret-position="180">
+              <caret line="12" column="118" lean-forward="false" selection-start-line="12" selection-start-column="118" selection-end-line="12" selection-end-column="118" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="login-content.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="login-content.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/includes/login-content.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2564">
-              <caret line="65" column="62" lean-forward="true" selection-start-line="65" selection-start-column="62" selection-end-line="65" selection-end-column="62" />
+            <state relative-caret-position="486">
+              <caret line="50" column="41" lean-forward="false" selection-start-line="50" selection-start-column="41" selection-end-line="50" selection-end-column="41" />
               <folding>
-                <marker date="1510672756000" expanded="true" signature="780:827" ph="SELECT `e-ma... _" />
-                <marker date="1510672756000" expanded="true" signature="7105:7119" ph="..." />
-                <marker date="1510672756000" expanded="true" signature="7523:7537" ph="..." />
-                <marker date="1510672756000" expanded="true" signature="7764:7778" ph="..." />
-                <marker date="1510672756000" expanded="true" signature="8435:8449" ph="..." />
-                <marker date="1510672756000" expanded="true" signature="8887:8901" ph="..." />
+                <element signature="n#script#1;n#!!top" expanded="false" />
+                <marker date="1510737294000" expanded="true" signature="780:827" ph="SELECT `e-ma... _" />
+                <marker date="1510737294000" expanded="true" signature="7559:7573" ph="..." />
+                <marker date="1510737294000" expanded="true" signature="7977:7991" ph="..." />
+                <marker date="1510737294000" expanded="true" signature="8218:8232" ph="..." />
+                <marker date="1510737294000" expanded="true" signature="8889:8903" ph="..." />
+                <marker date="1510737294000" expanded="true" signature="9341:9355" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="work.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="work.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/work.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6045">
-              <caret line="403" column="0" lean-forward="false" selection-start-line="403" selection-start-column="0" selection-end-line="403" selection-end-column="0" />
+            <state relative-caret-position="719">
+              <caret line="458" column="1" lean-forward="true" selection-start-line="458" selection-start-column="1" selection-end-line="458" selection-end-column="1" />
               <folding>
-                <marker date="1510670772000" expanded="true" signature="185:240" ph="SELECT id FR... _" />
-                <marker date="1510670772000" expanded="true" signature="322:392" ph="SELECT id FR... _" />
-                <marker date="1510670772000" expanded="true" signature="943:1040" ph="SELECT * FRO... _" />
-                <marker date="1510670772000" expanded="true" signature="1195:1287" ph="UPDATE _cont... " />
-                <marker date="1510670772000" expanded="true" signature="1950:2011" ph="SELECT id FR... korpa" />
-                <marker date="1510670772000" expanded="true" signature="2156:2187" ph="DELETE FROM " />
-                <marker date="1510670772000" expanded="true" signature="2244:2292" ph="DELETE FROM " />
-                <marker date="1510670772000" expanded="true" signature="9113:9190" ph="SELECT id fr... proizvodi_korpe" />
-                <marker date="1510670772000" expanded="true" signature="10703:10751" ph="SELECT * FRO... proizvodi_korpe" />
-                <marker date="1510670772000" expanded="true" signature="10917:10956" ph="DELETE FROM " />
-                <marker date="1510670772000" expanded="true" signature="11088:11140" ph="UPDATE proiz... " />
-                <marker date="1510670772000" expanded="true" signature="12655:12711" ph="SELECT `e-ma... _" />
-                <marker date="1510670772000" expanded="true" signature="12840:12900" ph="UPDATE korpa... " />
+                <marker date="1510737291000" expanded="true" signature="185:240" ph="SELECT id FR... _" />
+                <marker date="1510737291000" expanded="true" signature="322:392" ph="SELECT id FR... _" />
+                <marker date="1510737291000" expanded="true" signature="943:1040" ph="SELECT * FRO... _" />
+                <marker date="1510737291000" expanded="true" signature="1195:1287" ph="UPDATE _cont... " />
+                <marker date="1510737291000" expanded="true" signature="1950:2011" ph="SELECT id FR... korpa" />
+                <marker date="1510737291000" expanded="true" signature="2156:2187" ph="DELETE FROM " />
+                <marker date="1510737291000" expanded="true" signature="2244:2292" ph="DELETE FROM " />
+                <marker date="1510737291000" expanded="true" signature="9113:9190" ph="SELECT id fr... proizvodi_korpe" />
+                <marker date="1510737291000" expanded="true" signature="10703:10751" ph="SELECT * FRO... proizvodi_korpe" />
+                <marker date="1510737291000" expanded="true" signature="10917:10956" ph="DELETE FROM " />
+                <marker date="1510737291000" expanded="true" signature="11088:11140" ph="UPDATE proiz... " />
+                <marker date="1510737291000" expanded="true" signature="12655:12711" ph="SELECT `e-ma... _" />
+                <marker date="1510737291000" expanded="true" signature="12840:12900" ph="UPDATE korpa... " />
               </folding>
             </state>
           </provider>
@@ -205,10 +127,10 @@
       <list>
         <option value="$PROJECT_DIR$/library/config.php" />
         <option value="$PROJECT_DIR$/index.php" />
-        <option value="$PROJECT_DIR$/login.php" />
         <option value="$PROJECT_DIR$/library/mysql.php" />
-        <option value="$PROJECT_DIR$/work.php" />
+        <option value="$PROJECT_DIR$/login.php" />
         <option value="$PROJECT_DIR$/includes/login-content.php" />
+        <option value="$PROJECT_DIR$/work.php" />
       </list>
     </option>
   </component>
@@ -250,22 +172,12 @@
             <path>
               <item name="old_admin" type="b2602c69:ProjectViewProjectNode" />
               <item name="old_admin" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="admin" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="old_admin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="old_admin" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="db" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="old_admin" type="b2602c69:ProjectViewProjectNode" />
               <item name="old_admin" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Facebook" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="old_admin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="old_admin" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="library" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="vendor" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
@@ -308,12 +220,12 @@
       <updated>1510566086609</updated>
       <workItem from="1510568218946" duration="5842000" />
       <workItem from="1510644011770" duration="16083000" />
-      <workItem from="1510731797848" duration="1138000" />
+      <workItem from="1510731797848" duration="3650000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23063000" />
+    <option name="totallyTimeSpent" value="25575000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="973" extended-state="0" />
@@ -379,12 +291,13 @@
         <state relative-caret-position="1290">
           <caret line="86" column="0" lean-forward="true" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
           <folding>
-            <marker date="1510672756000" expanded="true" signature="780:827" ph="SELECT `e-ma... _" />
-            <marker date="1510672756000" expanded="true" signature="7105:7119" ph="..." />
-            <marker date="1510672756000" expanded="true" signature="7523:7537" ph="..." />
-            <marker date="1510672756000" expanded="true" signature="7764:7778" ph="..." />
-            <marker date="1510672756000" expanded="true" signature="8435:8449" ph="..." />
-            <marker date="1510672756000" expanded="true" signature="8887:8901" ph="..." />
+            <element signature="n#script#1;n#!!top" expanded="false" />
+            <marker date="1510737294000" expanded="true" signature="780:827" ph="SELECT `e-ma... _" />
+            <marker date="1510737294000" expanded="true" signature="7559:7573" ph="..." />
+            <marker date="1510737294000" expanded="true" signature="7977:7991" ph="..." />
+            <marker date="1510737294000" expanded="true" signature="8218:8232" ph="..." />
+            <marker date="1510737294000" expanded="true" signature="8889:8903" ph="..." />
+            <marker date="1510737294000" expanded="true" signature="9341:9355" ph="..." />
           </folding>
         </state>
       </provider>
@@ -394,19 +307,19 @@
         <state relative-caret-position="6045">
           <caret line="403" column="0" lean-forward="true" selection-start-line="403" selection-start-column="0" selection-end-line="403" selection-end-column="0" />
           <folding>
-            <marker date="1510670772000" expanded="true" signature="185:240" ph="SELECT id FR... _" />
-            <marker date="1510670772000" expanded="true" signature="322:392" ph="SELECT id FR... _" />
-            <marker date="1510670772000" expanded="true" signature="943:1040" ph="SELECT * FRO... _" />
-            <marker date="1510670772000" expanded="true" signature="1195:1287" ph="UPDATE _cont... " />
-            <marker date="1510670772000" expanded="true" signature="1950:2011" ph="SELECT id FR... korpa" />
-            <marker date="1510670772000" expanded="true" signature="2156:2187" ph="DELETE FROM " />
-            <marker date="1510670772000" expanded="true" signature="2244:2292" ph="DELETE FROM " />
-            <marker date="1510670772000" expanded="true" signature="9113:9190" ph="SELECT id fr... proizvodi_korpe" />
-            <marker date="1510670772000" expanded="true" signature="10703:10751" ph="SELECT * FRO... proizvodi_korpe" />
-            <marker date="1510670772000" expanded="true" signature="10917:10956" ph="DELETE FROM " />
-            <marker date="1510670772000" expanded="true" signature="11088:11140" ph="UPDATE proiz... " />
-            <marker date="1510670772000" expanded="true" signature="12655:12711" ph="SELECT `e-ma... _" />
-            <marker date="1510670772000" expanded="true" signature="12840:12900" ph="UPDATE korpa... " />
+            <marker date="1510737291000" expanded="true" signature="185:240" ph="SELECT id FR... _" />
+            <marker date="1510737291000" expanded="true" signature="322:392" ph="SELECT id FR... _" />
+            <marker date="1510737291000" expanded="true" signature="943:1040" ph="SELECT * FRO... _" />
+            <marker date="1510737291000" expanded="true" signature="1195:1287" ph="UPDATE _cont... " />
+            <marker date="1510737291000" expanded="true" signature="1950:2011" ph="SELECT id FR... korpa" />
+            <marker date="1510737291000" expanded="true" signature="2156:2187" ph="DELETE FROM " />
+            <marker date="1510737291000" expanded="true" signature="2244:2292" ph="DELETE FROM " />
+            <marker date="1510737291000" expanded="true" signature="9113:9190" ph="SELECT id fr... proizvodi_korpe" />
+            <marker date="1510737291000" expanded="true" signature="10703:10751" ph="SELECT * FRO... proizvodi_korpe" />
+            <marker date="1510737291000" expanded="true" signature="10917:10956" ph="DELETE FROM " />
+            <marker date="1510737291000" expanded="true" signature="11088:11140" ph="UPDATE proiz... " />
+            <marker date="1510737291000" expanded="true" signature="12655:12711" ph="SELECT `e-ma... _" />
+            <marker date="1510737291000" expanded="true" signature="12840:12900" ph="UPDATE korpa... " />
           </folding>
         </state>
       </provider>
@@ -448,12 +361,13 @@
         <state relative-caret-position="1980">
           <caret line="132" column="42" lean-forward="false" selection-start-line="132" selection-start-column="42" selection-end-line="132" selection-end-column="42" />
           <folding>
-            <marker date="1510672756000" expanded="true" signature="780:827" ph="SELECT `e-ma... _" />
-            <marker date="1510672756000" expanded="true" signature="7105:7119" ph="..." />
-            <marker date="1510672756000" expanded="true" signature="7523:7537" ph="..." />
-            <marker date="1510672756000" expanded="true" signature="7764:7778" ph="..." />
-            <marker date="1510672756000" expanded="true" signature="8435:8449" ph="..." />
-            <marker date="1510672756000" expanded="true" signature="8887:8901" ph="..." />
+            <element signature="n#script#1;n#!!top" expanded="false" />
+            <marker date="1510737294000" expanded="true" signature="780:827" ph="SELECT `e-ma... _" />
+            <marker date="1510737294000" expanded="true" signature="7559:7573" ph="..." />
+            <marker date="1510737294000" expanded="true" signature="7977:7991" ph="..." />
+            <marker date="1510737294000" expanded="true" signature="8218:8232" ph="..." />
+            <marker date="1510737294000" expanded="true" signature="8889:8903" ph="..." />
+            <marker date="1510737294000" expanded="true" signature="9341:9355" ph="..." />
           </folding>
         </state>
       </provider>
@@ -463,19 +377,19 @@
         <state relative-caret-position="5655">
           <caret line="377" column="0" lean-forward="false" selection-start-line="377" selection-start-column="0" selection-end-line="377" selection-end-column="0" />
           <folding>
-            <marker date="1510670772000" expanded="true" signature="185:240" ph="SELECT id FR... _" />
-            <marker date="1510670772000" expanded="true" signature="322:392" ph="SELECT id FR... _" />
-            <marker date="1510670772000" expanded="true" signature="943:1040" ph="SELECT * FRO... _" />
-            <marker date="1510670772000" expanded="true" signature="1195:1287" ph="UPDATE _cont... " />
-            <marker date="1510670772000" expanded="true" signature="1950:2011" ph="SELECT id FR... korpa" />
-            <marker date="1510670772000" expanded="true" signature="2156:2187" ph="DELETE FROM " />
-            <marker date="1510670772000" expanded="true" signature="2244:2292" ph="DELETE FROM " />
-            <marker date="1510670772000" expanded="true" signature="9113:9190" ph="SELECT id fr... proizvodi_korpe" />
-            <marker date="1510670772000" expanded="true" signature="10703:10751" ph="SELECT * FRO... proizvodi_korpe" />
-            <marker date="1510670772000" expanded="true" signature="10917:10956" ph="DELETE FROM " />
-            <marker date="1510670772000" expanded="true" signature="11088:11140" ph="UPDATE proiz... " />
-            <marker date="1510670772000" expanded="true" signature="12655:12711" ph="SELECT `e-ma... _" />
-            <marker date="1510670772000" expanded="true" signature="12840:12900" ph="UPDATE korpa... " />
+            <marker date="1510737291000" expanded="true" signature="185:240" ph="SELECT id FR... _" />
+            <marker date="1510737291000" expanded="true" signature="322:392" ph="SELECT id FR... _" />
+            <marker date="1510737291000" expanded="true" signature="943:1040" ph="SELECT * FRO... _" />
+            <marker date="1510737291000" expanded="true" signature="1195:1287" ph="UPDATE _cont... " />
+            <marker date="1510737291000" expanded="true" signature="1950:2011" ph="SELECT id FR... korpa" />
+            <marker date="1510737291000" expanded="true" signature="2156:2187" ph="DELETE FROM " />
+            <marker date="1510737291000" expanded="true" signature="2244:2292" ph="DELETE FROM " />
+            <marker date="1510737291000" expanded="true" signature="9113:9190" ph="SELECT id fr... proizvodi_korpe" />
+            <marker date="1510737291000" expanded="true" signature="10703:10751" ph="SELECT * FRO... proizvodi_korpe" />
+            <marker date="1510737291000" expanded="true" signature="10917:10956" ph="DELETE FROM " />
+            <marker date="1510737291000" expanded="true" signature="11088:11140" ph="UPDATE proiz... " />
+            <marker date="1510737291000" expanded="true" signature="12655:12711" ph="SELECT `e-ma... _" />
+            <marker date="1510737291000" expanded="true" signature="12840:12900" ph="UPDATE korpa... " />
           </folding>
         </state>
       </provider>
@@ -510,18 +424,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/login.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="36" column="0" lean-forward="false" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/stubs/Core/Core_c.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="296">
           <caret line="289" column="26" lean-forward="false" selection-start-line="289" selection-start-column="26" selection-end-line="289" selection-end-column="26" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -529,28 +436,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10">
           <caret line="101" column="59" lean-forward="false" selection-start-line="101" selection-start-column="58" selection-end-line="101" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/work.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6045">
-          <caret line="403" column="0" lean-forward="false" selection-start-line="403" selection-start-column="0" selection-end-line="403" selection-end-column="0" />
-          <folding>
-            <marker date="1510670772000" expanded="true" signature="185:240" ph="SELECT id FR... _" />
-            <marker date="1510670772000" expanded="true" signature="322:392" ph="SELECT id FR... _" />
-            <marker date="1510670772000" expanded="true" signature="943:1040" ph="SELECT * FRO... _" />
-            <marker date="1510670772000" expanded="true" signature="1195:1287" ph="UPDATE _cont... " />
-            <marker date="1510670772000" expanded="true" signature="1950:2011" ph="SELECT id FR... korpa" />
-            <marker date="1510670772000" expanded="true" signature="2156:2187" ph="DELETE FROM " />
-            <marker date="1510670772000" expanded="true" signature="2244:2292" ph="DELETE FROM " />
-            <marker date="1510670772000" expanded="true" signature="9113:9190" ph="SELECT id fr... proizvodi_korpe" />
-            <marker date="1510670772000" expanded="true" signature="10703:10751" ph="SELECT * FRO... proizvodi_korpe" />
-            <marker date="1510670772000" expanded="true" signature="10917:10956" ph="DELETE FROM " />
-            <marker date="1510670772000" expanded="true" signature="11088:11140" ph="UPDATE proiz... " />
-            <marker date="1510670772000" expanded="true" signature="12655:12711" ph="SELECT `e-ma... _" />
-            <marker date="1510670772000" expanded="true" signature="12840:12900" ph="UPDATE korpa... " />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -564,26 +449,56 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/library/config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1665">
-          <caret line="111" column="31" lean-forward="false" selection-start-line="111" selection-start-column="31" selection-end-line="111" selection-end-column="31" />
+        <state relative-caret-position="1650">
+          <caret line="110" column="31" lean-forward="false" selection-start-line="110" selection-start-column="31" selection-end-line="110" selection-end-column="31" />
           <folding>
-            <marker date="1510568497000" expanded="true" signature="4077:4119" ph="SELECT * FRO... list_zelja" />
-            <marker date="1510568497000" expanded="true" signature="5046:5160" ph="SELECT MAX(p... _" />
+            <marker date="1510733745000" expanded="true" signature="714:715" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="118" lean-forward="false" selection-start-line="12" selection-start-column="118" selection-end-line="12" selection-end-column="118" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/includes/login-content.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2564">
-          <caret line="65" column="62" lean-forward="true" selection-start-line="65" selection-start-column="62" selection-end-line="65" selection-end-column="62" />
+        <state relative-caret-position="486">
+          <caret line="50" column="41" lean-forward="false" selection-start-line="50" selection-start-column="41" selection-end-line="50" selection-end-column="41" />
           <folding>
-            <marker date="1510672756000" expanded="true" signature="780:827" ph="SELECT `e-ma... _" />
-            <marker date="1510672756000" expanded="true" signature="7105:7119" ph="..." />
-            <marker date="1510672756000" expanded="true" signature="7523:7537" ph="..." />
-            <marker date="1510672756000" expanded="true" signature="7764:7778" ph="..." />
-            <marker date="1510672756000" expanded="true" signature="8435:8449" ph="..." />
-            <marker date="1510672756000" expanded="true" signature="8887:8901" ph="..." />
+            <element signature="n#script#1;n#!!top" expanded="false" />
+            <marker date="1510737294000" expanded="true" signature="780:827" ph="SELECT `e-ma... _" />
+            <marker date="1510737294000" expanded="true" signature="7559:7573" ph="..." />
+            <marker date="1510737294000" expanded="true" signature="7977:7991" ph="..." />
+            <marker date="1510737294000" expanded="true" signature="8218:8232" ph="..." />
+            <marker date="1510737294000" expanded="true" signature="8889:8903" ph="..." />
+            <marker date="1510737294000" expanded="true" signature="9341:9355" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/work.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="719">
+          <caret line="458" column="1" lean-forward="true" selection-start-line="458" selection-start-column="1" selection-end-line="458" selection-end-column="1" />
+          <folding>
+            <marker date="1510737291000" expanded="true" signature="185:240" ph="SELECT id FR... _" />
+            <marker date="1510737291000" expanded="true" signature="322:392" ph="SELECT id FR... _" />
+            <marker date="1510737291000" expanded="true" signature="943:1040" ph="SELECT * FRO... _" />
+            <marker date="1510737291000" expanded="true" signature="1195:1287" ph="UPDATE _cont... " />
+            <marker date="1510737291000" expanded="true" signature="1950:2011" ph="SELECT id FR... korpa" />
+            <marker date="1510737291000" expanded="true" signature="2156:2187" ph="DELETE FROM " />
+            <marker date="1510737291000" expanded="true" signature="2244:2292" ph="DELETE FROM " />
+            <marker date="1510737291000" expanded="true" signature="9113:9190" ph="SELECT id fr... proizvodi_korpe" />
+            <marker date="1510737291000" expanded="true" signature="10703:10751" ph="SELECT * FRO... proizvodi_korpe" />
+            <marker date="1510737291000" expanded="true" signature="10917:10956" ph="DELETE FROM " />
+            <marker date="1510737291000" expanded="true" signature="11088:11140" ph="UPDATE proiz... " />
+            <marker date="1510737291000" expanded="true" signature="12655:12711" ph="SELECT `e-ma... _" />
+            <marker date="1510737291000" expanded="true" signature="12840:12900" ph="UPDATE korpa... " />
           </folding>
         </state>
       </provider>
