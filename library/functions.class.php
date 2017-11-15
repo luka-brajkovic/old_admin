@@ -1373,36 +1373,38 @@ class Functions extends Database {
 
 		$socials = "";
 		if ($settings->site_facebook != "") {
-			$socials .= '<a href="' . $settings->site_facebook . '" title="Facebook stranica ' . $settings->site_host . '" target="_blank"><img src="' . $settings->site_host . 'images/socials/facebook.png" alt="Facebook stranica ' . $settings->site_firm . '"></a>';
+			$socials .= '<a style="color: #000;font-family:Arial, sans-serif;font-size: 14px;line-height: 21px;text-transform: lowercase;" href="' . $settings->site_facebook . '" title="Facebook stranica ' . $settings->site_host . '" target="_blank"><img style="width: 30px;margin: 0 5px;" src="' . $settings->site_host . 'images/socials/facebook.png" alt="Facebook stranica ' . $settings->site_firm . '"></a>';
 		}
 		if ($settings->site_twitter != "") {
-			$socials .= '<a href="' . $settings->site_twitter . '" title="Twitter stranica ' . $settings->site_host . '" target="_blank"><img src="' . $settings->site_host . 'images/socials/twitter.png" alt="Twitter stranica ' . $settings->site_firm . '"></a>';
+			$socials .= '<a style="color:#000;font-family: Arial, sans-serif;font-size:14px;line-height:21px;text-transform:lowercase;" href="' . $settings->site_twitter . '" title="Twitter stranica ' . $settings->site_host . '" target="_blank"><img style="width: 30px;margin: 0 5px;" src="' . $settings->site_host . 'images/socials/twitter.png" alt="Twitter stranica ' . $settings->site_firm . '"></a>';
 		}
 		if ($settings->site_google_plus != "") {
-			$socials .= '<a href="' . $settings->site_google_plus . '" title="Google Plus stranica ' . $settings->site_host . '" target="_blank"><img src="' . $settings->site_host . 'images/socials/google-plus.png" alt="Google Plus stranica ' . $settings->site_firm . '"></a>';
+			$socials .= '<a style="color:#000;font-family: Arial, sans-serif;font-size:14px;line-height:21px;text-transform:lowercase;" href="' . $settings->site_google_plus . '" title="Google Plus stranica ' . $settings->site_host . '" target="_blank"><img style="width: 30px;margin: 0 5px;" src="' . $settings->site_host . 'images/socials/google-plus.png" alt="Google Plus stranica ' . $settings->site_firm . '"></a>';
 		}
 		if ($settings->site_instagram != "") {
-			$socials .= '<a href="' . $settings->site_instagram . '" title="Instagram stranica ' . $settings->site_host . '" target="_blank"><img src="' . $settings->site_host . 'images/socials/instagram.png" alt="Instagram stranica ' . $settings->site_firm . '"></a>';
+			$socials .= '<a style="color:#000;font-family: Arial, sans-serif;font-size:14px;line-height:21px;text-transform:lowercase;" href="' . $settings->site_instagram . '" title="Instagram stranica ' . $settings->site_host . '" target="_blank"><img style="width: 30px;margin: 0 5px;" src="' . $settings->site_host . 'images/socials/instagram.png" alt="Instagram stranica ' . $settings->site_firm . '"></a>';
 		}
 		if ($settings->site_pinterest != "") {
-			$socials .= '<a href="' . $settings->site_pinterest . '" title="Pinterest stranica ' . $settings->site_host . '" target="_blank"><img src="' . $settings->site_host . 'images/socials/pinterest.png" alt="Pinterest stranica ' . $settings->site_firm . '"></a>';
+			$socials .= '<a style="color:#000;font-family: Arial, sans-serif;font-size:14px;line-height:21px;text-transform:lowercase;" href="' . $settings->site_pinterest . '" title="Pinterest stranica ' . $settings->site_host . '" target="_blank"><img style="width: 30px;margin: 0 5px;" src="' . $settings->site_host . 'images/socials/pinterest.png" alt="Pinterest stranica ' . $settings->site_firm . '"></a>';
 		}
 		if ($settings->site_youtube != "") {
-			$socials .= '<a href="' . $settings->site_youtube . '" title="You Tube stranica ' . $settings->site_host . '" target="_blank"><img src="' . $settings->site_host . 'images/socials/youtube.png" alt="You Tube stranica ' . $settings->site_firm . '"></a>';
+			$socials .= '<a style="color:#000;font-family: Arial, sans-serif;font-size:14px;line-height:21px;text-transform:lowercase;" href="' . $settings->site_youtube . '" title="You Tube stranica ' . $settings->site_host . '" target="_blank"><img style="width: 30px;margin: 0 5px;" src="' . $settings->site_host . 'images/socials/youtube.png" alt="You Tube stranica ' . $settings->site_firm . '"></a>';
 		}
 		if ($settings->site_vimeo != "") {
-			$socials .= '<a href="' . $settings->site_vimeo . '" title="Vimeo stranica ' . $settings->site_host . '" target="_blank"><img src="' . $settings->site_host . 'images/socials/vimeo.png" alt="Vimeo stranica ' . $settings->site_firm . '"></a>';
+			$socials .= '<a style="color:#000;font-family: Arial, sans-serif;font-size:14px;line-height:21px;text-transform:lowercase;" href="' . $settings->site_vimeo . '" title="Vimeo stranica ' . $settings->site_host . '" target="_blank"><img style="width: 30px;margin: 0 5px;" src="' . $settings->site_host . 'images/socials/vimeo.png" alt="Vimeo stranica ' . $settings->site_firm . '"></a>';
 		}
 
-		$footer = $settings->site_firm.", ".$settings->site_address.", ".$settings->site_zip." ".$settings->site_city."<br /><a href='tel:$settings->site_phone'>".$settings->site_phone."</a>";
+		
+		$footer = $settings->site_firm.", ".$settings->site_address.", ".$settings->site_zip." ".$settings->site_city."<br /><a style='color: #000;font-family:Arial, sans-serif;font-size: 14px;line-height: 21px;text-transform: lowercase;' href='tel:$settings->site_phone'>".$settings->site_phone."</a>";
 		if($settings->site_phone_2){
-			$footer .= ", <a href='tel:$settings->site_phone_2'>".$settings->site_phone_2."</a>";
+			$footer .= ", <a style='color: #000;font-family:Arial, sans-serif;font-size: 14px;line-height: 21px;text-transform: lowercase;' href='tel:$settings->site_phone_2'>".$settings->site_phone_2."</a>";
 		}
-		$footer .= "<br /><a href='mailto:$settings->site_email'>".$settings->site_email."</a>";
+		$footer .= "<br /><a style='color: #000;font-family:Arial, sans-serif;font-size: 14px;line-height: 21px;text-transform: lowercase;' href='mailto:$settings->site_email'>".$settings->site_email."</a>";
 		
 		$bodyMail = file_get_contents("includes/mail.html");
 		$bodyMail = str_replace(array("[CONTENT]", "[LOGO]", "[SITE_TITLE]", "[FOOTER]", "[DOMAIN]", "[SUBJECT]", "[SOCIALS]"), array("<p>".$body."</p>", $logo, $settings->site_title, $footer, $settings->site_host, $subject, $socials), $bodyMail);
-
+echo $bodyMail;
+		die();
 		$mail = new PHPMailer();
 
 		$mail->IsSMTP();
