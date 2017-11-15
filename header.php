@@ -33,8 +33,8 @@ if ($csShop == 1) {
 			<div id="popupInner">
 				<h1>Uspešno</h1>
 				<p>Proizvod je dodat u listu želja!<br/>U gornjem desnom uglu web sajta možeš videti broj proizvoda u listi želja i pregledati je.</p>
-				   <a class="more" href="javascript:" onclick="document.getElementById('whishicList').style.display = 'none';
-								return false;">Zatvori</a>
+				<a class="more" href="javascript:" onclick="document.getElementById('whishicList').style.display = 'none';
+								   return false;">Zatvori</a>
 			</div>
 		</div>
 	<?php } else { ?>
@@ -43,8 +43,8 @@ if ($csShop == 1) {
 				<h1>Morate biti prijavljeni</h1>
 				<p>Za sadržaj koji tražite morate biti prijavljeni na sistem.</p>
 				<p>Registracija može da se obavi preko dugmeta u gornjem desnom uglu sajta.</p>
-				   <a class="more" href="javascript:" onclick="document.getElementById('whishicList').style.display = 'none';
-								return false;">Zatvori</a>
+				<a class="more" href="javascript:" onclick="document.getElementById('whishicList').style.display = 'none';
+								   return false;">Zatvori</a>
 			</div>
 		</div>
 		<?php

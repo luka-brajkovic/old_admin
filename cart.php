@@ -2,6 +2,9 @@
 include_once ("library/config.php");
 $step1Class = "curactive";
 $step2Class = $step3Class = $step4Class = "";
+
+$titleSEO = $csName . " - pregled proizvoda u korpi";
+$descSEO = "Pregledajte i uredite proizvode pre same kupovine.";
 ?>
 
 <?php include_once ("head.php"); ?>

@@ -33,20 +33,12 @@ include_once ("head.php");
     $catNumber3 = $whatCatArr["c3_url"];
     ?>
     <div class="container">
-        <ul class="pagePosition clear" itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">
-            <li>
-                <span>Vi ste ovde:</span>
-            </li>
-            <li itemprop="itemListElement" itemscope="itemscope" itemtype="http://schema.org/ListItem">
-                <a href="/" title="<?= $csTitle; ?>" itemprop="url">
-                    <span itemprop="name">Početna</span>
-                </a>
-            </li>
-            <li>
-                <span itemprop="name">Uporedi</span>
-            </li>
-        </ul>
-
+	<?php
+	$breadcrumbs = array(
+		"Uporedi" => "/uporedi"
+	);
+	$f->breadcrumbs($breadcrumbs, $csTitle, $csName);
+	?>
         <h1>Uporedi <a class="right addNew" href="<?= ($catNumber3) ? "/" . $catNumber3 : ""; ?><?= ($catNumber4) ? "/" . $catNumber4 : ""; ?>">Dodajte proizvod + </a>
         </h1>
 

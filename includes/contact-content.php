@@ -1,21 +1,10 @@
 <div class="container">
-    <ul class="pagePosition clear" itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">
-        <li>
-            <span>Vi ste ovde:</span>
-        </li>
-        <li property="itemListElement" typeof="ListItem">
-            <a title="Početna" href="/" property="item" typeof="WebPage">
-                <span property="name">Početna</span>
-                <meta property="position" content="1">
-            </a>
-        </li>
-        <li property="itemListElement" typeof="ListItem">
-            <a title="Kontakt" href="/kontakt" property="item" typeof="WebPage">
-                <span property="name">Kontakt</span>
-                <meta property="position" content="2">
-            </a>
-        </li>
-    </ul>
+	<?php
+	$breadcrumbs = array(
+		"Kontakt" => "/kontakt"
+	);
+	$f->breadcrumbs($breadcrumbs, $csTitle, $csName);
+	?>
     <div class="content">
         <h1>Kontakt informacije</h1>
         <div class="kontaktInfoPage">

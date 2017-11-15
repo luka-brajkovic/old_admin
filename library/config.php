@@ -27,11 +27,11 @@ define("FILE_MANAGER_PATH", "/home/free1/public_html/dev/uploads");
 
 //Autolodujemo sve klase koje nadjemo u library folderu
 function __autoload($class_name) {
-    if (is_file(APP_PATH . strtolower($class_name) . '.class.php')) {
-        include APP_PATH . strtolower($class_name) . '.class.php';
-    } else {
-        include MODULE_PATH . strtolower($class_name) . '.class.php';
-    }
+	if (is_file(APP_PATH . strtolower($class_name) . '.class.php')) {
+		include APP_PATH . strtolower($class_name) . '.class.php';
+	} else {
+		include MODULE_PATH . strtolower($class_name) . '.class.php';
+	}
 }
 
 //Kreiramo osnovne klase
@@ -43,31 +43,30 @@ $site = new Site();
 
 //utvrdjujemo koji je lang code, tj. na kom smo jezuku
 if (isset($lang_code)) {
-    $lang_code = $f->getValue("lang_code");
+	$lang_code = $f->getValue("lang_code");
 } else {
-    $lang_code = "";
+	$lang_code = "";
 }
 
 //Ako nema jezika onda cemo da iscitamo defaultni
 if ($lang_code == "") {
-    $language = new View("languages", 1, "is_default");
-    $currentLanguage = $language->id;
-    $lang_code = $language->code;
+	$language = new View("languages", 1, "is_default");
+	$currentLanguage = $language->id;
+	$lang_code = $language->code;
 } else {
-    //Ako je setovan onda pravimo objekat sa tim jezikom
-    $language = new View("languages", $lang_code, "code");
-    $currentLanguage = $language->id;
+	//Ako je setovan onda pravimo objekat sa tim jezikom
+	$language = new View("languages", $lang_code, "code");
+	$currentLanguage = $language->id;
 }
 
 //Iz lang fajla citamo sve promenljive i pakujemo u niz. Sve se nalazi u nizu $lng
 $langfile = simplexml_load_file("library/languages/" . $lang_code . ".xml");
 $lng = array();
 foreach ($langfile as $constant) {
-    $constkey = $constant->const;
-    $lng["$constkey"] = "$constant->value";
+	$constkey = $constant->const;
+	$lng["$constkey"] = "$constant->value";
 }
 
-$HOST = $_SERVER['HTTP_HOST'];
 $REQUEST = $_SERVER['REQUEST_URI'];
 
 //Citamo iz settings tabele sve za ovaj jezik
@@ -78,7 +77,7 @@ $csTitle = $settings->site_title;
 $csFooter = $settings->site_footer;
 $csDesc = $settings->site_description;
 $csEmail = $settings->site_email;
-$csDomain = "https://" . $HOST . "/";
+$csDomain = $settings->site_host;
 $csPhone = $settings->site_phone;
 $csPhone2 = $settings->site_phone_2;
 $csFacebook = $settings->site_facebook;
@@ -112,10 +111,10 @@ $csGoogleMapKey = $settings->site_api_key;
 $csShop = $settings->online_shop;
 
 if ($csShop == 1 && isset($_SESSION["loged_user"])) {
-    $isLoged = true;
-    $userData = new View("_content_users", $_SESSION["loged_user"]);
+	$isLoged = true;
+	$userData = new View("_content_users", $_SESSION["loged_user"]);
 } else {
-    $isLoged = false;
+	$isLoged = false;
 }
 
 /*
@@ -126,13 +125,13 @@ if ($csShop == 1 && isset($_SESSION["loged_user"])) {
 
 $nizZelja = array();
 if ($csShop == 1) {
-    if ($isLoged) {
-        $idUsera = $userData->resource_id;
-        $list = mysqli_query($conn, "SELECT * FROM list_zelja WHERE user_rid = $idUsera") or die(mysqli_error($conn));
-        while ($row = mysqli_fetch_object($list)) {
-            array_push($nizZelja, $row->product_rid);
-        }
-    }
+	if ($isLoged) {
+		$idUsera = $userData->resource_id;
+		$list = mysqli_query($conn, "SELECT * FROM list_zelja WHERE user_rid = $idUsera") or die(mysqli_error($conn));
+		while ($row = mysqli_fetch_object($list)) {
+			array_push($nizZelja, $row->product_rid);
+		}
+	}
 }
 
 // Citanje dimenzija slika
@@ -158,5 +157,11 @@ $singleCategories = $fancyboxJS = 0;
 $naslovna = false;
 $urlAKTIVE = $urlJe = $catMasterDataURL = $catMiddleDataURL = $cat_master_url = $lastletter = $tagCurrent = $ogType = $htmlTagAddOG = "";
 
-$allProductPrce = mysqli_query($conn, "SELECT MAX(price) as max_price, MIN(price) as min_price FROM _content_products WHERE status = 1 AND price > '2.00' ") or die(mysqli_error($conn));
-$allProductPrce = mysqli_fetch_object($allProductPrce);
+// hvatanje extenzije logoa
+if (is_file("images/logo.png")) {
+	$logoEx = "png";
+} elseif (is_file("images/logo.svg")) {
+	$logoEx = "svg";
+} elseif (is_file("images/logo.jpg")) {
+	$logoEx = "jpg";
+}

@@ -83,6 +83,8 @@ RewriteRule ^robne-marke/([^/\.]+)/page/([^/\.]+)/?$ /brand-single.php?url=$1&pa
 RewriteRule ^aktuelnosti/([^/\.]+)/?$ /blog-single.php?url=$1 [L,QSA]
 RewriteRule ^aktuelnosti/?$ /blog.php [L,QSA]
 
+RewriteRule ^faq/?$ /faq.php
+
 RewriteRule ^sve-kategorije/?$ /categories_master.php [L,QSA]
 RewriteRule ^([^/\.]+)/([^/\.]+)/([^/\.]+)/([^/\.]+)/?$ /product_page.php?cat_master=$1&sub_cat=$2&url=$3&rid=$4 [L,QSA]
 RewriteRule ^([^/\.]+)/([^/\.]+)/([^/\.]+)/?$ /category-single.php?cat_master=$1&sub_cat=$2&last_cat=$3 [L,QSA]

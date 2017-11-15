@@ -1,27 +1,11 @@
 <div class="container">
-    <ol class="pagePosition clear" vocab="http://schema.org/" typeof="BreadcrumbList">
-        <li>
-            <span>Vi ste ovde:</span>
-        </li>
-        <li>
-            <a title="<?= $csTitle; ?>" href="/">
-                <span>Početna</span>
-
-            </a>
-            <meta itemprop="position" content="1">
-        </li>
-        <li property="itemListElement" typeof="ListItem">
-            <a href="/aktuelnosti" title="Aktuelnosti" property="item" typeof="WebPage">
-                <span property="name">Aktuelnosti</span>
-                <meta itemprop="position" content="2">
-            </a>
-        </li>
-        <li>
-            <a href="/aktuelnosti/<?= $pageData->url; ?>" title="<?= $pageData->title; ?>">
-                <span><?= $pageData->title; ?></span>
-            </a>
-        </li>
-    </ol>
+	<?php
+	$breadcrumbs = array(
+		"Aktuelnosti" => "/aktuelnosti",
+		$pageData->title => "/aktuelnosti/" . $pageData->url
+	);
+	$f->breadcrumbs($breadcrumbs, $csTitle, $csName);
+	?>
     <div class="content singleNews">
         <h1 class='borderBottom'><?= $pageData->title; ?></h1>
 

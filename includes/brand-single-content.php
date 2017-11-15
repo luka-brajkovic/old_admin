@@ -1,23 +1,11 @@
 <div class="container">
-    <ul class="pagePosition clear" itemtype="http://data-vocabulary.org/BreadcrumbList">
-        <li>
-            <span>Vi ste ovde:</span>
-        </li>
-        <li itemprop="itemListElement" itemscope="itemscope" itemtype="http://schema.org/ListItem">
-            <a href="/" title="Početna" itemprop="url">
-                <span itemprop="name">Početna</span>
-            </a>
-        </li>
-        <li itemprop="itemListElement" itemscope="itemscope" itemtype="http://schema.org/ListItem">
-            <a href="/robne-marke" title="Robne marke" itemprop="url">
-                <span itemprop="name">Robne marke</span>
-            </a>
-        </li>
-        <li>
-            <span><?= $brandObj->title; ?></span>
-        </li>
-    </ul>
 	<?php
+	$breadcrumbs = array(
+		"Robne marke" => "/robne-marke",
+		 $brandObj->title => "/robne-marke/".$brandObj->url
+	);
+	$f->breadcrumbs($breadcrumbs, $csTitle, $csName);
+
 	$poStrani = $f->getValue("po_strani");
 	if (isset($poStrani) && is_numeric($poStrani)) {
 		$_SESSION['perPage'] = $poStrani;

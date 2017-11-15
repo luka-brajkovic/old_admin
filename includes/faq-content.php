@@ -1,7 +1,7 @@
 <div class="container white borderGray after">
 	<?php
 	$breadcrumbs = array(
-		"Aktuelnosti" => "/aktuelnosti"
+		"FAQ" => "/faq"
 	);
 	$f->breadcrumbs($breadcrumbs, $csTitle, $csName);
 
