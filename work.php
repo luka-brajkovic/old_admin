@@ -364,11 +364,6 @@ switch ($action) {
 
 
     case "logout":
-
-        $_SESSION["fb_241802152614929_code"] = "";
-
-        $_SESSION["fb_5daf553c6d2a519bc70069ed68287915_access_token"] = "";
-
         unset($_SESSION["loged_user"]);
 
         $f->redirect("/");
@@ -377,57 +372,89 @@ switch ($action) {
 
 
     case "login_fb":
-
         /* require 'facebook.php'; */
-        require_once("facebook.php");
-        $config = array();
-        $config["appId"] = "1710815072558243";
-        $config["secret"] = "b9fbd15ff7281da41c5be48423e859c7";
-        $config["redirect_uri"] = "https://www.bigputovanja.com";
-        $config['fileUpload'] = false; // optional
-        $fb = new Facebook($config);
+        require_once  'Facebook/autoload.php';
 
-        $ajax_user_id = $_POST['id'];
-        $ajax_tk = $_POST['tk'];
+        $fb = new \Facebook\Facebook([
+            'app_id' => '144319329541447',
+            'app_secret' => '3e9c96c425ba74bb4ec9f3320bf2d393',
+            'default_graph_version' => 'v2.11',
+                //'default_access_token' => '{access-token}', // optional
+        ]);
 
-        $readData = @file_get_contents('https://graph.facebook.com/v2.9/me?fields=id,name,email,picture&access_token=' . $ajax_tk);
-        $fbuser = json_decode($readData);
+        $accessToken = $_REQUEST['tk'];
+        try {
+            // Get the \Facebook\GraphNodes\GraphUser object for the current user.
+            // If you provided a 'default_access_token', the '{access-token}' is optional.
+            $response = $fb->get('/me', $accessToken);
 
-        $email = $fbuser->email;
-        $external_id = $fbuser->id;
-        if ($email) {
-            $usersCollection = new Collection("users");
-            $usersA = $usersCollection->getCollection("WHERE email = '$email'");
-            if (count($usersA) == 0) {
-                $user = new View("users");
-                $user->fullname = $fbuser->name;
-                $user->email = $email;
-                $user->status = 1;
-                $user->fbuser = 1;
-                $user->newsletter_putovanja = "Da";
-                $password = rand(1, 9999);
-                $body = "Poštovani,<br /><br />Na portal bigutovanja.com se možete prijaviti i klasičnom prijavom:<br /><br />e-mail: $email<br />lozinka: $password";
-                $body .= "<br>Kasnije ovu lozinku možete promeniti sa administratorske stranice Vašeg profila.<br /><br />BiGputovanja Tim";
-                $f->sendEmail($configSiteEmail, $configSiteTitle, $email, "Podaci za prijavljivanje na BiGputovanja.com", $body);
-                $user->password = md5($password);
-                $user->external_id = $external_id;
-                $user->date_added = date("Y-m-d H:i:s");
-                $user->Save();
-                $_SESSION["loged_user"] = $user->id;
-            } else {
-                $user = $usersA[0];
-                $user->status = 1;
-                if (!$user->fullname) {
-                    $user->fullname = $fbuser->name;
-                }
-                $user->Save();
-                $_SESSION["loged_user"] = $usersA[0]->id;
-            }
-            /* PORUKA AKO HOCE DA MU KAZES DA JE LOGOVAN */
-            echo "1";
-        } else {
-            echo "2";
+        } catch(\Facebook\Exceptions\FacebookResponseException $e) {
+            // When Graph returns an error
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+        } catch(\Facebook\Exceptions\FacebookSDKException $e) {
+            // When validation fails or other local issues
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
         }
+
+        $me = $response->getGraphUser();
+        echo 'Logged in as ' . $me;
+
+
+
+
+
+
+
+
+//        $config = array();
+//        $config["app_id"] = "2201700689855818";
+//        $config["app_secret"] = "8e973efabbeb258a6cb02057e827086a";
+//        $fb = new Facebook\Facebook($config);
+//
+//        $ajax_user_id = $_POST['id'];
+//        $ajax_tk = $_POST['tk'];
+//
+//        $readData = @file_get_contents('https://graph.facebook.com/v2.11/me?fields=id,name,email,picture&access_token=' . $ajax_tk);
+//        $fbuser = json_decode($readData);
+//
+//        var_dump($readData);
+//
+//        $email = $fbuser->email;
+//        if ($email) {
+//            $usersCollection = new Collection("_content_users");
+//            $usersA = $usersCollection->getCollection("WHERE email = '$email'");
+//            list($name,$prezime,$midle)= explode(" ",$fbuser->name);
+//
+//
+//            if (count($usersA) == 0) {
+//                $user = new View("_content_users");
+//                $user->ime = $name;
+//                $user->prezime = $prezime." ".$midle;
+//                $user->email = $email;
+//                $user->status = 1;
+//                $user->fbuser = 1;
+//                $user->newsletter = "Da";
+//                $user->facebook_id = $fbuser->id;
+//                $user->system_date = date("Y-m-d H:i:s");
+//                $user->Save();
+//                $_SESSION["loged_user"] = $user->id;
+//            } else {
+//                $user = $usersA[0];
+//                $user->status = 1;
+//                if (!$user->ime) {
+//                    $user->ime = $name;
+//                    $user->prezime = $prezime." ".$midle;
+//                }
+//                $user->Save();
+//                $_SESSION["loged_user"] = $user->id;
+//            }
+//            /* PORUKA AKO HOCE DA MU KAZES DA JE LOGOVAN */
+//            echo "1";
+//        } else {
+//            echo "2";
+//        }
         break;
 }
 ?>

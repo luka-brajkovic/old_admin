@@ -41,7 +41,134 @@ if ($f->verifyFormToken('form1')) {
         }
     }
 }
+
+
 ?>
+<script>
+    // This is called with the results from from FB.getLoginStatus().
+    function statusChangeCallback(response) {
+        console.log('statusChangeCallback');
+        console.log(response);
+        // The response object is returned with a status field that lets the
+        // app know the current login status of the person.
+        // Full docs on the response object can be found in the documentation
+        // for FB.getLoginStatus().
+        if (response.status === 'connected') {
+
+            if (response.status === 'connected') {
+                var user_id = response.authResponse.userID;
+                var tk = response.authResponse.accessToken;
+                var broj;
+                $.ajax({
+                    type: "POST",
+                    async: false,
+                    url: "/work.php",
+                    data: "id=" + user_id + "&tk=" + tk + "&action=login_fb",
+                    success: function (msg) {
+                        console.log('OVO: ' + msg);
+                        broj = msg;
+                    }
+                });
+
+                broj = parseInt(broj);
+
+
+                console.log("before testing")
+                testAPI();
+
+                if (broj == 0) {
+
+                } else {
+
+                }
+            } else {
+                alert("Morate da dozvolite pristupe Vašim podacima sa Facebook-a kako bi se uspešno registrovali!");
+            }
+
+
+        } else {
+            // The person is not logged into your app or we are unable to tell.
+            document.getElementById('status').innerHTML = 'Please log ' +
+                'into this app.';
+        }
+    }
+
+    // This function is called when someone finishes with the Login
+    // Button.  See the onlogin handler attached to it in the sample
+    // code below.
+    function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+            console.log('Welcome!  Fetching your information.... ');
+            var url = '/me';
+            FB.api(url, {fields: 'name,email'}, function(response) {
+                alert(response.name + " " + response.id + " " +response.email);
+            }, {scope: 'email'});
+        });
+    }
+
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '144319329541447',
+            cookie     : true,  // enable cookies to allow the server to access
+                                // the session
+            xfbml      : true,  // parse social plugins on this page
+            version    : 'v2.11' // use graph api version 2.8
+        });
+
+        // Now that we've initialized the JavaScript SDK, we call
+        // FB.getLoginStatus().  This function gets the state of the
+        // person visiting this page and can return one of three states to
+        // the callback you provide.  They can be:
+        //
+        // 1. Logged into your app ('connected')
+        // 2. Logged into Facebook, but not your app ('not_authorized')
+        // 3. Not logged into Facebook and can't tell if they are logged into
+        //    your app or not.
+        //
+        // These three cases are handled in the callback function.
+
+//        FB.getLoginStatus(function(response) {
+//            statusChangeCallback(response);
+//        });
+
+    };
+
+    // Load the SDK asynchronously
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    // Here we run a very simple test of the Graph API after login is
+    // successful.  See statusChangeCallback() for when this call is made.
+    function testAPI() {
+        console.log('Welcome!  Fetching your information.... ');
+        FB.api('/me?fields=name,email', function(response) {
+            console.log(response);
+            document.getElementById('status').innerHTML =
+                'Thanks for logging in, ' + response.name + response.email+'!';
+        });
+
+    }
+
+    function fb_logout() {
+        FB.logout(function (response) {
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/work.php",
+                data: "action=logout_fb",
+                success: function (msg) {
+                    location.href = '/';
+                }
+            });
+        });
+    }
+</script>
 <div class="container">
     <ul class="pagePosition clear" itemtype="http://data-vocabulary.org/BreadcrumbList">
         <li>
@@ -113,6 +240,15 @@ if ($f->verifyFormToken('form1')) {
                         <a class="faceLogin" onclick="fb_login()" href="#">
                             <i class="fa fa-facebook"></i> Log In
                         </a>
+
+                        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+                        </fb:login-button>
+
+
+                        <div id="status">
+                        </div>
+
+                        <button onclick="fb_logout()">logout</button>
                     </div>
                 </div>    
             </div>
@@ -127,75 +263,76 @@ if ($f->verifyFormToken('form1')) {
 
 
 
-
-
 <script>
-    window.fbAsyncInit = function () {
-        FB.init({
-            appId: '1710815072558243', // App ID
-            channelUrl: '//www.bigputovanja.com/', // Channel File
-            status: true, // check login status
-            cookie: true, // enable cookies to allow the server to access the session
-            oauth: true,
-            xfbml: false, // parse XFBML
-            version: 'v2.8'
-        });
-        FB.AppEvents.logPageView();
-    };
+//    window.fbAsyncInit = function () {
+//        FB.init({
+//            appId: '1710815072558243', // App ID
+//            channelUrl: '//www.bigputovanja.com/', // Channel File
+//            status: true, // check login status
+//            cookie: true, // enable cookies to allow the server to access the session
+//            oauth: true,
+//            xfbml: false, // parse XFBML
+//            version: 'v2.8'
+//        });
+//        FB.AppEvents.logPageView();
+//    };
+//
+//    // Load the SDK asynchronously
+//    (function (d, s, id) {
+//        var js, fjs = d.getElementsByTagName(s)[0];
+//        if (d.getElementById(id))
+//            return;
+//        js = d.createElement(s);
+//        js.id = id;
+//        js.src = "//connect.facebook.net/sr_RS/all.js#xfbml=1&appId=1710815072558243";
+//        fjs.parentNode.insertBefore(js, fjs);
+//    }(document, 'script', 'facebook-jssdk'));
+//
+//    function fb_login() {
+//        FB.login(function (response) {
+//
+//            if (response.authResponse) {
+//                var user_id = response.authResponse.userID;
+//                var tk = response.authResponse.accessToken;
+//                var broj;
+//                $.ajax({
+//                    type: "POST",
+//                    async: false,
+//                    url: "/work.php",
+//                    data: "id=" + user_id + "&tk=" + tk + "&action=login_fb",
+//                    success: function (msg) {
+//                        console.log('OVO: ' + msg);
+//                        broj = msg;
+//                    }
+//                });
+//
+//                broj = parseInt(broj);
+//
+//                if (broj == 0) {
+//                    window.location = '/<?//= ($canonical != "") ? $canonical : ltrim($_SERVER['REQUEST_URI'], "/"); ?>//';
+//                } else {
+//                    window.location = '/<?//= ($canonical != "") ? $canonical : ltrim($_SERVER['REQUEST_URI'], "/"); ?>//';
+//                }
+//            } else {
+//                alert("Morate da dozvolite pristupe Vašim podacima sa Facebook-a kako bi se uspešno registrovali!");
+//            }
+//
+//        }, {scope: 'email'});
+//    }
+//    function fb_logout() {
+//        FB.logout(function (response) {
+//            $.ajax({
+//                type: "POST",
+//                async: false,
+//                url: "/work.php",
+//                data: "action=logout_fb",
+//                success: function (msg) {
+//                    location.href = '/';
+//                }
+//            });
+//        });
+//    }
 
-    // Load the SDK asynchronously
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id))
-            return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "//connect.facebook.net/sr_RS/all.js#xfbml=1&appId=1710815072558243";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
 
-    function fb_login() {
-        FB.login(function (response) {
 
-            if (response.authResponse) {
-                var user_id = response.authResponse.userID;
-                var tk = response.authResponse.accessToken;
-                var broj;
-                $.ajax({
-                    type: "POST",
-                    async: false,
-                    url: "/work.php",
-                    data: "id=" + user_id + "&tk=" + tk + "&action=login_fb",
-                    success: function (msg) {
-                        console.log('OVO: ' + msg);
-                        broj = msg;
-                    }
-                });
-
-                broj = parseInt(broj);
-
-                if (broj == 0) {
-                    window.location = '/<?= ($canonical != "") ? $canonical : ltrim($_SERVER['REQUEST_URI'], "/"); ?>';
-                } else {
-                    window.location = '/<?= ($canonical != "") ? $canonical : ltrim($_SERVER['REQUEST_URI'], "/"); ?>';
-                }
-            } else {
-                alert("Morate da dozvolite pristupe Vašim podacima sa Facebook-a kako bi se uspešno registrovali!");
-            }
-
-        }, {scope: 'email'});
-    }
-    function fb_logout() {
-        FB.logout(function (response) {
-            $.ajax({
-                type: "POST",
-                async: false,
-                url: "/work.php",
-                data: "action=logout_fb",
-                success: function (msg) {
-                    location.href = '/';
-                }
-            });
-        });
-    }
 </script>
