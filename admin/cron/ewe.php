@@ -148,7 +148,7 @@ $ukupno = 0;
                     $newSubCat->Save();
 
                     $body = "Nova podkategorija $subcategory je dodata u kategoriji $MasterCat->title, i spremna je za dodavanje procenta, upisujete cist broj bez znaka za rocenat.";
-                    $f->sendEmail("office@webdizajnsrbija.rs", "Skycomputer.rs", "office@skycomputer.rs", "Nova Ewe.rs podkategorija na sajtu Skycomputer.rs", $body, $currentLanguage);
+                    $f->sendMail("office@webdizajnsrbija.rs", "Skycomputer.rs", "office@skycomputer.rs", "Nova Ewe.rs podkategorija na sajtu Skycomputer.rs", $body, $currentLanguage);
                 }
 
                 /*                 * *************************** KRAJ UPISA KATEGORIJE I PODKATEGORIJE ********************* */

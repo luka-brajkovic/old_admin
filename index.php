@@ -23,7 +23,7 @@ $htmlTagAddOG = 'prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# business
         } else {
             $salje = $db->getValue("text", "_content_html_blocks", "resource_id", "9");
             $bodyUser = $db->getValue("text", "_content_html_blocks", "resource_id", "10");
-            $f->sendEmail($csEmail, "$csName", $email, "Uspešna prijava na newsletter", $bodyUser, $currentLanguage);
+            $f->sendMail($csEmail, "$csName", $email, "", "Uspešna prijava na newsletter", $bodyUser, $currentLanguage);
 
             $postojiEmail = $db->getValue("resource_id", "_content_newsletter", title, $email);
 

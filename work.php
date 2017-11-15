@@ -62,6 +62,31 @@ switch ($action) {
 
         break;
 
+    case "aktivacija-newsletter":
+
+        $email = $f->getValue("md5email");
+
+        $usersCol = new Collection("_content_newsletter");
+        $users = $usersCol->getCollection("WHERE md5(email) = '$email' ");
+        if (count($users) == 1) {
+            $user = $users[0];
+            $user->newsletter = 1;
+            $user->Save();
+
+            $_SESSION["loged_user"] = $user->id;
+            if (isset($_SESSION["vrati_posle_na"])) {
+                $f->redirect($_SESSION["vrati_posle_na"]);
+            } else {
+                $_SESSION["first_timer"] = true;
+
+                $f->redirect("/");
+            }
+        } else {
+            $f->redirect("/");
+        }
+
+        break;
+
     case "aktivacija":
 
         $email = $f->getValue("md5email");

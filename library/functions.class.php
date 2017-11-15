@@ -1403,8 +1403,8 @@ class Functions extends Database {
 		
 		$bodyMail = file_get_contents("includes/mail.html");
 		$bodyMail = str_replace(array("[CONTENT]", "[LOGO]", "[SITE_TITLE]", "[FOOTER]", "[DOMAIN]", "[SUBJECT]", "[SOCIALS]"), array("<p>".$body."</p>", $logo, $settings->site_title, $footer, $settings->site_host, $subject, $socials), $bodyMail);
-echo $bodyMail;
-		die();
+
+		
 		$mail = new PHPMailer();
 
 		$mail->IsSMTP();

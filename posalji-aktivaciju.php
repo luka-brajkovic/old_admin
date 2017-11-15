@@ -23,7 +23,7 @@ if (!empty($userData->id)) {
             $body .= "<p>Ukoliko ne možete klikom da aktivirate nalog, kopirajte i otvorite u vašem pretraživaču sledeći link:<br /> <a href='" . $csDomain . "aktivacija-naloga/$md5_email'>" . $csDomain . "aktivacija-naloga/$md5_email</a></p>";
             $body .= "<p>Još jednom koristimo priliku da Vam se zahvalimo na korišćenju naših usluga.</p><p>Vaš " . $csName . " tim</p>";
 
-            $f->sendEmail($csEmail, $csName . " | Internet prodavnica", $userData->$fieldMail, "Aktivacija naloga", $body, $currentLanguage);
+            $f->sendMail($csEmail, $csName, $userData->$fieldMail, $userData->ime." ".$userData->prezime . "Aktivacija naloga", $body, $currentLanguage);
 
             $_SESSION["poslat_link"] = true;
 

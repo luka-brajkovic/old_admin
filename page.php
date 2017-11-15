@@ -26,9 +26,6 @@ if ($pageData->desc_seo == "") {
 } else {
     $descSEO = $pageData->desc_seo;
 }
-if ($pageData->keys_seo != "") {
-    $keysSEO = $pageData->keys_seo;
-}
 
 include_once ("head.php"); ?></head>
 <body>

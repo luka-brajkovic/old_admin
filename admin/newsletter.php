@@ -65,7 +65,7 @@ $module_name = "index";
                                 $newsletterSendic = new Collection("_content_newsletter");
                                 $newsletterSendicArr = $newsletterSendic->getCollection("WHERE status = 1 AND title !='' LIMIT $pocetniLimit,$krajnjiLimit");
                                 foreach ($newsletterSendicArr as $newslet) {
-                                    $f->sendEmail($csEmail, $csName, $newslet->title, $newsletterData->title, str_replace("promeniumd5", md5($newslet->title), $bodyUser, $currentLanguage));
+                                    $f->sendMail($csEmail, $csName, $newslet->title, $newsletterData->title, str_replace("promeniumd5", md5($newslet->title), $bodyUser, $currentLanguage));
                                     $poslatoNa .= $newslet->title . ", ";
                                     $poslatoSvima = "Da";
                                 }

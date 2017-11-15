@@ -75,7 +75,6 @@ if (!$sortiranje || !is_numeric($sortiranje)) {
 }
 $titleSEO = $pretraga . " - Pretraga artikala";
 $descSEO = "Pretraga proizvoda na snizenju i akciji po reči $pretraga na internet prodavnici " . $csName;
-$keysSEO = "pretraga, $pretraga, " . strtolower($csName) . ", akcije, snizenja, internet prodavnica";
 
 include_once ("head.php");
 ?>

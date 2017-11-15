@@ -90,7 +90,7 @@ if ($isLoged) {
             $body .= "<p>Možete ponovo kupovati kod nas i pratiti Vaše porudžbine.<br><br>Vaša lozinka za prijavljivanje je: $passLoz<br>Lozinku možete promeniti u korisničkom nalogu pošto se prijavite na našu internet prodavnicu.</p>";
             $body .= "<p>Vaš <a href='".$csDomain."' title='$csName'>" . $csName . "</a> tim</p>";
             
-            $f->sendEmail($csEmail, "$csName | Internet prodavnica", $email, "Dobrodošli", $body, $currentLanguage);
+            $f->sendMail($csEmail, "$csName", $email, $f->getValue("ime") . " " . $f->getValue("prezime"), "Dobrodošli", $body, $currentLanguage);
 
             $user = new View("_content_users", $resource->id, 'resource_id');
             $_SESSION["loged_user"] = $user->id;

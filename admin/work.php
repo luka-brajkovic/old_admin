@@ -185,102 +185,6 @@ switch ($action) {
         $_SESSION["LIMIT_PER_PAGE"] = $limit;
 
         break;
-
-
-    /**
-     * INBOX
-     */
-    case "replyInbox":
-
-        $i_message = $f->getValue("i_m");
-        $sendTo = $f->getValue("sT");
-        $message = $f->getValue("m");
-        $dateNow = date("Y-m-d H:i:s");
-        $userId = $f->logedUser();
-
-        $message = str_replace("{AND}", "&", $message);
-
-        $db->execQuery("INSERT INTO messages (`author`, `receiver`, `body`, `child_of`, `read`, `date`)
-        										VALUES ('$userId', '$sendTo', '$message', '$i_message', '0', '$dateNow')");
-
-        $upit = $db->execQuery("SELECT * FROM messages WHERE `original` = '$i_message'");
-        $resultCount = mysqli_num_rows($upit);
-        if ($resultCount == 0) {
-            $upit = $db->execQuery("SELECT * FROM messages WHERE i_message = '$i_message' AND (deleted_author = '0' OR deleted_receiver = '0')");
-            $data = mysqli_fetch_array($upit, MYSQLI_ASSOC);
-            if ($data['author'] != $userId) {
-                $subject = "Re: " . $data['subject'];
-                $body = $data['body'];
-                $db->execQuery("INSERT INTO messages (`author`, `receiver`, `subject`, `body`, `original`, `read`, `date`)
-	        											VALUES ('$userId', '$sendTo', '$subject', '$body', '$i_message', '0', '$dateNow')");
-            }
-        }
-
-        $upit = $db->execQuery("SELECT * FROM messages WHERE i_message = '$i_message' AND receiver = '$userId'");
-        $resultCount = mysqli_num_rows($upit);
-        if ($resultCount == 0) {
-            $db->execQuery("UPDATE messages SET `read` = '0', deleted_receiver = '0', deleted_author = '0' WHERE i_message = '$i_message'");
-        } else {
-            $db->execQuery("UPDATE messages SET `read` = '0', deleted_receiver = '0', deleted_author = '0' WHERE original = '$i_message'");
-        }
-
-        $sendToEmail = $db->getValue("email", "users", "id", $sendTo);
-        $sendFrom = $db->getValue("username", "users", "id", $userId);
-
-        $mailBody = "Imate novu poruku u sandučetu od <strong>$sendFrom</strong>!<br><br>" .
-                "\"" . nl2br($message) . "\"<br><br>" .
-                "Posetite http://www.sveznalica.com/inbox/ i pročitajte!<br><br>" .
-                "Vaša Sveznalica";
-
-        //$mailBody = "Imate novu poruku u sandučetu! Posetite http://www.sveznalica.com/inbox/ i pročitajte!";
-
-        $f->sendEmail("obavestenja@sveznalica.com", "Sveznalica", $sendToEmail, "Nova poruka u sandučetu na Sveznalici!", $mailBody, $currentLanguage);
-
-
-        break;
-    case "deleteMessageInbox":
-
-        $i_message = $f->getValue("i_m");
-        $receiver = $db->getValue("receiver", "messages", "i_message", $i_message);
-        $userId = $f->logedUser();
-
-        if ($userId == $receiver) {
-
-            $upit = $db->execQuery("SELECT * FROM messages WHERE receiver = '$userId' AND i_message = '$i_message'");
-            $count = mysqli_num_rows($upit);
-            if ($count == 0) {
-                $db->execQuery("UPDATE messages SET deleted_receiver = '1', `read` = '1' WHERE original = '$i_message'");
-            } else {
-                $db->execQuery("UPDATE messages SET deleted_receiver = '1', `read` = '1' WHERE i_message = '$i_message'");
-            }
-            echo "1";
-        } else {
-            echo "0";
-        }
-
-        break;
-    case "deleteMessageSent":
-
-
-        $i_message = $f->getValue("i_m");
-        $author = $db->getValue("author", "messages", "i_message", $i_message);
-        $userId = $f->logedUser();
-
-        if ($userId == $author) {
-
-            $upit = $db->execQuery("SELECT * FROM messages WHERE author = '$userId' AND i_message = '$i_message'");
-            $count = mysqli_num_rows($upit);
-            if ($count == 0) {
-                $db->execQuery("UPDATE messages SET deleted_author = '1', `read` = '1' WHERE original = '$i_message'");
-            } else {
-                $db->execQuery("UPDATE messages SET deleted_author = '1', `read` = '1' WHERE i_message = '$i_message'");
-            }
-            echo "1";
-        } else {
-            echo "0";
-        }
-
-        break;
         
     case "aktiviraj":
 
@@ -316,7 +220,7 @@ switch ($action) {
             $new_pass = $f->passwordGeneration("6", "ABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789");
             $new_pass_md5 = md5($new_pass);
             $text = "Uspešno resetovana šiifra za sajt $settings->site_domain. Nova šifra je " . $new_pass;
-            $f->sendEmail($settings->site_email, $settings->site_domain, $email, "Promena šifre", $text, $currentLanguage);
+            $f->sendMail($settings->site_email, $settings->site_domain, $email, "", "Promena šifre", $text, $currentLanguage);
             $user->password = $new_pass_md5;
             $user->Save();
             $f->redirect("login.php");

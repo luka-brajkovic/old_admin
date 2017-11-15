@@ -4,7 +4,6 @@ $urlAKTIVE = "/kontakt";
 
 $titleSEO = 'Kontakt telefon, email, adresa - ' . $csName;
 $descSEO = 'Kontaktirajte nas za više informacija o svim našim proizvoda, cenama i detaljima ili bilo kakvo pitanje da imate';
-$keysSEO = 'kontakt, telefon, email, proizvodi, cena, pitanja';
 
 $email = $name = $message = $telefon = "";
 $greske = array();
