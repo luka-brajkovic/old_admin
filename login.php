@@ -8,7 +8,11 @@ include_once ("head.php");
     #popup {position:fixed; width:100%; background: rgba(0,0,0,0.7); height:100%; z-index:9999; display: none;}
     #popupInner {margin:100px auto; width:600px; background: #FFF; height:auto; padding:20px; }
     #popup a.more {background:#307AB7; display:block; margin:10px auto 0 auto; padding:10px; text-align: center; color:#FFF; width: 20%; float:right;}
-</style> 
+</style>
+
+<meta name="google-signin-client_id" content="925914991864-jvk1vgh0o1rhr8n0q5d12v14gg8jdjpr.apps.googleusercontent.com">
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body>
     <?php
@@ -33,11 +37,6 @@ include_once ("head.php");
             <a class="more" href="javascript:" onclick='closePopup();' >Zatvori</a>
         </div>
     </div>
-
-
-
-
-
 
 
     <?php
