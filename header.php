@@ -1,4 +1,60 @@
 <?php
+if ($f->verifyFormToken('newsletter')) {
+
+	$email = $f->getValue("email");
+	$emailmd5 = md5($email);
+
+	if (filter_var($email, FILTER_VALIDATE_EMAIL) === FALSE) {
+		$_SESSION['infoTitle'] = "<h1>Neuspešna prijava</h1>";
+		$_SESSION['infoText'] = "<p>NISTE uspeli da se registrujete na našu newsletter listu. Molimo Vas da proverite email koji ste uneli.</p>";
+	} else {
+
+		$postojiEmail = $db->getValue("resource_id", "_content_newsletter", title, $email);
+
+		if ($postojiEmail == "") {
+			$paketNewsletter = new View("resources");
+			$paketNewsletter->table_name = "_content_newsletter";
+			$paketNewsletter->Save();
+
+			$newEmail = new View("_content_newsletter");
+			$newEmail->resource_id = $paketNewsletter->id;
+			$newEmail->title = $email;
+			$newEmail->url = $f->generateUrlFromText($email);
+			$newEmail->system_date = date("Y-m-d H:i:s");
+			$newEmail->lang = 1;
+			$newEmail->status = 0;
+			$newEmail->Save();
+
+			$bodyUser = "Poštovani, <br /><br />klikom na dugme LINK ispod će te aktivirati Vašu prijavu na newsletter na sajtu $csName.<br /><br />"
+					. "<a href='".$csDomain."aktivacija-newsletter/$emailmd5'>LINK</a>"
+					. "<br /><br /><i>ukoliko ne vidite dugme iznad, kopirajte ovajl link u Vaš internet pretraživač: ".$csDomain."aktivacija-newsletter/$emailmd5</i>"
+					. "<br /><br /><br /><i style='font-size:14px;'>Ukoliko se niste Vi prijavili molimo Vas da ignorišite ovu poruku.<i><br /><br /><br />Srdačan pozdrav od tima sajta $csName";
+			$f->sendMail($csEmail, "$csName", $email, "", "Aktivacija newsletter-a " . $csName, $bodyUser, $currentLanguage);
+
+			$_SESSION['infoTitle'] = "<h1>Aktivacijoni link</h1>";
+			$_SESSION['infoText'] = "<p>Na Vaš email je poslat aktivacioni link, klikom na njega će te potvrditi i aktivirati Vašu prijavu na newsletter.</p>";
+		} else {
+			$maili = new Collection("_content_newsletter");
+			$mailArr = $maili->getCollection("WHERE  title = '$email'");
+			$newEmail = $mailArr[0];
+
+			if ($newEmail->status == 1) {
+				$_SESSION['infoTitle'] = "<h1>Email postoji</h1>";
+				$_SESSION['infoText'] = "<p>Vaš email je već u našem sistemu, hvala Vam na poverenju.</p>";
+			} else {
+				$bodyUser = "Poštovani, <br /><br />klikom na dugme LINK ispod će te aktivirati Vašu prijavu na newsletter na sajtu $csName.<br /><br />"
+						. "<a href='".$csDomain."aktivacija-newsletter/$emailmd5'>LINK</a>"
+					. "<br /><br /><i>ukoliko ne vidite dugme iznad, kopirajte ovajl link u Vaš internet pretraživač: ".$csDomain."aktivacija-newsletter/$emailmd5</i>"
+						. "<br /><br /><br /><i style='font-size:14px;'>Ukoliko se niste Vi prijavili molimo Vas da ignorišite ovu poruku.<i><br /><br /><br />Srdačan pozdrav od tima sajta $csName";
+				$f->sendMail($csEmail, "$csName", $email, "", "Aktivacija newsletter-a " . $csName, $bodyUser, $currentLanguage);
+
+				$_SESSION['infoTitle'] = "<h1>Aktivacijoni link</h1>";
+				$_SESSION['infoText'] = "<p>Na Vaš email je poslat aktivacioni link, klikom na njega će te potvrditi i aktivirati Vašu prijavu na newsletter.</p>";
+			}
+		}
+	}
+}
+
 if (isset($_SESSION['infoTitle']) && $_SESSION['infoTitle'] != "") {
 	?>
 	<div id="popup">
@@ -11,6 +67,7 @@ if (isset($_SESSION['infoTitle']) && $_SESSION['infoTitle'] != "") {
 	$_SESSION['infoTitle'] = "";
 	$_SESSION['infoText'] = "";
 }
+
 if ($csShop == 1) {
 	?>
 	<div id="cart_loader">
@@ -34,7 +91,7 @@ if ($csShop == 1) {
 				<h1>Uspešno</h1>
 				<p>Proizvod je dodat u listu želja!<br/>U gornjem desnom uglu web sajta možeš videti broj proizvoda u listi želja i pregledati je.</p>
 				<a class="more" href="javascript:" onclick="document.getElementById('whishicList').style.display = 'none';
-								   return false;">Zatvori</a>
+								return false;">Zatvori</a>
 			</div>
 		</div>
 	<?php } else { ?>
@@ -44,7 +101,7 @@ if ($csShop == 1) {
 				<p>Za sadržaj koji tražite morate biti prijavljeni na sistem.</p>
 				<p>Registracija može da se obavi preko dugmeta u gornjem desnom uglu sajta.</p>
 				<a class="more" href="javascript:" onclick="document.getElementById('whishicList').style.display = 'none';
-								   return false;">Zatvori</a>
+								return false;">Zatvori</a>
 			</div>
 		</div>
 		<?php

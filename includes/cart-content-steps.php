@@ -34,4 +34,5 @@ if ($korpa->id != '') {
             <i class="fa fa-caret-right arrow"></i></a>
     </div>
 </div>
-<script type="text/javascript">function izbaciIzKorpe(a){var b = confirm("Da li ste sigurni da želite da uklonite ovaj proizvod iz korpe?"); b && $.ajax({type:"POST", async:!0, url:"/work.php", data:"itemID=" + a + "&action=remove-from-cart", success:function(a){location.reload()}})}</script>
+<script type="text/javascript">function izbaciIzKorpe(a){var b=confirm("Da li ste sigurni da želite da uklonite ovaj proizvod iz korpe?");b&&$.ajax({type:"POST",async:!0,url:"/work.php",data:"itemID="+a+"&action=remove-from-cart",success:function(a){location.reload()}})}function izbaciKupon(a){var b=confirm("Da li ste sigurni da želite da uklonite kupon?");b&&$.ajax({type:"POST",async:!0,url:"/work.php",data:"&action=remove-kupon",success:function(a){location.reload()}})}
+</script>
