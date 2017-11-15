@@ -1,4 +1,5 @@
 <?php
+
 include_once ("library/config.php");
 $titleSEO = "Prijavite se na našu online prodavnicu - " . $csName;
 $descSEO = "Prijavite se za najbolje cene, popuste, promocije i nagrade na našoj online prodavnici " . $csName . ", sva tehniku ma jednom mestu!";
@@ -13,6 +14,19 @@ include_once ("head.php");
 <meta name="google-signin-client_id" content="925914991864-jvk1vgh0o1rhr8n0q5d12v14gg8jdjpr.apps.googleusercontent.com">
 
 <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<script>
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+        });
+    }
+
+
+</script>
+
+
 </head>
 <body>
     <?php

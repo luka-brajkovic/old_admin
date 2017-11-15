@@ -1,6 +1,8 @@
 <?php
 include_once("library/config.php");
 $action = $f->getValue("action");
+$id_token = $f->getValue("idtoken");
+
 switch ($action) {
 
     case "check_if_mail_exist":
@@ -391,7 +393,9 @@ switch ($action) {
     case "logout":
         unset($_SESSION["loged_user"]);
 
-        $f->redirect("/");
+        unset($_SESSION['access_token']);
+
+        //$f->redirect("/");
 
         break;
 
@@ -425,13 +429,6 @@ switch ($action) {
 
         $me = $response->getGraphUser();
         echo 'Logged in as ' . $me;
-
-
-
-
-
-
-
 
 //        $config = array();
 //        $config["app_id"] = "2201700689855818";
@@ -480,6 +477,67 @@ switch ($action) {
 //        } else {
 //            echo "2";
 //        }
+        break;
+
+
+    case "login_google":
+        require_once 'vendor/autoload.php';
+
+        $id_token = $_POST['idtoken'];
+
+        $client = new Google_Client(['client_id' => $CLIENT_ID]);
+        $payload = $client->verifyIdToken($id_token);
+        if ($payload) {
+            $email = ($payload['email']);
+            $ime = ($payload['given_name']);
+            $prezime = ($payload['family_name']);
+
+
+            if ($email) {
+            $usersCollection = new Collection("_content_users");
+            $usersA = $usersCollection->getCollection("WHERE `e-mail` = '$email'");
+
+            $upismai = "e-mail";
+
+            if (count($usersA) == 0) {
+                $user = new View("_content_users");
+                $user->ime = $ime;
+                $user->prezime = $prezime;
+                $user->$upismai = $email;
+                $user->status = 1;
+                $user->fbuser = 1;
+                $user->newsletter = "Da";
+                $user->system_date = date("Y-m-d H:i:s");
+                $user->Save();
+                $_SESSION["loged_user"] = $user->id;
+
+                $_SESSION['infoTitle'] = "<h1>Dobrodošli</h1>";
+                $_SESSION['infoText'] = "<p>Poštovani, želimo Vam prijatno korišćenje naše internet prodavnice.</p>";
+
+            } else {
+                $user = $usersA[0];
+                $user->status = 1;
+                if (!$user->ime) {
+                    $user->ime = $name;
+                    $user->prezime = $prezime." ".$midle;
+                }
+                $user->Save();
+                $_SESSION["loged_user"] = $user->id;
+
+                $_SESSION['infoTitle'] = "<h1>Dobrodošli</h1>";
+                $_SESSION['infoText'] = "<p>Poštovani, želimo Vam prijatno korišćenje naše internet prodavnice.</p>";
+            }
+            /* PORUKA AKO HOCE DA MU KAZES DA JE LOGOVAN */
+            echo "1";
+        } else {
+            echo "2";
+        }
+
+
+
+        } else {
+            varDump("invalid id token");
+        }
         break;
 }
 ?>

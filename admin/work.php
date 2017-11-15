@@ -210,6 +210,7 @@ switch ($action) {
 
     case "lostPass":
 
+
         $email = $f->getValue("email");
 
         $user = new View("administrators", $email, "email");
@@ -219,13 +220,14 @@ switch ($action) {
         if ($user->id != "") {
             $new_pass = $f->passwordGeneration("6", "ABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789");
             $new_pass_md5 = md5($new_pass);
-            $text = "Uspešno resetovana šiifra za sajt $settings->site_domain. Nova šifra je " . $new_pass;
+            $text = "Uspešno resetovana šiifra za administraciju sajta $settings->site_domain. Nova šifra je " . $new_pass;
             $f->sendMail($settings->site_email, $settings->site_domain, $email, "", "Promena šifre", $text, $currentLanguage);
+           // echo "$text";
             $user->password = $new_pass_md5;
             $user->Save();
-            $f->redirect("login.php");
+            //$f->redirect("login.php");
         } else {
-            $f->redirect("login.php?action=lostPass");
+            //$f->redirect("login.php?action=lostPass");
         }
 
         break;

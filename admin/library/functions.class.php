@@ -1630,20 +1630,63 @@ class Functions extends Database {
      * $body              -   mail body
      * $currentLanguage   -   current language id
      */
-    
+
     function sendMail($emailFrom, $fromName, $emailTo, $nameTo, $subject, $body, $currentLanguage) {
 
-        require_once("admin/library/phpmailer/class.phpmailer.php");
+        require_once("library/phpmailer/PHPMailerAutoload.php");
         $settings = new View("settings", $currentLanguage, "lang_id");
-        
+
         $body = nl2br($body);
-        $body= str_replace(array("\
-	", "\\r", "\\n", "bcc:"), "<br />", $body);
-        
+        $body = str_replace(array("\
+            ", "\\r", "\\n", "bcc:"), "<br/>", $body);
+
+        if (is_file("images/logo.png")) {
+            $logo = $settings->site_host . "images/logo.png";
+        } elseif (is_file("images/logo.svg")) {
+            $logo = $settings->site_host . "images/logo.svg";
+        } elseif (is_file("images/logo.jpg")) {
+            $logo = $settings->site_host . "images/logo.jpg";
+        }
+
+
+
+        $socials = "";
+        if ($settings->site_facebook != "") {
+            $socials .= '<a style="color: #000;font-family:Arial, sans-serif;font-size: 14px;line-height: 21px;text-transform: lowercase;" href="' . $settings->site_facebook . '" title="Facebook stranica ' . $settings->site_host . '" target="_blank"><img style="width: 30px;margin: 0 5px;" src="' . $settings->site_host . 'images/socials/facebook.png" alt="Facebook stranica ' . $settings->site_firm . '"></a>';
+        }
+        if ($settings->site_twitter != "") {
+            $socials .= '<a style="color:#000;font-family: Arial, sans-serif;font-size:14px;line-height:21px;text-transform:lowercase;" href="' . $settings->site_twitter . '" title="Twitter stranica ' . $settings->site_host . '" target="_blank"><img style="width: 30px;margin: 0 5px;" src="' . $settings->site_host . 'images/socials/twitter.png" alt="Twitter stranica ' . $settings->site_firm . '"></a>';
+        }
+        if ($settings->site_google_plus != "") {
+            $socials .= '<a style="color:#000;font-family: Arial, sans-serif;font-size:14px;line-height:21px;text-transform:lowercase;" href="' . $settings->site_google_plus . '" title="Google Plus stranica ' . $settings->site_host . '" target="_blank"><img style="width: 30px;margin: 0 5px;" src="' . $settings->site_host . 'images/socials/google-plus.png" alt="Google Plus stranica ' . $settings->site_firm . '"></a>';
+        }
+        if ($settings->site_instagram != "") {
+            $socials .= '<a style="color:#000;font-family: Arial, sans-serif;font-size:14px;line-height:21px;text-transform:lowercase;" href="' . $settings->site_instagram . '" title="Instagram stranica ' . $settings->site_host . '" target="_blank"><img style="width: 30px;margin: 0 5px;" src="' . $settings->site_host . 'images/socials/instagram.png" alt="Instagram stranica ' . $settings->site_firm . '"></a>';
+        }
+        if ($settings->site_pinterest != "") {
+            $socials .= '<a style="color:#000;font-family: Arial, sans-serif;font-size:14px;line-height:21px;text-transform:lowercase;" href="' . $settings->site_pinterest . '" title="Pinterest stranica ' . $settings->site_host . '" target="_blank"><img style="width: 30px;margin: 0 5px;" src="' . $settings->site_host . 'images/socials/pinterest.png" alt="Pinterest stranica ' . $settings->site_firm . '"></a>';
+        }
+        if ($settings->site_youtube != "") {
+            $socials .= '<a style="color:#000;font-family: Arial, sans-serif;font-size:14px;line-height:21px;text-transform:lowercase;" href="' . $settings->site_youtube . '" title="You Tube stranica ' . $settings->site_host . '" target="_blank"><img style="width: 30px;margin: 0 5px;" src="' . $settings->site_host . 'images/socials/youtube.png" alt="You Tube stranica ' . $settings->site_firm . '"></a>';
+        }
+        if ($settings->site_vimeo != "") {
+            $socials .= '<a style="color:#000;font-family: Arial, sans-serif;font-size:14px;line-height:21px;text-transform:lowercase;" href="' . $settings->site_vimeo . '" title="Vimeo stranica ' . $settings->site_host . '" target="_blank"><img style="width: 30px;margin: 0 5px;" src="' . $settings->site_host . 'images/socials/vimeo.png" alt="Vimeo stranica ' . $settings->site_firm . '"></a>';
+        }
+
+
+        $footer = $settings->site_firm.", ".$settings->site_address.", ".$settings->site_zip." ".$settings->site_city."<br /><a style='color: #000;font-family:Arial, sans-serif;font-size: 14px;line-height: 21px;text-transform: lowercase;' href='tel:$settings->site_phone'>".$settings->site_phone."</a>";
+        if($settings->site_phone_2){
+            $footer .= ", <a style='color: #000;font-family:Arial, sans-serif;font-size: 14px;line-height: 21px;text-transform: lowercase;' href='tel:$settings->site_phone_2'>".$settings->site_phone_2."</a>";
+        }
+        $footer .= "<br /><a style='color: #000;font-family:Arial, sans-serif;font-size: 14px;line-height: 21px;text-transform: lowercase;' href='mailto:$settings->site_email'>".$settings->site_email."</a>";
+
+        $bodyMail = file_get_contents("../includes/mail.html");
+        $bodyMail = str_replace(array("[CONTENT]", "[LOGO]", "[SITE_TITLE]", "[FOOTER]", "[DOMAIN]", "[SUBJECT]", "[SOCIALS]"), array("<p>".$body."</p>", $logo, $settings->site_title, $footer, $settings->site_host, $subject, $socials), $bodyMail);
+
         $mail = new PHPMailer();
-        
+
         $mail->IsSMTP();
-        $mail->SMTPDebug = 3;
+        $mail->SMTPDebug = 0;
         $mail->CharSet = 'UTF-8';
         $mail->Host = $settings->site_outgoing_server;
         $mail->Port = $settings->site_smtp_port;
@@ -1651,7 +1694,7 @@ class Functions extends Database {
         $mail->Username = $settings->site_username;
         $mail->Password = $settings->site_password;
         $mail->Mailer = "smtp";
-        $mail->SMTPSecure = 'tls';
+        $mail->SMTPSecure = 'ssl';
 
         $mail->From = $emailFrom;
         $mail->FromName = $fromName;
@@ -1661,14 +1704,9 @@ class Functions extends Database {
         $mail->isHTML(true);
         $mail->WordWrap = 50;
         $mail->Subject = $subject;
-        $mail->Body = $body;
+        $mail->Body = $bodyMail;
         $mail->AltBody = strip_tags($body);
-              
-        foreach($mail as $key => $value){
-            echo $key."    :::    ".$value."<br>";
-        }
-        die();
-        
+
         if (!$mail->Send()) {
             echo 'Message was not sent. Mailer error: ' . $mail->ErrorInfo . '<br />';
         }
